@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Consumer App Usability Evaluation | Joseph Brazina</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -416,7 +415,63 @@
       .meta-grid { flex-wrap: wrap; }
       .meta-item { border-right: none; border-bottom: 1px solid #111; }
     }
-  </style>
+  /* ── maroon Apple-style skin ── */
+:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
+html{scroll-padding-top:48px}
+body{-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-2);color:#fff}
+nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-inner{height:48px}
+.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
+.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
+.nav-links a:hover{background:none;color:var(--accent)}
+.sidebar{top:48px}
+.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
+.sidebar-label{font-size:.72rem}
+.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
+.sidebar-nav a:hover{color:var(--accent)}
+.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
+.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
+.case-hero>*,.hero>*{position:relative;z-index:1}
+.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
+.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
+.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
+h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
+h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
+.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
+.tag.primary{background:var(--accent);color:#fff}
+.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.meta-value{font-weight:500}
+.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
+@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
+.hero .subtitle{font-size:1.2rem;color:var(--ink-3);max-width:660px}
+.meta-grid{border:var(--border);border-radius:20px}
+.meta-item{background:var(--surface);border-right:var(--border)}
+.hta-box{border:none;border-radius:24px}
+.hta-box h3{font-size:.78rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.hta-goal{background:#fff;border-radius:0 14px 14px 0}
+.hta-steps{background:var(--bg-3);border:var(--border);border-radius:16px}
+.hta-step{background:#fff}
+.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
+table{border:none}
+thead{background:var(--ink);color:#fff}
+thead th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.finding{border:none;border-radius:28px}
+.finding-header{background:transparent;border-bottom:1px solid var(--bg-3)}
+.finding-num{text-transform:none;letter-spacing:.01em;font-weight:400;font-size:.75rem}
+.finding-title{text-transform:none;font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+.finding-text .heuristic{text-transform:none;letter-spacing:.01em;font-weight:400}
+.finding-text .heuristic span{font-weight:500}
+.finding-text .recommendation{background:#fff;border-radius:0 14px 14px 0}
+.finding-text .recommendation::before{color:var(--accent);text-transform:none;letter-spacing:.01em;font-weight:400;font-size:.72rem}
+.mockup-pair img{border-radius:18px}
+.mockup-label{text-transform:none;letter-spacing:.01em}
+.synthesis-grid{border:var(--border);border-radius:24px}
+.syn-item{border-right:var(--border)}
+.syn-label{text-transform:none;letter-spacing:.01em;font-weight:400;font-size:.72rem}
+.reflection{border:none;border-radius:24px}
+@media(max-width:700px){.meta-item{border-bottom:var(--border)}.hero{padding:48px 20px 40px}}
+</style>
 </head>
 <body>
 

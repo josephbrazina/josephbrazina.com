@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Traffic Signal Detection Experiment | Joe Brazina</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #E4E2DD; --bg-2: #D8D6D1; --bg-3: #CCCAC5; --surface: #ECEAE6;
@@ -102,6 +101,46 @@
     .stim-label { display:block; font-family:var(--mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink); margin-bottom:3px; }
     .stim-sub { font-family:var(--mono); font-size:0.6rem; color:var(--ink-3); letter-spacing:0.05em; }
     @media(max-width:900px){ .stim-grid{ grid-template-columns:1fr; } .stim-card{ border-right:none; border-bottom:var(--border); } .stim-card:last-child{ border-bottom:none; } }
+/* ── maroon Apple-style skin ── */
+:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
+html{scroll-padding-top:48px}
+body{-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-2);color:#fff}
+nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-inner{height:48px}
+.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
+.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
+.nav-links a:hover{background:none;color:var(--accent)}
+.sidebar{top:48px}
+.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
+.sidebar-label{font-size:.72rem}
+.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
+.sidebar-nav a:hover{color:var(--accent)}
+.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
+.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
+.case-hero>*,.hero>*{position:relative;z-index:1}
+.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
+.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
+.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
+h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
+h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
+.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
+.tag.primary{background:var(--accent);color:#fff}
+.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.meta-value{font-weight:500}
+.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
+@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
+.section{border-bottom:var(--border)}
+.callout{background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
+.two-col,.stim-grid,.process,.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
+.card h4,.step-num,th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+th{font-family:var(--mono);border-bottom:var(--border)}
+.step{background:var(--surface)}
+.step-label{text-transform:none;font-weight:600;font-size:.9rem}
+.stim-label{text-transform:none;letter-spacing:.01em}
+footer{background:#000;border-top:1px solid #2a2a2c;font-size:.75rem;color:#86868b;text-transform:none;letter-spacing:.01em}
+footer a{color:#a1a1a6}
+footer a:hover{color:var(--accent-2)}
 </style>
 </head>
 <body>
