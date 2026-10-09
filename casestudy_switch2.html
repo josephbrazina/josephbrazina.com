@@ -234,6 +234,10 @@ footer a:hover{color:var(--accent-2)}
 .bg-card figcaption strong{display:block;color:var(--ink);font-weight:600}
 .bg-card figcaption span{font-family:var(--mono);font-size:.7rem;color:var(--ink-3)}
 @media(max-width:900px){.bg-gallery{grid-template-columns:1fr 1fr}}
+footer{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px 24px;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;text-transform:none}
+footer>:first-child{justify-self:start}
+footer>:last-child{justify-self:end}
+@media(max-width:700px){footer{grid-template-columns:1fr;justify-items:center;text-align:center;padding:16px 20px}footer>*{justify-self:center!important}}
 </style>
 </head>
 <body>
@@ -256,7 +260,7 @@ footer a:hover{color:var(--accent-2)}
 <div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">Human Factors System Design</div></div>
 <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Team Lead · 3-person team</div></div>
 <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma</div></div>
-<div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">In Progress · Fall 2026</div></div>
+<div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">Testing complete · Results being compiled</div></div>
 </div>
 <div class="tags">
 <span class="tag primary">HF System Design</span>
@@ -270,21 +274,21 @@ footer a:hover{color:var(--accent-2)}
 <div class="content-grid">
 <div class="sidebar">
 <div class="sidebar-label">Contents</div>
-<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#goals">Redesign Goals</a><a href="#wireframe">Lo-Fi Wireframe</a><a href="#hifi">Wireframe → Hi-Fi</a><a href="#themes">Theme System</a><a href="#prototypes">Interactive Prototypes</a><a href="#decisions">Design Decisions</a><a href="#next">Next Steps</a></div>
+<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#goals">Redesign Goals</a><a href="#wireframe">Lo-Fi Wireframe</a><a href="#hifi">Wireframe → Hi-Fi</a><a href="#themes">Theme System</a><a href="#prototypes">Interactive Prototypes</a><a href="#decisions">Design Decisions</a><a href="#next">Results</a></div>
 </div>
 <div class="main-content">
 
 <div class="section" id="overview">
 <div class="section-label">Overview</div>
 <h2>The Problem</h2>
-<p>The home screen is the first thing every Switch 2 player sees and the hub they come back to between games. I'm leading a three-person team through a human factors review of it: defining target users, finding usability problems through task-based testing, and building Figma prototypes that fix the most critical ones.</p>
-<p>This page shows the redesign so far. It covers the annotated low-fidelity wireframe, the move to high fidelity, and a six-option theme system that changes the whole home screen.</p>
+<p>The home screen is the first thing every Switch 2 player sees and the hub they come back to between games. I led a three-person team through a human factors review of it. We defined target users, ran task-based usability tests to find pain points, and I designed Figma prototypes that address them.</p>
+<p>This page shows the redesign that came out of those tests. It covers the annotated wireframe, the low- and high-fidelity interactive prototypes, and a six-option theme system that changes the whole home screen.</p>
 <div class="process">
 <div class="step"><div class="step-num">01</div><div class="step-label">Define users</div></div>
-<div class="step"><div class="step-num">02</div><div class="step-label">Lo-fi wireframe</div></div>
-<div class="step"><div class="step-num">03</div><div class="step-label">Hi-fi prototype</div></div>
-<div class="step"><div class="step-num">04</div><div class="step-label">Usability testing</div></div>
-<div class="step"><div class="step-num">05</div><div class="step-label">Iterate</div></div>
+<div class="step"><div class="step-num">02</div><div class="step-label">Usability testing</div></div>
+<div class="step"><div class="step-num">03</div><div class="step-label">Wireframe</div></div>
+<div class="step"><div class="step-num">04</div><div class="step-label">Lo-fi prototype</div></div>
+<div class="step"><div class="step-num">05</div><div class="step-label">Hi-fi prototype</div></div>
 </div>
 </div>
 
@@ -430,10 +434,10 @@ footer a:hover{color:var(--accent-2)}
 </div>
 
 <div class="section" id="next">
-<div class="section-label">Next Steps</div>
-<h2>Validating the Redesign</h2>
-<p>The team is running task-based usability tests to check whether these changes make the home screen faster and clearer to use. The tests will also show which problems should drive the next round of Figma prototypes.</p>
-<div class="callout"><p><strong>Open question to test:</strong> busy character art can compete with the content in front of it. Over the Mario and Donkey Kong backgrounds, the small progress labels and translucent nav icons have lower contrast. Testing will show whether the themes need a scrim or stronger contrast behind text.</p></div>
+<div class="section-label">Results</div>
+<h2>Usability Test Results</h2>
+<p>Usability testing is complete, and the team is compiling the results now. A full write-up of the pain points we found, and how each one maps to the redesign, will be added here soon.</p>
+<div class="callout"><p><strong>Something to evaluate next:</strong> busy character art can compete with the content in front of it. Over the Mario and Donkey Kong backgrounds, the small progress labels and translucent nav icons have lower contrast. A future round of testing could check whether the themes need a scrim or stronger contrast behind text.</p></div>
 </div>
 
 </div>
@@ -441,6 +445,7 @@ footer a:hover{color:var(--accent-2)}
 <footer>
 <span>Joseph Brazina — Portfolio</span>
 <a href="index.html">Back to Home</a>
+<span>Results in progress</span>
 </footer>
 <script>
 (function(){
