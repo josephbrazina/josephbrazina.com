@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Joseph Brazina   Human Factors &amp; UX Portfolio</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff; --bg-2: #f5f5f7; --bg-3: #e8e8ed; --surface: #ffffff;
+      --ink: #1d1d1f; --ink-2: #424245; --ink-3: #6e6e73;
+      --blue: #0071e3; --link: #0066cc;
+      --border: 1px solid #d2d2d7; --border-heavy: 1px solid #d2d2d7;
+      --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: var(--sans);
+      --radius: 980px;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 48px; }
+    body { font-family: var(--sans); font-size: 17px; line-height: 1.47; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+    a { color: var(--ink); text-decoration: none; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.8); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0,0,0,.08); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; height: 48px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--ink); text-transform: none; }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-links a { font-size: 0.8rem; color: var(--ink-2); padding: 0 12px; height: 48px; display: flex; align-items: center; text-transform: none; letter-spacing: 0; transition: color .2s; }
+    .nav-links a:hover { color: var(--ink); background: none; }
+
+    /* HERO */
+    #hero { background: var(--bg); }
+    .hero-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 600px; }
+    .hero-text { padding: 96px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .label { display: none; }
+    h1 { font-size: 3.5rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.07; color: var(--ink); margin-bottom: 24px; max-width: 700px; }
+    .hero-text > p { font-size: 1.25rem; line-height: 1.5; max-width: 600px; margin-bottom: 40px; color: var(--ink-3); }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 1rem; font-weight: 400; cursor: pointer; border: 1px solid transparent; border-radius: var(--radius); transition: background .2s, color .2s, border-color .2s; }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: #0077ed; }
+    .btn-outline { background: transparent; color: var(--link); border-color: var(--link); }
+    .btn-outline:hover { background: var(--link); color: #fff; }
+    .hero-photo { width: 400px; display: flex; align-items: center; justify-content: center; padding: 48px 48px 48px 0; }
+    .avatar { width: 300px; height: 300px; background: var(--bg-2); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 40px; }
+    .avatar svg { opacity: 0.3; }
+    .avatar-hint { font-size: 0.75rem; color: var(--ink-3); text-align: center; }
+
+    /* SECTIONS */
+    section { border: none; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-header { padding: 104px 48px 0; }
+    .section-label { font-size: 0.85rem; font-weight: 600; color: var(--ink-3); display: inline-block; margin-bottom: 8px; letter-spacing: 0; text-transform: none; }
+    .section-header h2 { font-size: 2.75rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); margin-top: 4px; padding-bottom: 56px; border: none; }
+
+    /* PROJECTS */
+    #projects { background: var(--bg-2); padding-bottom: 104px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 48px; }
+    .project-card { background: #fff; border-radius: 28px; overflow: hidden; transition: transform .3s, box-shadow .3s; }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.08); }
+    .project-thumb { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: none; }
+    .project-thumb img { background: var(--bg-2) !important; }
+    .pt-1, .pt-2, .pt-3 { background: var(--bg-2); }
+    .thumb-hint { font-size: 0.7rem; color: var(--ink-3); position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+    .project-body { padding: 28px 28px 32px; }
+    .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .tag { font-size: 0.72rem; font-weight: 500; padding: 3px 10px; border-radius: var(--radius); border: none; color: var(--ink-3); background: var(--bg-2); text-transform: none; letter-spacing: 0; }
+    .tag.primary { background: var(--ink); color: #fff; }
+    .tag.secondary { background: var(--bg-2); color: var(--ink-3); }
+    .project-body h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); margin-bottom: 6px; text-transform: none; }
+    .project-context { font-size: 0.85rem; color: var(--ink-3); margin-bottom: 14px; }
+    .project-body p { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
+    .process-steps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .process-step { font-size: 0.72rem; font-weight: 500; text-transform: none; letter-spacing: 0; background: var(--bg-2); color: var(--ink-2); padding: 4px 11px; border-radius: var(--radius); }
+    .project-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 20px; font-size: 1rem; color: var(--link); border: none; text-transform: none; letter-spacing: 0; }
+    .project-link:hover { text-decoration: underline; }
+
+    /* RESEARCH */
+    #research { background: var(--bg); padding-bottom: 104px; }
+    .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 48px; }
+    .research-card { padding: 36px; background: var(--bg-2); border-radius: 28px; }
+    .role-label { font-size: 0.8rem; font-weight: 500; color: var(--ink-3); margin-bottom: 10px; text-transform: none; letter-spacing: 0; }
+    .research-card h3 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 4px; line-height: 1.2; text-transform: none; }
+    .org { font-size: 0.85rem; color: var(--ink-3); margin-bottom: 16px; border: none; padding-bottom: 0; }
+    .research-card p { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
+    .research-methods { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .method-tag { font-size: 0.72rem; font-weight: 500; padding: 4px 11px; border: none; background: #fff; color: var(--ink-2); text-transform: none; letter-spacing: 0; border-radius: var(--radius); }
+
+    /* ABOUT */
+    #about { background: var(--bg-2); padding-bottom: 104px; }
+    #about .inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; padding: 0 48px; }
+    .about-left, .about-right { padding: 0; border: none; }
+    .about-left h2 { font-size: 2.75rem; font-weight: 600; letter-spacing: -0.03em; color: var(--ink); margin-top: 4px; text-transform: none; }
+    .about-left p { font-size: 1.15rem; color: var(--ink-2); line-height: 1.55; margin-top: 18px; }
+    .about-right h3 { font-size: 0.85rem; font-weight: 600; letter-spacing: 0; color: var(--ink-3); text-transform: none; margin-top: 36px; margin-bottom: 14px; border-bottom: var(--border); padding-bottom: 10px; }
+    .about-right h3:first-child { margin-top: 0; }
+    .about-right p { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
+    .edu-entry { margin-bottom: 18px; }
+    .edu-entry strong { color: var(--ink); font-size: 1.05rem; font-weight: 600; }
+    .edu-detail { font-size: 0.85rem; color: var(--ink-3); margin-top: 4px; line-height: 1.5; }
+    .tools-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .tool-chip { font-size: 0.8rem; font-weight: 500; padding: 5px 13px; border: none; background: #fff; color: var(--ink-2); text-transform: none; letter-spacing: 0; border-radius: var(--radius); }
+    .honors-list { font-size: 0.92rem; color: var(--ink-2); line-height: 1.9; }
+
+    /* CONTACT */
+    #contact { background: #000; color: #f5f5f7; }
+    #contact .section-label { color: #86868b; background: none; }
+    #contact .section-header h2 { color: #f5f5f7; border: none; }
+    #contact .inner { padding: 0 48px 112px; }
+    #contact p { color: #a1a1a6; font-size: 1.25rem; max-width: 560px; margin-bottom: 36px; line-height: 1.5; }
+    .contact-links { display: flex; gap: 14px; flex-wrap: wrap; }
+    #contact .btn-primary { background: var(--blue); color: #fff; border-color: transparent; }
+    #contact .btn-primary:hover { background: #0077ed; }
+    #contact .btn-outline { color: #2997ff; border-color: #2997ff; }
+    #contact .btn-outline:hover { background: #2997ff; color: #000; }
+
+    /* FOOTER */
+    footer { background: #000; border-top: 1px solid #2a2a2c; padding: 22px 48px; font-size: 0.75rem; color: #86868b; display: flex; justify-content: space-between; align-items: center; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      h1 { font-size: 2.5rem; }
+      .section-header h2, .about-left h2 { font-size: 2.1rem; }
+      .hero-grid { grid-template-columns: 1fr; min-height: 0; }
+      .hero-photo { display: none; }
+      .projects-grid, .research-grid { grid-template-columns: 1fr; }
+      #about .inner { grid-template-columns: 1fr; gap: 48px; }
+      .nav-inner, .section-header, .projects-grid, .research-grid, #about .inner { padding-left: 20px; padding-right: 20px; }
+      .hero-text { padding: 64px 20px; }
+      #contact .inner { padding: 0 20px 72px; }
+      footer { padding: 16px 20px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+    @media (max-width: 580px) {
+      h1 { font-size: 2rem; }
+      .nav-links a { padding: 0 8px; font-size: 0.75rem; }
+    }
+  </style>
+<style>
+    /* ── v2: distinctive touch — Hokie maroon + burnt orange, mono labels, grid-paper hero ── */
+    :root {
+      --accent: #861f41; --accent-2: #e5751f; --blue: #861f41; --link: #861f41;
+      --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    ::selection { background: var(--accent-2); color: #fff; }
+
+    /* grid-paper hero that fades out toward the bottom */
+    #hero { position: relative; overflow: hidden; }
+    #hero::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(29,29,31,.16) 1px, transparent 1px); background-size: 24px 24px; -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%); mask-image: linear-gradient(to bottom, #000 0%, transparent 85%); pointer-events: none; }
+    .hero-grid { position: relative; z-index: 1; }
+    .avatar { outline: 1.5px solid var(--accent); outline-offset: 10px; }
+
+    /* accent color on interactive elements */
+    .btn-primary:hover { background: #a02a52; }
+    .nav-links a:hover { color: var(--accent); }
+    .tag.primary { background: var(--accent); }
+    .project-link { color: var(--accent); }
+
+    /* small "signal light" marker before each section label */
+    .section-label::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--accent-2); border-radius: 2px; margin-right: 10px; vertical-align: 1px; }
+
+    /* monospace for metadata and labels, human-readable sizes */
+    .section-label, .role-label, .org, .project-context, .edu-detail, .avatar-hint, footer { font-family: var(--mono); letter-spacing: 0.01em; }
+    .section-label { font-size: 0.78rem; }
+    .role-label, .org, .project-context, .edu-detail { font-size: 0.78rem; }
+    .tag, .process-step, .method-tag, .tool-chip { font-family: var(--mono); letter-spacing: 0.01em; }
+    .tag, .process-step, .method-tag { font-size: 0.68rem; }
+    .tool-chip { font-size: 0.75rem; }
+    .about-right h3 { font-family: var(--mono); font-size: 0.78rem; }
+
+    /* card top bar draws in on hover */
+    .project-card { position: relative; }
+    .project-card::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; z-index: 2; }
+    .project-card:hover::after { transform: scaleX(1); }
+
+    /* contact: orange on black for contrast */
+    #contact .btn-primary { background: var(--accent-2); color: #000; }
+    #contact .btn-primary:hover { background: #f08a3c; }
+    #contact .btn-outline { color: var(--accent-2); border-color: var(--accent-2); }
+    #contact .btn-outline:hover { background: var(--accent-2); color: #000; }
+
+    /* Make selected project cards clickable anywhere, while preserving their buttons/links. */
+    .project-card[data-project-url] { cursor: pointer; }
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav>
+<div class="nav-inner">
+<span class="nav-logo">Joseph Brazina</span>
+<div class="nav-links">
+<a href="#projects">Work</a>
+<a href="#research">Research</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</div>
+</div>
+</nav>
+<!-- HERO -->
+<section id="hero">
+<div class="hero-grid">
+<div class="hero-text">
+<span class="label">Studying human factors engineering to make technology intuitive.</span>
+<h1>Studying human factors engineering to make technology intuitive.</h1>
+<p>I'm an M.Eng. in Human Factors Engineering at Virginia Tech with a foundation in human perception and cognitive psychology with experience in UX evaluation, experimental research, and interaction design. I care about designing systems and interfaces that think of the user first.</p>
+<div class="hero-ctas">
+<a class="btn btn-primary" href="#projects">See my work</a>
+<a class="btn btn-outline" href="#contact">Get in touch</a>
+</div>
+</div>
+<div class="hero-photo">
+<div class="avatar"><img alt="Joseph Brazina" src="images/home-01-joseph-brazina.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top"/></div>
+</div>
+</div>
+</section>
+<!-- PROJECTS -->
+<section id="projects">
+<div class="container">
+<div class="section-header">
+<span class="section-label">Selected work</span>
+<h2>Projects</h2>
+</div>
+<div class="projects-grid">
+<!-- Project 0: Information Visualization Redesign -->
+<div class="project-card" data-project-url="casestudy_infoviz.html" role="link" tabindex="0" aria-label="Open Information Visualization Redesign case study">
+<div class="project-thumb pt-1" style="height:220px;padding:0;overflow:hidden;display:grid;grid-template-columns:1.5fr 1fr 1fr;background:#fff"><img src="images/home-02-dumbbell-chart-redesign.jpg" alt="Dumbbell chart redesign" style="width:100%;height:220px;object-fit:cover;object-position:left top;border-right:1px solid #d2d2d7;background:#fff !important"/><img loading="lazy" decoding="async" src="images/home-03-bubble-matrix-redesign.jpg" alt="Bubble matrix redesign" style="width:100%;height:220px;object-fit:cover;object-position:left top;border-right:1px solid #d2d2d7;background:#fff !important"/><img loading="lazy" decoding="async" src="images/home-04-choropleth-map-redesign.jpg" alt="Choropleth map redesign" style="width:100%;height:220px;object-fit:cover;object-position:left top;background:#fff !important"/></div>
+<div class="project-body">
+<div class="project-tags">
+<span class="tag primary">Info Visualization</span>
+<span class="tag secondary">Tableau</span>
+<span class="tag">Coursework</span>
+</div>
+<h3>Information Visualization Redesign</h3>
+<p class="project-context">Human Factors of Visual Display Systems · Fall 2026</p>
+<p>Critiqued and redesigned three published EU data visualizations: a radial chart, a cluttered multi-line chart, and a diverging choropleth map. Each redesign applied Cleveland &amp; McGill's perceptual rankings and Tufte's data-ink ratio, starting as an Excel prototype, going through class feedback, and ending as an interactive Tableau Public dashboard.</p>
+<div class="process-steps">
+<span class="process-step">Design Critique</span>
+<span class="process-step">Prototyping</span>
+<span class="process-step">Class Feedback</span>
+<span class="process-step">Tableau Dashboards</span>
+</div>
+<a class="project-link" href="casestudy_infoviz.html">View case study →</a>
+</div>
+</div>
+<!-- Project 1 -->
+<div class="project-card" data-project-url="casestudy_carfax.html" role="link" tabindex="0" aria-label="Open Mobile App Usability Evaluation case study">
+<div class="project-thumb pt-1" style="height:220px;padding:8px 12px;overflow:hidden;background:#f5f5f7;box-sizing:border-box"><svg viewBox="0 0 960 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Hierarchical task analysis: log a completed oil change" style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg"><defs><filter id="hs" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000" flood-opacity=".10"/></filter></defs><g stroke="#c7c7cc" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M480 76 V98 M96 98 H864"/><path d="M96 98 V116"/><path d="M288 98 V116"/><path d="M480 98 V116"/><path d="M672 98 V116"/><path d="M864 98 V116"/><path d="M96 172 V420.0"/><path d="M288 172 V420.0"/><path d="M480 172 V292.0"/><path d="M672 172 V420.0"/></g><rect x="360" y="20" width="240" height="56" rx="16" fill="#1d1d1f" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#a1a1a6" style="font-family:var(--sans);font-size:11px;font-weight:600"><tspan x="480" y="39.0">OVERALL GOAL</tspan></text><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:16px;font-weight:600"><tspan x="480" y="58.0">Log a completed oil change</tspan></text><rect x="12" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="96" y="144.0">Add Vehicle to App</tspan></text><rect x="20" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="219.9">Open app and</tspan><tspan x="96" y="236.1">tap “add car”</tspan></text><rect x="20" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="283.9">Enter VIN or</tspan><tspan x="96" y="300.1">license plate number</tspan></text><rect x="20" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="356.0">Enter state/province</tspan></text><rect x="20" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="420.0">Tap “search”</tspan></text><rect x="204" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="288" y="134.9">Verify and confirm</tspan><tspan x="288" y="153.1">vehicle details</tspan></text><rect x="212" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="219.9">Select “Yes this</tspan><tspan x="288" y="236.1">is my car”</tspan></text><rect x="212" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="292.0">Verify ZIP code</tspan></text><rect x="212" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="356.0">Verify total mileage</tspan></text><rect x="212" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="420.0">Verify yearly mileage</tspan></text><rect x="396" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="480" y="134.9">Navigate to service</tspan><tspan x="480" y="153.1">category</tspan></text><rect x="404" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="219.9">Navigate to</tspan><tspan x="480" y="236.1">“Oil Change”</tspan></text><rect x="404" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="283.9">Tap “Add</tspan><tspan x="480" y="300.1">Service Record”</tspan></text><rect x="588" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="672" y="134.9">Enter service</tspan><tspan x="672" y="153.1">record details</tspan></text><rect x="596" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="219.9">Select date of</tspan><tspan x="672" y="236.1">oil change</tspan></text><rect x="596" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="283.9">Select oil change</tspan><tspan x="672" y="300.1">location</tspan></text><rect x="596" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="339.8">Enter odometer</tspan><tspan x="672" y="356.0">reading at time</tspan><tspan x="672" y="372.2">of service</tspan></text><rect x="596" y="392" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="403.8">Select any other</tspan><tspan x="672" y="420.0">work done on car,</tspan><tspan x="672" y="436.2">if applicable</tspan></text><rect x="780" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="864" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="864" y="144.0">Save service record</tspan></text></svg></div>
+<div class="project-body">
+<div class="project-tags">
+<span class="tag primary">HF Evaluation</span>
+<span class="tag secondary">Figma</span>
+<span class="tag">Self directed</span>
+</div>
+<h3>Mobile App Usability Evaluation</h3>
+<p class="project-context">Self Directed Project · Fall 2026</p>
+<p>A usability evaluation conducted on a mobile app's task flows. User tasks were mapped and pain points identified through heuristic evaluation, then translated findings into Figma mockups for redesign. A moderated usability test is planned to validate findings and dig deeper into why the pain points occurred.</p>
+<div class="process-steps">
+<span class="process-step">Task Analysis</span>
+<span class="process-step">Heuristic Eval</span>
+<span class="process-step">Figma Mockups</span>
+<span class="process-step">Usability Test</span>
+</div>
+<a class="project-link" href="casestudy_carfax.html">View case study →</a>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="project-card" data-project-url="casestudy_sdt.html" role="link" tabindex="0" aria-label="Open Traffic Signal Detection Experiment project">
+<div class="project-thumb pt-2" style="height:180px;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr"><video autoplay="" loop="" muted="" playsinline="" style="width:100%;height:180px;object-fit:cover;border-right:1px solid #BEBCB7" preload="auto"><source src="videos/home-05-traffic-signal-clip.webm" type="video/webm"/><source src="videos/home-06-traffic-signal-clip.mp4" type="video/mp4"/></video><video autoplay="" loop="" muted="" playsinline="" style="width:100%;height:180px;object-fit:cover" preload="auto"><source src="videos/home-07-traffic-signal-clip.webm" type="video/webm"/><source src="videos/home-08-traffic-signal-clip.mp4" type="video/mp4"/></video></div>
+<div class="project-body">
+<div class="project-tags">
+<span class="tag primary">Experimental Design</span>
+<span class="tag">Signal Detection</span>
+<span class="tag">Coursework</span>
+</div>
+<h3>Traffic Signal Detection Experiment</h3>
+<p class="project-context">Human Information Processing · Fall 2026</p>
+<p>Designed a controlled experiment to understand how color vision deficiency and glance duration affect a driver's ability to detect traffic signals. I built 80 unique stimuli varying across both dimensions and led the experimental design for a go/brake detection task, showcasing a direct application of signal detection theory to a real-world safety problem.</p>
+<div class="process-steps">
+<span class="process-step">SDT Framework</span>
+<span class="process-step">Stimulus Design</span>
+<span class="process-step">80 Conditions</span>
+<span class="process-step">Data Analysis</span>
+</div>
+<a class="project-link" href="casestudy_sdt.html">View project →</a>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="project-card" data-project-url="casestudy_switch2.html" role="link" tabindex="0" aria-label="Open Nintendo Switch 2 Home Screen Redesign case study">
+<img loading="lazy" decoding="async" src="images/home-09-redesigned-nintendo-switch-2-home-screen.jpg" alt="Redesigned Nintendo Switch 2 home screen with the Mario theme" style="width:100%;height:220px;object-fit:cover;object-position:center;display:block;">
+<div class="project-body">
+<div class="project-tags">
+<span class="tag primary">HF System Design</span>
+<span class="tag secondary">Prototyping</span>
+<span class="tag">Coursework</span>
+</div>
+
+          <h3>Nintendo Switch 2 UI Usability Test &amp; Figma Prototype <span style="display:inline-block;font-size:0.55rem;font-family:var(--mono);background:#111;color:#E4E2DD;padding:3px 8px;letter-spacing:.08em;vertical-align:middle;position:relative;top:-2px">RESULTS IN PROGRESS</span></h3>
+<p class="project-context">Human Factors System Design · Fall 2026</p>
+<p>Led a 3-person team through a usability test of the Nintendo Switch 2's home screen UI. We defined target users and found pain points through task-based usability testing. I then designed a wireframe and lo-fi and hi-fi interactive Figma prototypes that address them, including full cover art, bottom navigation, story progress, and themes.</p>
+<div class="process-steps">
+<span class="process-step">User Definition</span>
+<span class="process-step">Usability Testing</span>
+<span class="process-step">Figma Prototyping</span>
+<span class="process-step">Redesign</span>
+</div>
+<a class="project-link" href="casestudy_switch2.html">View case study →</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RESEARCH -->
+<section id="research">
+<div class="container">
+<div class="section-header">
+<span class="section-label">Lab &amp; field experience</span>
+<h2>Research</h2>
+</div>
+<div class="research-grid">
+<div class="research-card">
+<div class="role-label">Principal Investigator · Jan 2025 - May 2026</div>
+<h3>Human Development Lab</h3>
+<div class="org">James Madison University · Harrisonburg, VA</div>
+<p>Designed and ran an IRB-approved study with 200+ participants while serving as Principal Investigator. Deployed three Qualtrics instruments and conducted a full statistical analysis in SPSS examining how sleep and mental health jointly predict cognitive performance. Presented findings at both the 2025 and 2026 JMU Psychology Symposium.</p>
+<div class="research-methods">
+<span class="method-tag">IRB Protocol</span>
+<span class="method-tag">Qualtrics</span>
+<span class="method-tag">SPSS</span>
+<span class="method-tag">Regression</span>
+<span class="method-tag">Symposium Presenter</span>
+</div>
+</div>
+<div class="research-card">
+<div class="role-label">Research Assistant · Aug 2024 - Dec 2024</div>
+<h3>Auditory Perception Lab</h3>
+<div class="org">James Madison University · Harrisonburg, VA</div>
+<p>Contributed to research on categorical perception and working memory under cognitive load. Designed an experiment examining how background music affects backward digit span performance, configured 43 DirectRT trial files, and administered 20+ participant sessions of computer based auditory tasks.</p>
+<div class="research-methods">
+<span class="method-tag">DirectRT</span>
+<span class="method-tag">Cognitive Load</span>
+<span class="method-tag">Working Memory</span>
+<span class="method-tag">Participant Testing</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ABOUT -->
+<section id="about">
+<div class="container">
+<div class="section-header" style="border-bottom:none;padding-bottom:0">
+<span class="section-label">Background</span>
+</div>
+<div class="inner">
+<div class="about-left">
+<h2>About me</h2>
+<p>I am a Human Factors Engineering M.Eng. student at Virginia Tech with a Cum Laude B.S. in Psychology from JMU. My expertise sits at the intersection of human perception, cognitive science, and systems design, allowing me to leverage human cognition and perception to build intuitive, user-centered technologies. I'm driven to take complex data and systems and design the interfaces and interactions that allow the user to succeed.</p>
+<p style="margin-top:14px"><span style="color:var(--ink)">📍</span> Ashburn, VA (Washington, D.C. Metro Area)  ·  Open to full-time onsite, hybrid, and remote roles</p>
+</div>
+<div class="about-right">
+<h3>Education</h3>
+<div class="edu-entry">
+<strong>M.Eng.   Industrial &amp; Systems Engineering</strong>
+<div class="edu-detail">Human Factors Engineering &amp; Ergonomics<br/>Virginia Tech · Expected May 2028</div>
+</div>
+<div class="edu-entry">
+<strong>B.S.   Psychology, Minor in Sociology</strong>
+<div class="edu-detail">James Madison University · Graduated May 2026<br/>GPA: 3.50 · Major GPA: 3.75 · Cum Laude</div>
+</div>
+<h3>Tools &amp; Methods</h3>
+<div class="tools-list">
+<span class="tool-chip">Figma</span>
+<span class="tool-chip">SPSS</span>
+<span class="tool-chip">Qualtrics</span>
+<span class="tool-chip">DirectRT</span>
+<span class="tool-chip">Heuristic Eval</span>
+<span class="tool-chip">Task Analysis</span>
+<span class="tool-chip">Exp. Design</span>
+<span class="tool-chip">ANOVA / Regression</span>
+<span class="tool-chip">Mediation Analysis</span>
+<span class="tool-chip">UI Prototyping</span>
+<span class="tool-chip">Excel</span>
+<span class="tool-chip">Tableau</span>
+</div>
+<h3>Memberships &amp; Honors</h3>
+<div class="honors-list">
+          Human Factors &amp; Ergonomics Society<br/>
+          Institute for Industrial &amp; Systems Engineers<br/>
+          Psi Chi<br/>
+          JMU Psychology Research Symposium '25, '26<br/>
+          Cum Laude Honors
+        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTACT -->
+<section id="contact">
+<div class="container">
+<div class="section-header">
+<span class="section-label">Let's connect</span>
+<h2>Open to opportunities</h2>
+</div>
+<div class="inner">
+<p>I'm actively looking for UX/UI, human factors, and cognitive engineering internships for Summer 2027. If my background fits what your team is working on, I'd love to talk.</p>
+<div class="contact-links">
+<a class="btn btn-primary" href="mailto:jbrazina2324@gmail.com">✉ jbrazina2324@gmail.com</a>
+<a class="btn btn-outline" href="https://linkedin.com/in/joseph-brazina" target="_blank">LinkedIn</a>
+<a class="btn btn-outline" href="Joseph_Brazina_Resume.pdf" target="_blank">Download résumé</a>
+</div>
+</div>
+</div>
+<script>
+  document.querySelectorAll('.project-card[data-project-url]').forEach(card => {
+    card.addEventListener('click', event => {
+      // Let the existing "View project" / "View case study" links work normally.
+      if (event.target.closest('a')) return;
+      window.location.href = card.dataset.projectUrl;
+    });
+
+    card.addEventListener('keydown', event => {
+      if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('a')) {
+        event.preventDefault();
+        window.location.href = card.dataset.projectUrl;
+      }
+    });
+  });
+</script>
+<script>
+  // Keep the looping thumbnail clips playing (some browsers pause or skip autoplay).
+  document.querySelectorAll('video[autoplay]').forEach(v => {
+    v.muted = true;
+    const play = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    v.addEventListener('loadeddata', play);
+    v.addEventListener('pause', () => { if (!document.hidden) setTimeout(play, 50); });
+    play();
+  });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) document.querySelectorAll('video[autoplay]').forEach(v => v.play().catch(() => {})); });
+</script>
+</section>
+<footer>
+<span>© 2026 Joseph Brazina</span>
+<span>Human Factors &amp; UX · Virginia Tech M.Eng.</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Information Visualization Redesign | Joseph Brazina</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #E4E2DD; --bg-2: #D8D6D1; --bg-3: #CCCAC5; --surface: #ECEAE6;
+      --ink: #111111; --ink-2: #444444; --ink-3: #777777;
+      --border: 1px solid #BEBCB7; --border-heavy: 2px solid #111111;
+      --mono: 'Space Mono', monospace; --sans: 'Space Grotesk', sans-serif; --radius: 2px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 16px; line-height: 1.5; color: var(--ink); background: var(--bg); }
+    a { color: var(--ink); text-decoration: none; }
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: var(--border-heavy); }
+    .nav-inner { padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; }
+    .nav-links { display: flex; }
+    .nav-links a { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px; height: 56px; display: flex; align-items: center; border-left: var(--border); transition: background .12s, color .12s; }
+    .nav-links a:hover { background: var(--ink); color: var(--bg); }
+    /* HERO */
+    .case-hero { background: var(--surface); border-bottom: var(--border-heavy); padding: 56px 48px 48px; }
+    .label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 20px; }
+    .case-hero h1 { font-family: var(--sans); font-size: 2.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; text-transform: uppercase; color: var(--ink); max-width: 860px; margin-bottom: 32px; }
+    .hero-meta { display: flex; flex-wrap: wrap; border-top: var(--border-heavy); border-bottom: var(--border-heavy); margin-bottom: 28px; }
+    .meta-item { padding: 14px 28px; border-right: var(--border); font-family: var(--mono); }
+    .meta-item:first-child { padding-left: 0; }
+    .meta-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+    .meta-value { font-size: 0.78rem; color: var(--ink); }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius); border: 1px solid var(--ink-3); color: var(--ink-2); background: transparent; }
+    .tag.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    /* CONTENT */
+    .content-grid { display: grid; grid-template-columns: 200px 1fr; }
+    .sidebar { border-right: var(--border-heavy); padding: 40px 24px; position: sticky; top: 56px; height: fit-content; }
+    .sidebar-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); margin-bottom: 14px; }
+    .sidebar-nav a { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); padding: 9px 0; border-bottom: var(--border); transition: color .12s; }
+    .sidebar-nav a:hover { color: var(--ink); }
+    .main-content { padding: 48px 48px 96px; }
+    /* SECTIONS */
+    .section { margin-bottom: 60px; padding-bottom: 60px; border-bottom: var(--border); }
+    .section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .section-label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 16px; }
+    h2 { font-family: var(--sans); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink); margin-bottom: 20px; }
+    h3 { font-family: var(--sans); font-size: 0.96rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); margin: 28px 0 10px; border-bottom: var(--border); padding-bottom: 6px; }
+    p { font-size: 0.92rem; color: var(--ink-2); margin-bottom: 14px; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    ul, ol { padding-left: 18px; margin-bottom: 14px; }
+    li { font-size: 0.92rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 4px; }
+    strong { color: var(--ink); }
+    /* CALLOUT */
+    .callout { background: var(--surface); border-left: 2px solid var(--ink); padding: 18px 22px; margin: 24px 0; }
+    .callout p { margin: 0; font-size: 0.88rem; }
+    /* TWO COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; border: var(--border-heavy); margin: 20px 0; }
+    .card { padding: 20px 22px; border-right: var(--border); border-bottom: var(--border); }
+    .card:nth-child(even) { border-right: none; }
+    .card:nth-child(3), .card:nth-child(4) { border-bottom: none; }
+    .card h4 { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+    .card p { font-size: 0.86rem; margin: 0; }
+    /* TABLE */
+    .table-wrap { border: var(--border-heavy); margin: 20px 0; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    th { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); background: var(--surface); border-bottom: var(--border-heavy); padding: 10px 16px; text-align: left; }
+    td { padding: 12px 16px; border-bottom: var(--border); color: var(--ink-2); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    /* PROCESS STEPS */
+    .process { display: flex; border: var(--border-heavy); margin: 20px 0; }
+    .step { flex: 1; padding: 18px 12px; border-right: var(--border); text-align: center; }
+    .step:last-child { border-right: none; }
+    .step-num { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+    .step-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--ink); }
+    /* FOOTER */
+    footer { background: var(--ink); border-top: var(--border-heavy); padding: 20px 48px; font-family: var(--mono); font-size: 0.7rem; color: #555; letter-spacing: 0.08em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+    footer a { color: #777; }
+    footer a:hover { color: var(--bg); }
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .case-hero, .main-content { padding-left: 20px; padding-right: 20px; }
+      .case-hero h1 { font-size: 1.8rem; }
+      .nav-inner { padding: 0 20px; }
+      .two-col { grid-template-columns: 1fr; }
+      .card { border-right: none !important; }
+      .card:nth-child(3) { border-bottom: var(--border); }
+      .process { flex-direction: column; }
+      .step { border-right: none; border-bottom: var(--border); }
+      .step:last-child { border-bottom: none; }
+      footer { padding: 16px 20px; flex-direction: column; gap: 6px; }
+    }
+
+    .stim-grid { display:grid; grid-template-columns:repeat(3,1fr); border:var(--border-heavy); margin:16px 0; }
+    .stim-card { border-right:var(--border); }
+    .stim-card:last-child { border-right:none; }
+    .stim-meta { padding:12px 14px; }
+    .stim-label { display:block; font-family:var(--mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink); margin-bottom:3px; }
+    .stim-sub { font-family:var(--mono); font-size:0.6rem; color:var(--ink-3); letter-spacing:0.05em; }
+    @media(max-width:900px){ .stim-grid{ grid-template-columns:1fr; } .stim-card{ border-right:none; border-bottom:var(--border); } .stim-card:last-child{ border-bottom:none; } }
+/* ── maroon Apple-style skin ── */
+:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
+html{scroll-padding-top:48px}
+body{-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-2);color:#fff}
+nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-inner{height:48px}
+.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
+.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
+.nav-links a:hover{background:none;color:var(--accent)}
+.sidebar{top:48px}
+.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
+.sidebar-label{font-size:.72rem}
+.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
+.sidebar-nav a:hover{color:var(--accent)}
+.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
+.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
+.case-hero>*,.hero>*{position:relative;z-index:1}
+.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
+.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
+.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
+h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
+h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
+.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
+.tag.primary{background:var(--accent);color:#fff}
+.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.meta-value{font-weight:500}
+.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
+@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
+.section{border-bottom:var(--border)}
+.callout{background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
+.two-col,.stim-grid,.process,.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
+.card h4,.step-num,th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+th{font-family:var(--mono);border-bottom:var(--border)}
+.step{background:var(--surface)}
+.step-label{text-transform:none;font-weight:600;font-size:.9rem}
+.stim-label{text-transform:none;letter-spacing:.01em}
+footer{background:#000;border-top:1px solid #2a2a2c;font-size:.75rem;color:#86868b;text-transform:none;letter-spacing:.01em}
+footer a{color:#a1a1a6}
+footer a:hover{color:var(--accent-2)}
+
+.result-figure{margin:28px 0 22px}
+.results-figure-img{display:block;width:100%;max-width:1200px;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
+.figure-caption{font-size:.78rem!important;color:var(--ink-3)!important;margin-top:10px!important;line-height:1.55!important}
+.result-figure h3{margin-top:0}
+.table-wrap p{padding:12px 16px;margin:0;font-size:.78rem;color:var(--ink-3);line-height:1.55}
+
+
+/* ── infoviz case study additions (same skin) ── */
+.hero-sub{font-size:1.2rem;color:var(--ink-3);max-width:720px;line-height:1.5;margin:-12px 0 32px}
+.case-figure{margin:24px 0 26px}
+.case-figure img{display:block;width:100%;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
+.case-figure.portrait img{max-width:560px}
+.case-figure .figure-caption{max-width:900px}
+.fig-num{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin-bottom:8px}
+.fig-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0 26px;align-items:start}
+.fig-pair .case-figure{margin:0}
+.case-intro{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 22px}
+.stage{background:var(--surface);border-radius:24px;padding:26px 28px;margin:26px 0}
+.stage>h3:first-child{margin-top:0}
+.stage p:last-child{margin-bottom:0}
+.viz-embed{border:1px solid #d2d2d7;border-radius:16px;overflow:hidden;background:#fff;margin:6px 0 10px}
+.viz-embed iframe{display:block;width:100%;border:0;background:#fff}
+.viz-link{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--accent);margin-top:4px}
+.viz-link:hover{text-decoration:underline}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-2);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 4px rgba(229,117,31,.18)}
+.anno-list{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;counter-reset:anno}
+.anno-list li{counter-increment:anno;position:relative;padding-left:34px;font-size:.88rem;line-height:1.55;margin:0}
+.anno-list li::before{content:counter(anno);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:.7rem;display:flex;align-items:center;justify-content:center}
+.feedback-table td:first-child{width:34%}
+.verdict{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:2px 9px;border-radius:980px;margin-bottom:6px}
+.verdict.yes{background:#e3f3e6;color:#1f6b33}
+.verdict.adapt{background:#fdf0e3;color:#9a4a0b}
+.verdict.no{background:var(--bg-2);color:var(--ink-3)}
+.tradeoff{display:grid;grid-template-columns:1fr 1fr;border:var(--border);border-radius:20px;overflow:hidden;margin:20px 0}
+.tradeoff>div{padding:20px 22px}
+.tradeoff>div:first-child{border-right:var(--border)}
+.tradeoff h4{font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--ink-3);margin-bottom:8px}
+.tradeoff p{font-size:.88rem;margin:0}
+.tradeoff .gain{background:var(--surface)}
+.case-divider{font-family:var(--mono);font-size:.78rem;color:var(--ink-3)}
+.two-col.four .card:nth-child(3),.two-col.four .card:nth-child(4){border-bottom:none}
+.ref-list{list-style:none;padding:0}
+.ref-list li{margin-bottom:12px;padding-left:24px;text-indent:-24px}
+.ref-list a{color:var(--accent);word-break:break-all}
+@media(max-width:900px){
+  .fig-pair,.anno-list,.tradeoff{grid-template-columns:1fr}
+  .tradeoff>div:first-child{border-right:none;border-bottom:var(--border)}
+  .stage{padding:20px 18px}
+  .hero-meta{flex-direction:column}
+  .meta-item{padding-left:0;border-right:none;border-bottom:var(--border)}
+  .meta-item:last-child{border-bottom:none}
+}
+footer{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px 24px;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;text-transform:none}
+.content-grid>*{min-width:0}
+footer>:first-child{justify-self:start}
+footer>:last-child{justify-self:end}
+@media(max-width:700px){footer{grid-template-columns:1fr;justify-items:center;text-align:center;padding:16px 20px}footer>*{justify-self:center!important}}
+</style>
+</head>
+<body>
+<nav>
+<div class="nav-inner">
+<span class="nav-logo">JOSEPH BRAZINA</span>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="index.html#projects">Work</a>
+<a href="index.html#research">Research</a>
+<a href="index.html#contact">Contact</a>
+</div>
+</div>
+</nav>
+<div class="case-hero">
+<div class="label">Case Study · Information Visualization Redesign</div>
+<h1>Redesigning Three EU Data Visualizations for Faster, More Accurate Decoding</h1>
+<p class="hero-sub">A critique-to-Tableau redesign of three published European data stories: a radial chart, a cluttered multi-line chart, and a diverging choropleth map. Each was rebuilt around Cleveland &amp; McGill's perceptual rankings and Tufte's data-ink ratio.</p>
+<div class="hero-meta">
+<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">ISE 6604: Human Factors of Visual Display Systems</div></div>
+<div class="meta-item"><div class="meta-label">Instructor</div><div class="meta-value">Dr. Joseph Gabbard</div></div>
+<div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Tableau Public · Excel</div></div>
+<div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Oct 2026</div></div>
+</div>
+<div class="tags">
+<span class="tag primary">Information Visualization</span>
+<span class="tag primary">Tableau</span>
+<span class="tag">Cleveland &amp; McGill</span>
+<span class="tag">Data-Ink Ratio</span>
+<span class="tag">Gestalt</span>
+<span class="tag">Coursework</span>
+</div>
+</div>
+<div class="content-grid">
+<div class="sidebar">
+<div class="sidebar-label">Contents</div>
+<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#approach">Approach</a><a href="#case-1">01 · Employment Gap</a><a href="#case-2">02 · Social Media Use</a><a href="#case-3">03 · Summer Tourism</a><a href="#conclusion">Conclusion</a><a href="#references">References</a></div>
+</div>
+<div class="main-content">
+
+<!-- OVERVIEW -->
+<div class="section" id="overview">
+<div class="section-label">Overview</div>
+<h2>The Problem</h2>
+<p>Published data stories often favor visual flair over legibility. Radial layouts, overlapping lines, and diverging color ramps look striking, but they make readers decode values through low-accuracy channels like angle, area, and hue. The goal of this project was to redesign three visualizations from <strong>data.europa.eu</strong> so their primary message could be decoded quickly and accurately.</p>
+<p>Each redesign followed the same path: a critique of the original, a quick Excel prototype, class feedback, and a final interactive redesign published on Tableau Public.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Case</th><th>Original</th><th>Redesign</th><th>Primary encoding</th></tr></thead>
+<tbody>
+<tr><td><strong>01</strong></td><td>Employment rates of people with disabilities vs. total population (radial chart)</td><td>Dumbbell chart</td><td>Position on a common scale + length</td></tr>
+<tr><td><strong>02</strong></td><td>How social media use for news varies by age (three multi-line charts)</td><td>Bubble matrix</td><td>Area, labeled with exact values</td></tr>
+<tr><td><strong>03</strong></td><td>Southern coastal regions' summer share of tourists (diverging choropleth)</td><td>Choropleth + linked dot plot</td><td>Position on a common scale + sequential color</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- APPROACH -->
+<div class="section" id="approach">
+<div class="section-label">Approach</div>
+<h2>Design Principles &amp; Process</h2>
+<p>Every critique and design decision was grounded in four sets of display design concepts.</p>
+<div class="two-col four">
+<div class="card"><h4>Elementary perceptual tasks</h4><p>Cleveland &amp; McGill's ranking of encodings. Position along a common scale is decoded most accurately; angle, area, and color are decoded least accurately.</p></div>
+<div class="card"><h4>Clutter &amp; occlusion</h4><p>Too much visual noise, plus data points that block one another, slows search and hides values.</p></div>
+<div class="card"><h4>Data-ink ratio</h4><p>Tufte's principle: every drop of ink on a graph should carry meaningful information.</p></div>
+<div class="card"><h4>Salience, color &amp; Gestalt</h4><p>Making benchmarks stand out, choosing palettes that fit the data, and using proximity and enclosure to group elements.</p></div>
+</div>
+<h3>Process</h3>
+<div class="process">
+<div class="step"><div class="step-num">01</div><div class="step-label">Critique original</div></div>
+<div class="step"><div class="step-num">02</div><div class="step-label">Excel prototype</div></div>
+<div class="step"><div class="step-num">03</div><div class="step-label">Class feedback</div></div>
+<div class="step"><div class="step-num">04</div><div class="step-label">Tableau iteration</div></div>
+<div class="step"><div class="step-num">05</div><div class="step-label">Interactive final</div></div>
+</div>
+</div>
+
+<!-- CASE 1 -->
+<div class="section" id="case-1">
+<div class="section-label">Case Study 01 · Dumbbell Chart</div>
+<h2>Disability Employment Gap</h2>
+<p>The original figure shows the employment rate of people with disabilities against the total employment rate across EU member states in 2024. It also shows both EU averages and the gap between the two groups for each country.</p>
+
+<h3>The Original &amp; Critique</h3>
+<figure class="case-figure portrait">
+<span class="fig-num">Figure 1 · Original</span>
+<img alt="Original radial chart of employment rates of people with disabilities and the total population across the EU, 2024" src="images/infoviz-01-original-radial-chart-of-employment-rates.jpg" loading="lazy"/>
+<p class="figure-caption">Employment Rates of People with Disabilities and the Total Population Across the EU, 2024. Reprinted from data.europa.eu (2026a). Data from Eurostat (2026a, 2026b).</p>
+</figure>
+<p>Values are encoded as positions along a <strong>non-aligned radial scale</strong>, which Cleveland &amp; McGill rank below aligned scales. That makes it hard to compare gaps between countries, especially those on opposite sides of the circle. The gap itself is the length of a pink band, and those bands aren't aligned either. Because area grows with radius, the outer pink ring also looks bigger than it is.</p>
+<p>The ordering doesn't match the message either. The figure is about the employment gap, but countries are sorted by the disability employment rate. The EU-average line has poor salience. The filled areas under each edge add ink without adding information. Circular labels force readers to trace around the figure, and the legend sits far from the data.</p>
+<div class="callout"><p><strong>Diagnosis:</strong> position, length, and area are all used poorly, and the chart's main message (the employment gap) is the hardest thing to read.</p></div>
+
+<h3>Iteration</h3>
+<div class="fig-pair">
+<figure class="case-figure">
+<span class="fig-num">Figure 2 · Excel prototype</span>
+<img alt="Excel bar chart prototype with gray and black bars per country" src="images/infoviz-02-excel-bar-chart-prototype-with-gray.jpg" loading="lazy"/>
+<p class="figure-caption">Early redesign prototype designed in Excel.</p>
+</figure>
+<figure class="case-figure">
+<span class="fig-num">Figure 3 · Early Tableau version</span>
+<img alt="Early Tableau dumbbell chart with purple and blue dots" src="images/infoviz-03-early-tableau-dumbbell-chart-with-purple.jpg" loading="lazy"/>
+<p class="figure-caption">Early Tableau version before final refinements: varying dot sizes, purple dots, small gap circles, no row stripes.</p>
+</figure>
+</div>
+<p>The prototype swapped the radial layout for a flat common scale, sorted the countries, and made the average lines more salient. But the gap still had to be inferred from two bar lengths. The shades of gray were hard to tell apart, and 56 bars made it hard to see which bars belonged to which country.</p>
+<div class="table-wrap">
+<table class="feedback-table">
+<thead><tr><th>Class feedback</th><th>Decision</th></tr></thead>
+<tbody>
+<tr><td>Use color instead of grays</td><td><span class="verdict yes">Applied</span><br/>Orange and blue replaced the grays for better discriminability, and the colored title doubles as the legend.</td></tr>
+<tr><td>Make the bars thinner</td><td><span class="verdict adapt">Adapted</span><br/>The bars became a dumbbell chart. One thin line connects each pair, cutting clutter and linking the two rates.</td></tr>
+<tr><td>Change the scale to 0–100%</td><td><span class="verdict no">Not applied</span><br/>Dumbbells encode value by position, not length, so a 20–90% range is valid. A zero baseline would add empty space and dilute the gap.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="live-dot"></span>Final Redesign (Interactive)</h3>
+<p>Hover over any dumbbell to read that country's exact employment rates.</p>
+<div class="viz-embed"><iframe title="Employment rates of people with disabilities vs the total population in the EU, 2024 (interactive Tableau)" src="https://public.tableau.com/views/EmploymentratesofpeoplewithdisabilitiesvsthetotalpopulationintheEU2024/Dashboard1?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" style="aspect-ratio:1800/1290;min-height:520px" loading="lazy" allowfullscreen=""></iframe></div>
+<a class="viz-link" href="https://public.tableau.com/app/profile/joseph.brazina/viz/EmploymentratesofpeoplewithdisabilitiesvsthetotalpopulationintheEU2024/Dashboard1?publish=yes" target="_blank" rel="noopener">Open in Tableau Public ↗</a>
+
+<div class="stage">
+<h3>Design Pivots</h3>
+<p>The bar prototype became a <strong>dumbbell chart</strong> so the employment gap, the most important information, could be shown precisely. Countries are now <strong>sorted by gap</strong> instead of by disability employment rate. The EU average gets its own row in the middle of the chart, replacing two separate reference lines with a single baseline.</p>
+<p>Gap values sit on a white circle that's large enough for multi-digit numbers. Dot size was fixed after varying in earlier versions. The disability dot changed from purple to orange for more contrast with blue. Row stripes make it easy to pair each dumbbell with its country. The title acts as the legend, and the subtitle explains how to read the chart.</p>
+</div>
+
+<h3>Design Concepts Applied</h3>
+<p><strong>Position along a common scale</strong> is the primary perceptual task, and <strong>length</strong> encodes each gap, which is also printed at the center of its line. The thicker, darker EU-average line makes the benchmark salient. Every dot represents data, and the title replaces the legend, which supports the data-ink ratio. Gestalt connection (lines) and enclosure (stripes) group each row. Clutter drops because there's no extra legend, no extra gridlines, and one mark per country instead of two bars.</p>
+
+<figure class="case-figure">
+<span class="fig-num">Figure 5 · Final redesign, annotated</span>
+<img alt="Annotated final dumbbell chart with numbered callouts" src="images/infoviz-04-annotated-final-dumbbell-chart-with-numbered.jpg" loading="lazy"/>
+<ol class="anno-list">
+<li>Title colored to serve as the legend</li>
+<li>Sorted by largest gap</li>
+<li>Gap value on a circle that hides the line behind it</li>
+<li>Orange dots: people with disabilities</li>
+<li>Blue dots: total employment</li>
+<li>EU average line made salient</li>
+<li>Row stripes match each country to its dumbbell</li>
+<li>Shared % employed axis</li>
+</ol>
+</figure>
+
+<h3>Why the Redesign Is Better</h3>
+<div class="tradeoff">
+<div class="gain"><h4>Gained</h4><p>Both rates sit on one aligned scale, and countries can be ranked by gap at a glance. The EU benchmark sits in the middle of the chart for direct comparison.</p></div>
+<div><h4>Trade-off</h4><p>The chart is much taller and loses the original's compact, vibrant look. In exchange, the employment gap gets the emphasis.</p></div>
+</div>
+</div>
+
+<!-- CASE 2 -->
+<div class="section" id="case-2">
+<div class="section-label">Case Study 02 · Bubble Matrix</div>
+<h2>Social Media Use for News by Age</h2>
+<p>The original shows media use, social media platform use, and engagement type for political and social news, split by four age groups.</p>
+
+<h3>The Original &amp; Critique</h3>
+<figure class="case-figure portrait">
+<span class="fig-num">Figure 6 · Original</span>
+<img alt="Original three stacked multi-line charts of social media use for news by age" src="images/infoviz-05-original-three-stacked-multi-line-charts.jpg" loading="lazy"/>
+<p class="figure-caption">How Social Media Use For News Varies By Age. Reprinted from data.europa.eu (2026b). Data from European Parliament (2025).</p>
+</figure>
+<p>The figure relies on position and <strong>slope</strong>, and slope is a lower-ranked perceptual task. It's cluttered, and many points are <strong>occluded</strong> (for example, several converge at 25–39 in the engagement chart). The connecting lines imply continuity even though age is an ordinal grouping, and they add ink that carries no information.</p>
+<p>Each chart uses 7–10 hues, but hue works well for only about 7 categories (Healey, 1996). The source data includes significance tests, but the figure never shows them. The y-axes are also inconsistent across charts (0–100%, 0–80%, 0–60%).</p>
+<div class="callout"><p><strong>Diagnosis:</strong> comparisons across age groups, the whole point of the figure, are buried under lines, overlapping points, and too many hues.</p></div>
+
+<h3>Iteration</h3>
+<div class="fig-pair">
+<figure class="case-figure">
+<span class="fig-num">Figure 7 · Excel prototype</span>
+<img alt="Excel prototype with separate horizontal bar charts per age group" src="images/infoviz-06-excel-prototype-with-separate-horizontal-bar.jpg" loading="lazy"/>
+<p class="figure-caption">Early redesign prototype designed in Excel.</p>
+</figure>
+<figure class="case-figure">
+<span class="fig-num">Figure 8 · Early Tableau version</span>
+<img alt="Early Tableau bubble matrix stacked in a single tall column" src="images/infoviz-07-early-tableau-bubble-matrix-stacked-in.jpg" loading="lazy" style="max-height:620px;object-fit:contain"/>
+<p class="figure-caption">Early Tableau version: a single stacked column that required scrolling.</p>
+</figure>
+</div>
+<p>The prototype removed the crossing lines and occlusion and used a consistent axis. But splitting age groups into separate charts <strong>removed the comparison between ages</strong>, which was the figure's core function. The 55+ chart had no legend for its gray shades, and brand colors for each app made the hues compete with each other.</p>
+<div class="table-wrap">
+<table class="feedback-table">
+<thead><tr><th>Class feedback</th><th>Decision</th></tr></thead>
+<tbody>
+<tr><td>Add a legend to the 55+ chart</td><td><span class="verdict adapt">Applied, stronger form</span><br/>Every item is labeled in its own row, so color only separates the three sections (media, platforms, engagement).</td></tr>
+<tr><td>Change the scale to 0–100%</td><td><span class="verdict adapt">Adapted</span><br/>No traditional axis, but every bubble scales from zero on the same size scale across all three panels, so equal values look equal.</td></tr>
+<tr><td>Separate charts lose age comparison</td><td><span class="verdict yes">Applied</span><br/>All four age groups now sit side by side in one organized figure.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="live-dot"></span>Final Redesign (Interactive)</h3>
+<p>Hover over a bubble for the full survey question and exact share.</p>
+<div class="viz-embed"><iframe title="Media use, social platforms, and engagement types across age groups (EU, 2025) (interactive Tableau)" src="https://public.tableau.com/views/MediaUseSocialPlatformsandEngagementTypesAcrossAgeGroupsEU2025/Bubbledashboard?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" style="aspect-ratio:1299/770;min-height:460px" loading="lazy" allowfullscreen=""></iframe></div>
+<a class="viz-link" href="https://public.tableau.com/app/profile/joseph.brazina/viz/MediaUseSocialPlatformsandEngagementTypesAcrossAgeGroupsEU2025/Bubbledashboard?publish=yes" target="_blank" rel="noopener">Open in Tableau Public ↗</a>
+
+<div class="stage">
+<h3>Design Pivots</h3>
+<p>The bubble matrix puts every age group in a single row, so comparisons and trends across ages are easy to read. I deliberately made it very different from the Case 3 redesign. Brand colors were dropped for <strong>one hue per section</strong>. Area ranks below position, so <strong>every bubble is labeled</strong> with its exact value. The three sections went from a stacked column that needed scrolling to <strong>side-by-side panels</strong>, so the whole figure fits on one screen.</p>
+<p>Other refinements: <strong>darker bubbles</strong> mark the age group with the highest share in each row. <strong>Significance asterisks</strong> come from the source data. <strong>Trend arrows</strong> show the 55+ minus 15–24 difference. Values of 5 or less sit outside their bubbles, and alternating row shading separates the rows. The subtitle also notes that only social media users were asked about platforms, which the original never mentioned.</p>
+</div>
+
+<h3>Design Concepts Applied</h3>
+<p><strong>Area</strong> is the primary perceptual task, starting at zero and sharing one scale across all three groups. Value labels make up for area's weaker accuracy, and darker bubbles make each row's maximum salient. Clutter dropped once the connecting lines were removed, and one hue per section means no legend is needed. The trend arrows give a redundant cue for youngest vs. oldest. Gestalt proximity and enclosure come from the aligned columns and row shading. The light row shading adds some ink, but I kept it because it helps readers follow each row.</p>
+
+<figure class="case-figure">
+<span class="fig-num">Figure 10 · Final redesign, annotated</span>
+<img alt="Annotated final bubble matrix with numbered callouts" src="images/infoviz-08-annotated-final-bubble-matrix-with-numbered.jpg" loading="lazy"/>
+<ol class="anno-list">
+<li>Three sections placed side by side</li>
+<li>Platform data only from social media / video platform users</li>
+<li>Bubble area encodes share</li>
+<li>Darker bubbles encode the largest share in a row</li>
+<li>Asterisk: age group significantly higher than all others</li>
+<li>Up / down arrows show age trend in a row</li>
+<li>Numbers too small for a bubble placed outside</li>
+<li>Alternating row shading for separation</li>
+<li>Age header</li>
+</ol>
+</figure>
+
+<h3>Why the Redesign Is Better</h3>
+<div class="tradeoff">
+<div class="gain"><h4>Gained</h4><p>All 26 items and 4 age groups appear without clutter or occlusion. A youngest-vs-oldest metric shows at a glance which media (like TV or TikTok) skew young or old, and media, platforms, and engagement now share one unified figure.</p></div>
+<div><h4>Trade-off</h4><p>It uses area instead of the more accurate position. Exact value labels on every bubble make up for that.</p></div>
+</div>
+</div>
+
+<!-- CASE 3 -->
+<div class="section" id="case-3">
+<div class="section-label">Case Study 03 · Choropleth + Dot Plot</div>
+<h2>Summer Tourism Concentration</h2>
+<p>The original shows the share of annual guest nights that fall in June–August (2023) for each European NUTS 2 region, along with each region's location and relative size.</p>
+
+<h3>The Original &amp; Critique</h3>
+<figure class="case-figure portrait">
+<span class="fig-num">Figure 11 · Original</span>
+<img alt="Original diverging blue-gray-pink choropleth map of European NUTS 2 regions" src="images/infoviz-09-original-diverging-blue-gray-pink-choropleth.jpg" loading="lazy"/>
+<p class="figure-caption">Europe's southern coastal regions get a large share of their tourists during the summer. Reprinted from data.europa.eu (2025). Data from Eurostat (2026c).</p>
+</figure>
+<p>The map relies only on <strong>hue and saturation</strong>, both low-ranked perceptual tasks, and neighboring colors change how each other are perceived. The <strong>diverging palette</strong> (blue → gray → pink) implies a meaningful midpoint around 50%, but summer share has no natural midpoint. Large regions dominate visually, so small Mediterranean coastal regions with high summer shares get lost.</p>
+<p>Regions that aren't next to each other can't be compared without a common scale. Region names, country membership, and borders are all missing, and that's useful information the data-ink ratio says belongs on the map. Values appear only as ranges, never as exact numbers.</p>
+<div class="callout"><p><strong>Diagnosis:</strong> two weak perceptual channels, no common scale, and missing context (country names, borders, exact values).</p></div>
+
+<h3>Iteration</h3>
+<figure class="case-figure">
+<span class="fig-num">Figure 12 · Excel prototype</span>
+<img alt="Excel prototype pairing the original map with a horizontal dot plot of countries" src="images/infoviz-10-excel-prototype-pairing-the-original-map.jpg" loading="lazy"/>
+<p class="figure-caption">Early redesign prototype designed in Excel.</p>
+</figure>
+<p>The prototype added an <strong>aligned scale</strong> next to the map for country-to-country comparison. But it used approximate country-level values and lost all regional detail. The horizontal layout crowded the country names, and it kept the original diverging palette.</p>
+<div class="table-wrap">
+<table class="feedback-table">
+<thead><tr><th>Class feedback</th><th>Decision</th></tr></thead>
+<tbody>
+<tr><td>Plot NUTS 2 regions, not just countries</td><td><span class="verdict yes">Applied</span><br/>Every region is plotted, grouped by country.</td></tr>
+<tr><td>Turn the dot plot vertical</td><td><span class="verdict yes">Applied</span><br/>Values run horizontally and countries vertically, so names are easier to read.</td></tr>
+<tr><td>Change the scale to 0–100%</td><td><span class="verdict no">Not applied</span><br/>The data spans 22–77%, and a dot plot encodes position, so a 20–80% axis and a 25–65% color range keep differences visible.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="live-dot"></span>Final Redesign (Interactive)</h3>
+<p>Hover over a region on the map or the dot plot to highlight it in both views and see its name, country, and exact share.</p>
+<div class="viz-embed"><iframe title="Summer tourism concentration across Europe's NUTS 2 regions, 2023 (interactive Tableau)" src="https://public.tableau.com/views/SummertourismconcentrationacrossEuropesNUTS2regions2023/DashboardMapdotplot?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" style="aspect-ratio:1800/1240;min-height:520px" loading="lazy" allowfullscreen=""></iframe></div>
+<a class="viz-link" href="https://public.tableau.com/app/profile/joseph.brazina/viz/SummertourismconcentrationacrossEuropesNUTS2regions2023/DashboardMapdotplot?publish=yes" target="_blank" rel="noopener">Open in Tableau Public ↗</a>
+
+<div class="stage">
+<h3>Design Pivots</h3>
+<p>The diverging red-gray-blue palette became a <strong>sequential warm palette</strong> running from light yellow to dark red. I first considered a separate color scale for each country, but chose a <strong>Europe-wide scale</strong> because comparing regions across Europe matters more than comparing them within one country. Subtle black <strong>country borders</strong> replaced the prototype's country names, which added clutter. Region names are available on hover instead (e.g. Toscana, Italy).</p>
+<p>The dot plot uses <strong>jitter</strong> so regions with similar values don't stack and every dot stays selectable. Light gray <strong>range bands</strong> show each country's min–max, and <strong>median ticks</strong> allow within- and between-country comparison. A dashed <strong>Europe-wide line</strong> adds a benchmark. The map and dot plot share the same color gradient, so it works as a stepped legend in 5-point increments. Non-European land is grayed out so Europe stands out.</p>
+</div>
+
+<h3>Design Concepts Applied</h3>
+<p>The dot plot uses <strong>position along a common scale</strong> to fix the original's color-only encoding, and the <strong>sequential saturation</strong> is easier to read than the diverging hues. Consistent color links the two views. Borders and range bands act as Gestalt enclosure, grouping regions by country. Names and exact values appear only on hover, which reduces clutter. Countries are ordered by median share, highest at the top.</p>
+
+<figure class="case-figure">
+<span class="fig-num">Figure 14 · Final redesign, annotated</span>
+<img alt="Annotated final choropleth and dot plot with numbered callouts" src="images/infoviz-11-annotated-final-choropleth-and-dot-plot.jpg" loading="lazy"/>
+<ol class="anno-list">
+<li>Gradient legend: 8 steps of 5 points, 25–65%</li>
+<li>Country borders</li>
+<li>Europe-wide color scale shared across countries</li>
+<li>Countries ordered by median value</li>
+<li>Gray range band for each country</li>
+<li>Median tick for each country</li>
+<li>Europe-wide summer share rate</li>
+<li>Jitter prevents dot occlusion</li>
+<li>Dots colored to match the map</li>
+</ol>
+</figure>
+
+<h3>Why the Redesign Is Better</h3>
+<div class="tradeoff">
+<div class="gain"><h4>Gained</h4><p>The map shows <em>where</em> regions are, and the dot plot shows <em>exact, ordered</em> values. Variation within a country is now visible (Croatia ranges from 31% to 72%). Regions can be compared side by side, and country membership is clear.</p></div>
+<div><h4>Trade-off</h4><p>Two linked views take more space and longer to read than one map. In return, readings are more accurate and comparisons are easier.</p></div>
+</div>
+</div>
+
+<!-- CONCLUSION -->
+<div class="section" id="conclusion">
+<div class="section-label">Conclusion</div>
+<h2>What Carried Across All Three</h2>
+<p>The originals shared the same problems: low-ranking perceptual tasks, clutter, and high-ranking tasks used poorly. The redesigns shared solutions too.</p>
+<div class="two-col four">
+<div class="card"><h4>Aligned position first</h4><p>Position along a common scale was the primary encoding wherever possible.</p></div>
+<div class="card"><h4>Area, but labeled</h4><p>When area was the right choice (Case 2), exact value labels made up for its lower accuracy.</p></div>
+<div class="card"><h4>Salient benchmarks</h4><p>EU averages, row maximums, medians, and Europe-wide lines guide the eye to comparisons.</p></div>
+<div class="card"><h4>Higher data-ink ratio</h4><p>Fewer legends, lines, and hues, with detail moved into Tableau tooltips.</p></div>
+</div>
+<p>My prototypes lost some of the originals' information and added their own clutter, but iteration fixed both in the final designs. Class feedback mainly shaped the color choices, the addition of NUTS 2 regions, and the dot plot's orientation. I didn't apply the 0–100% scale suggestion where a chart encodes position rather than length.</p>
+<div class="callout"><p><strong>Limitations:</strong> Case 2 uses area, which is less accurate than position, and Case 3 uses two linked graphs that take more space and reading time. Overall, each final redesign is much easier to decode than its original.</p></div>
+</div>
+
+<!-- REFERENCES -->
+<div class="section" id="references">
+<div class="section-label">References</div>
+<h2>Sources</h2>
+<ul class="ref-list">
+<li>Cleveland, W. S., &amp; McGill, R. (1984). Graphical perception: Theory, experimentation, and application to the development of graphical methods. <em>Journal of the American Statistical Association, 79</em>(387), 531–554. <a href="https://doi.org/10.1080/01621459.1984.10478080" target="_blank" rel="noopener">https://doi.org/10.1080/01621459.1984.10478080</a></li>
+<li>Cleveland, W. S., &amp; McGill, R. (1985). Graphical perception and graphical methods for analyzing scientific data. <em>Science, 229</em>(4716), 828–833. <a href="https://doi.org/10.1126/science.229.4716.828" target="_blank" rel="noopener">https://doi.org/10.1126/science.229.4716.828</a></li>
+<li>data.europa.eu. (2025, July 31). <em>Leisure in Europe: Insights from open data</em>. Publications Office of the European Union. <a href="https://data.europa.eu/en/publications/datastories/leisure-europe-insights-open-data" target="_blank" rel="noopener">https://data.europa.eu/en/publications/datastories/leisure-europe-insights-open-data</a></li>
+<li>data.europa.eu. (2026a, February 11). <em>Living with disability in Europe: What open data shows</em>. Publications Office of the European Union. <a href="https://data.europa.eu/en/publications/datastories/living-disability-europe-what-open-data-shows" target="_blank" rel="noopener">https://data.europa.eu/en/publications/datastories/living-disability-europe-what-open-data-shows</a></li>
+<li>data.europa.eu. (2026b, June 10). <em>Social media use in the EU: From countries to generations</em>. Publications Office of the European Union. <a href="https://data.europa.eu/en/publications/datastories/social-media-use-eu-countries-generations" target="_blank" rel="noopener">https://data.europa.eu/en/publications/datastories/social-media-use-eu-countries-generations</a></li>
+<li>European Parliament. (2025). <em>Flash Eurobarometer FL014EP: Social media survey 2025</em> [Data set]. data.europa.eu. <a href="https://data.europa.eu/data/datasets/s3592_fl014ep_eng?locale=en" target="_blank" rel="noopener">https://data.europa.eu/data/datasets/s3592_fl014ep_eng?locale=en</a></li>
+<li>Eurostat. (2026a). <em>Disability employment gap by level of activity limitation and sex</em> (tepsr_sp200) [Data set]. Retrieved Sept. 17, 2026, from <a href="https://data.europa.eu/data/datasets/tbrhqm5vm0zrcz3arcfg?locale=en" target="_blank" rel="noopener">https://data.europa.eu/data/datasets/tbrhqm5vm0zrcz3arcfg?locale=en</a></li>
+<li>Eurostat. (2026b). <em>Employment rate by citizenship</em> (sdg_08_30a) [Data set]. Retrieved Sept. 17, 2026, from <a href="https://data.europa.eu/data/datasets/xr3lnpisncskxmdydwpcw?locale=en" target="_blank" rel="noopener">https://data.europa.eu/data/datasets/xr3lnpisncskxmdydwpcw?locale=en</a></li>
+<li>Eurostat. (2026c). <em>Nights spent at tourist accommodation establishments by month and NUTS 2 region (from 2020 onwards)</em> (tour_occ_nin2m) [Data set]. Retrieved Sept. 17, 2026, from <a href="https://ec.europa.eu/eurostat/databrowser/view/TOUR_OCC_NIN2M__custom_3923847/bookmark/table?lang=en&amp;bookmarkId=f64e2e84-bda9-424e-a4aa-e0822d8bbffd&amp;page=time:2021" target="_blank" rel="noopener">https://ec.europa.eu/eurostat/databrowser/view/TOUR_OCC_NIN2M__custom_3923847/bookmark/table?lang=en&amp;bookmarkId=f64e2e84-bda9-424e-a4aa-e0822d8bbffd&amp;page=time:2021</a></li>
+<li>Eurostat. (n.d.). <em>Overview – NUTS – Nomenclature of territorial units for statistics</em>. European Union. Retrieved October 4, 2026, from <a href="https://ec.europa.eu/eurostat/web/nuts/overview" target="_blank" rel="noopener">https://ec.europa.eu/eurostat/web/nuts/overview</a></li>
+<li>Healey, C. G. (1996). Choosing effective colours for data visualization. In <em>Proceedings of the Seventh Annual IEEE Visualization '96</em> (pp. 263–270). IEEE. <a href="https://doi.org/10.1109/VISUAL.1996.568118" target="_blank" rel="noopener">https://doi.org/10.1109/VISUAL.1996.568118</a></li>
+<li>Tufte, E. R. (2001). <em>The visual display of quantitative information</em> (2nd ed.). Graphics Press.</li>
+</ul>
+</div>
+</div>
+</div>
+<footer>
+<span>Joseph Brazina — Portfolio</span>
+<a href="index.html">Back to Home</a>
+<span>Completed study</span>
+</footer>
+</body>
+</html>

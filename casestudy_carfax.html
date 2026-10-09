@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consumer App Usability Evaluation | Joseph Brazina</title>
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #E4E2DD;
+      --bg-2:     #D8D6D1;
+      --bg-3:     #CCCAC5;
+      --surface:  #ECEAE6;
+      --ink:      #111111;
+      --ink-2:    #444444;
+      --ink-3:    #777777;
+      --border:   1px solid #BEBCB7;
+      --border-heavy: 2px solid #111111;
+      --mono:     'Space Mono', monospace;
+      --sans:     'Space Grotesk', sans-serif;
+      --radius:   2px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    a { color: var(--ink); text-decoration: none; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: var(--border-heavy); }
+    .nav-inner { padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; }
+    .nav-links { display: flex; }
+    .nav-links a { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px; height: 56px; display: flex; align-items: center; border-left: var(--border); transition: background .12s, color .12s; }
+    .nav-links a:hover { background: var(--ink); color: var(--bg); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--surface);
+      border-bottom: var(--border-heavy);
+      padding: 64px 48px 52px;
+    }
+    .label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--bg);
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--sans);
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 1.06;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    .hero .subtitle {
+      font-size: 1rem;
+      color: var(--ink-2);
+      margin-bottom: 40px;
+      line-height: 1.7;
+      max-width: 640px;
+    }
+    .meta-grid {
+      display: flex;
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .meta-item {
+      flex: 1;
+      padding: 14px 18px;
+      border-right: 1px solid #111;
+      background: var(--bg-2);
+    }
+    .meta-item:last-child { border-right: none; }
+    .meta-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    /* ── CONTENT ── */
+    .content-grid { display: grid; grid-template-columns: 200px 1fr; }
+    .sidebar { border-right: var(--border-heavy); padding: 40px 24px; position: sticky; top: 56px; height: fit-content; }
+    .sidebar-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); margin-bottom: 14px; }
+    .sidebar-nav a { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); padding: 9px 0; border-bottom: var(--border); transition: color .12s; }
+    .sidebar-nav a:hover { color: var(--ink); }
+    .content {
+      max-width: 960px;
+      margin: 0;
+      padding: 0 48px 80px;
+    }
+    .section { padding-top: 56px; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--bg);
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+    }
+    .section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: var(--border-heavy);
+    }
+    .section p {
+      color: var(--ink-2);
+      line-height: 1.75;
+      margin-bottom: 14px;
+      font-size: 0.96rem;
+      max-width: 700px;
+    }
+    .section p strong { color: var(--ink); }
+
+    /* ── HTA BOX ── */
+    .hta-box {
+      background: var(--surface);
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 24px 0;
+    }
+    .hta-box h3 {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 12px;
+    }
+    .hta-goal {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--ink);
+      background: var(--bg-2);
+      padding: 10px 14px;
+      border-left: 3px solid var(--ink);
+      margin-bottom: 20px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .hta-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--ink);
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .hta-step {
+      padding: 14px 10px;
+      background: var(--bg-2);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--ink-2);
+      text-align: center;
+      line-height: 1.45;
+    }
+    .hta-step .step-num {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 24px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.87rem;
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    thead { background: var(--ink); color: var(--bg); }
+    thead th {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 11px 16px;
+      text-align: left;
+    }
+    tbody tr { border-bottom: var(--border); background: var(--surface); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: var(--bg-2); }
+    tbody td {
+      padding: 12px 16px;
+      color: var(--ink-2);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    tbody td:first-child {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .sev {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 2px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .sev-low     { background: #D4E8D4; color: #2D6A2D; border: 1px solid #A8CCA8; }
+    .sev-med     { background: #F0E4C8; color: #7A5A1A; border: 1px solid #D4C090; }
+    .sev-low-med { background: #E4EDD4; color: #4A6A1A; border: 1px solid #BCCCAA; }
+
+    /* ── FINDINGS ── */
+    .finding {
+      margin: 40px 0;
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .finding-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #111;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      background: var(--bg-2);
+    }
+    .finding-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-3);
+    }
+    .finding-title {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+    }
+    .finding-body {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .finding-text .heuristic {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+    .finding-text .heuristic span { color: var(--ink); }
+    .finding-text .sev-row { margin-bottom: 14px; }
+    .finding-text p {
+      color: var(--ink-2);
+      font-size: 0.9rem;
+      line-height: 1.72;
+      margin-bottom: 10px;
+      max-width: none;
+    }
+    .finding-text .recommendation {
+      background: var(--bg-2);
+      border-left: 3px solid var(--ink);
+      padding: 11px 14px;
+      font-size: 0.87rem;
+      color: var(--ink);
+      line-height: 1.6;
+      margin-top: 14px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .finding-text .recommendation::before {
+      content: 'Recommendation';
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 5px;
+    }
+    .mockup-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .mockup-pair img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: var(--ar, 800 / 1600);
+      object-fit: cover;
+      display: block;
+      border: var(--border);
+      border-radius: var(--radius);
+    }
+    .mockup-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--ink-3);
+      text-align: center;
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SYNTHESIS ── */
+    .synthesis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .syn-item {
+      padding: 20px;
+      background: var(--surface);
+      border-right: 1px solid #111;
+    }
+    .syn-item:last-child { border-right: none; }
+    .syn-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      margin-bottom: 7px;
+    }
+    .syn-value {
+      font-size: 0.87rem;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+
+    /* ── REFLECTION ── */
+    .reflection {
+      background: var(--surface);
+      border: var(--border-heavy);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-top: 32px;
+    }
+    .reflection p {
+      color: var(--ink-2);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      max-width: none;
+    }
+
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+    @media (max-width: 700px) {
+      .hero { padding: 40px 20px; }
+      .hero h1 { font-size: 2rem; }
+      .nav-inner { padding: 0 20px; }
+      .content { padding: 0 20px 60px; }
+      .finding-body { grid-template-columns: 1fr; }
+      .mockup-pair { grid-template-columns: 1fr; }
+      .hta-steps { grid-template-columns: 1fr; }
+      .synthesis-grid { grid-template-columns: 1fr; }
+      .meta-grid { flex-wrap: wrap; }
+      .meta-item { border-right: none; border-bottom: 1px solid #111; }
+    }
+  /* ── maroon Apple-style skin ── */
+:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
+html{scroll-padding-top:48px}
+body{-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-2);color:#fff}
+nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-inner{height:48px}
+.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
+.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
+.nav-links a:hover{background:none;color:var(--accent)}
+.sidebar{top:48px}
+.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
+.sidebar-label{font-size:.72rem}
+.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
+.sidebar-nav a:hover{color:var(--accent)}
+.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
+.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
+.case-hero>*,.hero>*{position:relative;z-index:1}
+.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
+.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
+.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
+h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
+h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
+.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
+.tag.primary{background:var(--accent);color:#fff}
+.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.meta-value{font-weight:500}
+.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
+@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
+.hero .subtitle{font-size:1.2rem;color:var(--ink-3);max-width:660px}
+.meta-grid{border:var(--border);border-radius:20px}
+.meta-item{background:var(--surface);border-right:var(--border)}
+.hta-box{border:none;border-radius:24px}
+.hta-box h3{font-size:.78rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.hta-goal{background:#fff;border-radius:0 14px 14px 0}
+.hta-steps{background:var(--bg-3);border:var(--border);border-radius:16px}
+.hta-step{background:#fff}
+.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
+table{border:none}
+thead{background:var(--ink);color:#fff}
+thead th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.finding{border:none;border-radius:28px}
+.finding-header{background:transparent;border-bottom:1px solid var(--bg-3)}
+.finding-num{text-transform:none;letter-spacing:.01em;font-weight:400;font-size:.75rem}
+.finding-title{text-transform:none;font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+.finding-text .heuristic{text-transform:none;letter-spacing:.01em;font-weight:400}
+.finding-text .heuristic span{font-weight:500}
+.finding-text .recommendation{background:#fff;border-radius:0 14px 14px 0}
+.finding-text .recommendation::before{color:var(--accent);text-transform:none;letter-spacing:.01em;font-weight:400;font-size:.72rem}
+.mockup-pair img{border-radius:18px}
+.mockup-label{text-transform:none;letter-spacing:.01em}
+.synthesis-grid{border:var(--border);border-radius:24px}
+.syn-item{border-right:var(--border)}
+.syn-label{text-transform:none;letter-spacing:.01em;font-weight:400;font-size:.72rem}
+.reflection{border:none;border-radius:24px}
+@media(max-width:700px){.meta-item{border-bottom:var(--border)}.hero{padding:48px 20px 40px}}
+.hta-diagram{margin:24px 0;background:var(--surface);border-radius:24px;padding:20px 16px 14px}
+.hta-diagram-scroll{overflow-x:auto}
+.hta-diagram figcaption{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);text-align:center;margin-top:10px}
+footer{background:#000;border-top:1px solid #2a2a2c;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;display:flex;justify-content:space-between;align-items:center}
+footer a{color:#a1a1a6}
+footer a:hover{color:var(--accent-2)}
+@media(max-width:700px){footer{padding:16px 20px;flex-direction:column;gap:6px}}
+footer{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px 24px;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;text-transform:none}
+.content-grid>*{min-width:0}
+footer>:first-child{justify-self:start}
+footer>:last-child{justify-self:end}
+@media(max-width:700px){footer{grid-template-columns:1fr;justify-items:center;text-align:center;padding:16px 20px}footer>*{justify-self:center!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">JOSEPH BRAZINA</span>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Work</a>
+      <a href="index.html#research">Research</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <span class="label">Case Study: HF/UX Evaluation</span>
+  <h1>Consumer App<br>Usability Evaluation</h1>
+  <p class="subtitle">A self-directed application of Hierarchical Task Analysis and Nielsen's 10 heuristics to a real iOS app, resulting in three identified usability issues and Figma-designed redesign mockups for each.</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">Self-Directed Project</div></div>
+    <div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Sep 2026</div></div>
+    <div class="meta-item"><div class="meta-label">Methods</div><div class="meta-value">HTA · Heuristic Eval · Figma</div></div>
+    <div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">Usability Test Planned</div></div>
+  </div>
+</div>
+
+<div class="content-grid">
+  <div class="sidebar">
+    <div class="sidebar-label">Contents</div>
+    <div class="sidebar-nav">
+      <a href="#overview">Overview</a>
+      <a href="#task-analysis">Task Analysis</a>
+      <a href="#heuristic-evaluation">Heuristic Evaluation</a>
+      <a href="#synthesis">Synthesis</a>
+      <a href="#reflection">Next Steps</a>
+    </div>
+  </div>
+
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="section" id="overview">
+    <span class="section-label">Overview</span>
+    <h2>The problem &amp; approach</h2>
+    <p>Carfax's Car Care iOS app lets users track and log their vehicle's service history. The task I evaluated: <strong>logging a completed oil change</strong>, a routine workflow that walks users through adding a vehicle, confirming details, selecting a service category, entering service specifics, and saving the record.</p>
+    <p>I applied two complementary HF/UX methods: a <strong>Hierarchical Task Analysis (HTA)</strong> to map the full task structure and surface friction points at the step level, followed by a <strong>heuristic evaluation against Nielsen's 10 usability heuristics</strong> to identify the design principles being violated. The two methods were then cross-referenced in a synthesis to determine whether issues were structural or incidental.</p>
+  </div>
+
+  <!-- HTA -->
+  <div class="section" id="task-analysis">
+    <span class="section-label">Task Analysis</span>
+    <h2>Hierarchical task analysis</h2>
+    <p>The overall goal was decomposed into five sub-goals, each with their own action steps. The HTA revealed <strong>three risk points</strong> where the design creates ambiguity, cognitive load, or potential for error.</p>
+    <div class="hta-box">
+      <h3>Overall Goal</h3>
+      <div class="hta-goal">Log a completed oil change using the Carfax Car Care iOS app</div>
+      <div class="hta-steps">
+        <div class="hta-step"><span class="step-num">1</span>Add vehicle to app</div>
+        <div class="hta-step"><span class="step-num">2</span>Verify &amp; confirm vehicle details</div>
+        <div class="hta-step"><span class="step-num">3</span>Navigate to service category</div>
+        <div class="hta-step"><span class="step-num">4</span>Enter service record details</div>
+        <div class="hta-step"><span class="step-num">5</span>Save service record</div>
+      </div>
+    </div>
+    <figure class="hta-diagram">
+      <div class="hta-diagram-scroll"><svg viewBox="0 0 960 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Hierarchical task analysis: log a completed oil change" style="width:100%;height:auto;min-width:720px;display:block" xmlns="http://www.w3.org/2000/svg"><defs><filter id="hs" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000" flood-opacity=".10"/></filter></defs><g stroke="#c7c7cc" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M480 76 V98 M96 98 H864"/><path d="M96 98 V116"/><path d="M288 98 V116"/><path d="M480 98 V116"/><path d="M672 98 V116"/><path d="M864 98 V116"/><path d="M96 172 V420.0"/><path d="M288 172 V420.0"/><path d="M480 172 V292.0"/><path d="M672 172 V420.0"/></g><rect x="360" y="20" width="240" height="56" rx="16" fill="#1d1d1f" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#a1a1a6" style="font-family:var(--sans);font-size:11px;font-weight:600"><tspan x="480" y="39.0">OVERALL GOAL</tspan></text><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:16px;font-weight:600"><tspan x="480" y="58.0">Log a completed oil change</tspan></text><rect x="12" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="96" y="144.0">Add Vehicle to App</tspan></text><rect x="20" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="219.9">Open app and</tspan><tspan x="96" y="236.1">tap “add car”</tspan></text><rect x="20" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="283.9">Enter VIN or</tspan><tspan x="96" y="300.1">license plate number</tspan></text><rect x="20" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="356.0">Enter state/province</tspan></text><rect x="20" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="420.0">Tap “search”</tspan></text><rect x="204" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="288" y="134.9">Verify and confirm</tspan><tspan x="288" y="153.1">vehicle details</tspan></text><rect x="212" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="219.9">Select “Yes this</tspan><tspan x="288" y="236.1">is my car”</tspan></text><rect x="212" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="292.0">Verify ZIP code</tspan></text><rect x="212" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="356.0">Verify total mileage</tspan></text><rect x="212" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="420.0">Verify yearly mileage</tspan></text><rect x="396" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="480" y="134.9">Navigate to service</tspan><tspan x="480" y="153.1">category</tspan></text><rect x="404" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="219.9">Navigate to</tspan><tspan x="480" y="236.1">“Oil Change”</tspan></text><rect x="404" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="283.9">Tap “Add</tspan><tspan x="480" y="300.1">Service Record”</tspan></text><rect x="588" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="672" y="134.9">Enter service</tspan><tspan x="672" y="153.1">record details</tspan></text><rect x="596" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="219.9">Select date of</tspan><tspan x="672" y="236.1">oil change</tspan></text><rect x="596" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="283.9">Select oil change</tspan><tspan x="672" y="300.1">location</tspan></text><rect x="596" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="339.8">Enter odometer</tspan><tspan x="672" y="356.0">reading at time</tspan><tspan x="672" y="372.2">of service</tspan></text><rect x="596" y="392" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="403.8">Select any other</tspan><tspan x="672" y="420.0">work done on car,</tspan><tspan x="672" y="436.2">if applicable</tspan></text><rect x="780" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="864" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="864" y="144.0">Save service record</tspan></text></svg></div>
+      <figcaption>Hierarchical task analysis for logging a completed oil change in the Carfax Car Care app.</figcaption>
+    </figure>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Risk description</th><th>Likely cause</th><th>Severity</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1.2: Enter VIN or license plate</td>
+            <td>First-time users have no guidance on which input method to choose</td>
+            <td>Neither option is labeled as preferred, though VIN is more error-resistant</td>
+            <td><span class="sev sev-low">Low</span></td>
+          </tr>
+          <tr>
+            <td>4.2: Select oil change location</td>
+            <td>App asks "Was this done at a service shop?" and the framing assumes shop-service by default</td>
+            <td>Phrasing mismatch rather than structural flow problem</td>
+            <td><span class="sev sev-low">Low</span></td>
+          </tr>
+          <tr>
+            <td>4.4: Select other work done</td>
+            <td>Each of 9 service dropdowns contains 100+ options, many sharing the same prefix with no subgrouping</td>
+            <td>Designers underestimated cognitive load for users unfamiliar with car terminology</td>
+            <td><span class="sev sev-low-med">Low–Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- HEURISTIC EVAL -->
+  <div class="section" id="heuristic-evaluation">
+    <span class="section-label">Heuristic Evaluation</span>
+    <h2>Findings &amp; redesign mockups</h2>
+    <p>Three distinct usability issues were identified across the task flow, each mapped to a violated Nielsen heuristic. A Figma redesign mockup was created for each, showing the original screen alongside the proposed fix.</p>
+
+    <!-- FINDING 1 -->
+    <div class="finding">
+      <div class="finding-header">
+        <span class="finding-num">Finding 01</span>
+        <span class="finding-title">VIN Input Guidance</span>
+      </div>
+      <div class="finding-body">
+        <div class="finding-text">
+          <div class="heuristic">Heuristic violated: <span>Recognition rather than recall (#6)</span></div>
+          <div class="sev-row"><span class="sev sev-low">Low severity</span></div>
+          <p>The "Add a Car" screen presents two input options (VIN or license plate + state) with no indication of which is preferred. First-time users must recall which method to use rather than being guided by the interface.</p>
+          <p>VIN is objectively more error-resistant and precise; the design simply doesn't communicate that.</p>
+          <div class="recommendation">Add a "Recommended" label next to the VIN option to guide users toward the more reliable input method without removing the alternative.</div>
+        </div>
+        <div>
+          <div class="mockup-pair" style="--ar: 800 / 1644;">
+            <img src="images/carfax-01-finding-1-before.jpg" alt="Finding 1 before" />
+            <img src="images/carfax-02-finding-1-after.jpg" alt="Finding 1 after" />
+          </div>
+          <div class="mockup-label">Before · After</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINDING 2 -->
+    <div class="finding">
+      <div class="finding-header">
+        <span class="finding-num">Finding 02</span>
+        <span class="finding-title">Oil Change Location Selection</span>
+      </div>
+      <div class="finding-body">
+        <div class="finding-text">
+          <div class="heuristic">Heuristic violated: <span>Match between system and the real world (#2)</span></div>
+          <div class="sev-row"><span class="sev sev-low">Low severity</span></div>
+          <p>The app asks "Was this oil change done at a service shop?" with Yes/No buttons. This framing forces users to translate a binary question into a mental model of where they actually got their oil changed, a mismatch between how the system asks and how users think.</p>
+          <p>Self-service users in particular may hesitate, unsure whether "No" correctly captures their situation.</p>
+          <div class="recommendation">Replace the yes/no question with two clearly labeled buttons: "Service Shop" and "Self-Service", matching how users naturally categorize the task.</div>
+        </div>
+        <div>
+          <div class="mockup-pair" style="--ar: 800 / 1583;">
+            <img loading="lazy" decoding="async" src="images/carfax-03-finding-2-before.jpg" alt="Finding 2 before" />
+            <img loading="lazy" decoding="async" src="images/carfax-04-finding-2-after.jpg" alt="Finding 2 after" />
+          </div>
+          <div class="mockup-label">Before · After</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINDING 3 -->
+    <div class="finding">
+      <div class="finding-header">
+        <span class="finding-num">Finding 03</span>
+        <span class="finding-title">Service Dropdown Overload</span>
+      </div>
+      <div class="finding-body">
+        <div class="finding-text">
+          <div class="heuristic">Heuristic violated: <span>Aesthetic &amp; minimalist design (#8)</span><br><span style="display:block;margin-top:4px">Secondary: Recognition rather than recall (#6)</span></div>
+          <div class="sev-row"><span class="sev sev-low-med">Low–Medium severity</span></div>
+          <p>Each of the 9 "Add other service" dropdowns contains up to 100+ items presented as a flat, unsorted list. Many entries share the same prefix, requiring users unfamiliar with automotive terminology to scan the entire list.</p>
+          <p>A search bar is present but doesn't help users who don't know the exact term. This was the only issue that surfaced independently in both the HTA and heuristic evaluation, a sign it's structural rather than incidental.</p>
+          <div class="recommendation">Add prefix-based subgroups within each service dropdown to reduce visual scan load for users without domain expertise.</div>
+        </div>
+        <div>
+          <div class="mockup-pair" style="--ar: 800 / 1592;">
+            <img loading="lazy" decoding="async" src="images/carfax-05-finding-3-before.jpg" alt="Finding 3 before" />
+            <img loading="lazy" decoding="async" src="images/carfax-06-finding-3-after.jpg" alt="Finding 3 after" />
+          </div>
+          <div class="mockup-label">Before · After</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYNTHESIS -->
+  <div class="section" id="synthesis">
+    <span class="section-label">Synthesis</span>
+    <h2>Cross-referencing HTA &amp; heuristics</h2>
+    <p>Surfacing an issue in both the task analysis and the heuristic evaluation is meaningful because it suggests a structural problem embedded in the design rather than a surface-level phrasing quirk. Findings 1 and 2 appeared only in the heuristic evaluation, pointing to phrasing issues unlikely to prevent task completion. Finding 3 appeared independently in both, confirming it as the most significant issue in the flow.</p>
+    <div class="synthesis-grid">
+      <div class="syn-item">
+        <div class="syn-label">Finding 01: VIN Input</div>
+        <div class="syn-value">Heuristic-only finding. Phrasing issue, not structural. Likely causes a brief pause but not task failure.</div>
+      </div>
+      <div class="syn-item">
+        <div class="syn-label">Finding 02: Location</div>
+        <div class="syn-value">Heuristic-only finding. Framing mismatch, not flow problem. Minor hesitation, not a blocker.</div>
+      </div>
+      <div class="syn-item">
+        <div class="syn-label">Finding 03: Dropdowns</div>
+        <div class="syn-value">Found independently in both HTA and heuristic eval. Structural issue. Highest priority fix, especially for non-expert users.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFLECTION -->
+  <div class="section" id="reflection">
+    <span class="section-label">Reflection &amp; Next Steps</span>
+    <h2>What's next</h2>
+    <div class="reflection">
+      <p>This project reinforced how much two methods surface more than one alone. The HTA gave me a structured map of where cognitive load accumulates across the task flow; the heuristic evaluation gave me the vocabulary to explain <em>why</em> those spots fail. Cross-referencing them revealed which issues are worth fixing first.</p>
+      <p style="margin-top:14px">The Figma mockups translate each recommendation into a concrete proposed change, not just a list of problems. The logical next step is a <strong>moderated usability test</strong> to validate whether the redesigns actually reduce hesitation and error at each of the three points, and whether the dropdown subgrouping is intuitive enough for users with no car knowledge to navigate.</p>
+    </div>
+  </div>
+
+</div>
+</div>
+<footer>
+<span>Joseph Brazina — Portfolio</span>
+<a href="index.html">Back to Home</a>
+<span>Completed study</span>
+</footer>
+</body>
+</html>
