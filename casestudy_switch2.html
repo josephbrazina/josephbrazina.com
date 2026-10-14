@@ -255,68 +255,90 @@ footer>:last-child{justify-self:end}
 <div class="case-hero">
 <div class="label">Case Study · HF System Design</div>
 <h1>Nintendo Switch 2 Home Screen Redesign</h1>
-<p class="hero-sub">A redesign of the Switch 2 home screen built around full cover art, visible story progress, a full-width bottom navigation bar, and a theme system with Nintendo-themed backgrounds. It went from a low-fidelity wireframe to high-fidelity Figma prototypes.</p>
+<p class="hero-sub">I designed a wireframe and low- and high-fidelity interactive Figma prototypes of the Switch 2 HOME Menu. Each design decision came from usability-test pain points and is grounded in human factors engineering principles.</p>
 <div class="hero-meta">
-<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">Human Factors System Design</div></div>
-<div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Team Lead · 3-person team</div></div>
-<div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma</div></div>
-<div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">Testing complete · Results being compiled</div></div>
+<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">ISE 5654: Human Factors System Design</div></div>
+<div class="meta-item"><div class="meta-label">Instructor</div><div class="meta-value">Dr. Deborah Dickerson</div></div>
+<div class="meta-item"><div class="meta-label">My role</div><div class="meta-value">Wireframe &amp; prototype designer</div></div>
+<div class="meta-item"><div class="meta-label">Team</div><div class="meta-value">Joseph Brazina, Arsalan Ashraf &amp; Jyotshna Bali</div></div>
+<div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Oct 2026</div></div>
 </div>
 <div class="tags">
-<span class="tag primary">HF System Design</span>
-<span class="tag primary">UI Redesign</span>
-<span class="tag">Wireframing</span>
-<span class="tag">Figma Prototyping</span>
+<span class="tag primary">Wireframing</span>
+<span class="tag primary">Figma Prototyping</span>
+<span class="tag">Human Factors Engineering</span>
 <span class="tag">Usability Testing</span>
+<span class="tag">UI Redesign</span>
 <span class="tag">Coursework</span>
 </div>
 </div>
 <div class="content-grid">
 <div class="sidebar">
 <div class="sidebar-label">Contents</div>
-<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#goals">Redesign Goals</a><a href="#wireframe">Wireframe</a><a href="#lofi">Lo-Fi Prototype</a><a href="#hifi">Hi-Fi Prototype</a><a href="#themes">Theme System</a><a href="#prototypes">Interactive Prototypes</a><a href="#decisions">HF Principles</a><a href="#next">Results</a><a href="#references">References</a></div>
+<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#findings">Pain Points → Design</a><a href="#wireframe">Wireframe</a><a href="#lofi">Lo-Fi Prototype</a><a href="#hifi">Hi-Fi Prototype</a><a href="#hfe">HFE Principles</a><a href="#learned">What I Learned</a><a href="#suggestions">Redesign Suggestions</a><a href="#references">Sources</a></div>
 </div>
 <div class="main-content">
 
 <div class="section" id="overview">
 <div class="section-label">Overview</div>
 <h2>The Problem</h2>
-<p>The home screen is the first thing every Switch 2 player sees and the hub they come back to between games. I led a three-person team through a human factors review of it. We defined target users, ran task-based usability tests to find pain points, and I designed Figma prototypes that address them.</p>
-<p>This page shows the redesign that came out of those tests. It covers the annotated wireframe, the low- and high-fidelity interactive prototypes, and a six-option theme system that changes the whole home screen.</p>
+<p>The Switch 2 HOME Menu is the hub players return to between games, and it has to stay legible and predictable whether the console is held in the hands, propped on a table, or docked to a TV. Our three-person team evaluated it with two methods: task-based usability testing, then prototyping. The usability test surfaced pain points, and I turned those findings into a redesign. I designed a wireframe and low- and high-fidelity interactive prototypes in Figma, and justified each design decision with human factors engineering (HFE) principles.</p>
+<div class="callout"><p><strong>My role:</strong> I designed the wireframe and both interactive prototypes from start to finish. I also wrote the prototyping, HFE principles, prototyping findings, and redesign suggestions sections of the team report. My teammates, Arsalan Ashraf and Jyotshna Bali, led the design description and the usability testing.</p></div>
 <div class="process">
-<div class="step"><div class="step-num">01</div><div class="step-label">Define users</div></div>
-<div class="step"><div class="step-num">02</div><div class="step-label">Usability testing</div></div>
-<div class="step"><div class="step-num">03</div><div class="step-label">Wireframe</div></div>
-<div class="step"><div class="step-num">04</div><div class="step-label">Lo-fi prototype</div></div>
-<div class="step"><div class="step-num">05</div><div class="step-label">Hi-fi prototype</div></div>
+<div class="step"><div class="step-num">01</div><div class="step-label">Usability test (team)</div></div>
+<div class="step"><div class="step-num">02</div><div class="step-label">Wireframe</div></div>
+<div class="step"><div class="step-num">03</div><div class="step-label">Lo-fi prototype</div></div>
+<div class="step"><div class="step-num">04</div><div class="step-label">Hi-fi prototype</div></div>
+<div class="step"><div class="step-num">05</div><div class="step-label">HFE rationale</div></div>
+</div>
+<div class="fig-pair">
+<figure class="case-figure">
+<span class="fig-num">Original · Switch 2 in handheld mode</span>
+<img alt="Nintendo Switch 2 console held in handheld mode" src="images/switch2-29-console-handheld-mode.jpg" loading="lazy"/>
+<p class="figure-caption"><em>Note.</em> Image from Nintendo of America (n.d.). © Nintendo.</p>
+</figure>
+<figure class="case-figure">
+<span class="fig-num">Original · HOME Menu (light and dark)</span>
+<img alt="Original Nintendo Switch 2 HOME Menu in light and dark themes, with small square game icons and a row of unlabeled system icons" src="images/switch2-28-original-home-menu-light-dark.jpg" loading="lazy"/>
+<p class="figure-caption"><em>Note.</em> From Iggy (2025). Image as reported by Nintendo Soup; may not reflect the official interface. Nintendo Switch 2 © Nintendo.</p>
+</figure>
 </div>
 </div>
 
-<div class="section" id="goals">
-<div class="section-label">Redesign Goals</div>
-<h2>Four Changes to the Home Screen</h2>
-<div class="goal-grid">
-<div class="goal"><span class="num">01</span><h4>Full cover art</h4><p>Full portrait box art in a row that scrolls sideways, so games can be recognized at a glance.</p></div>
-<div class="goal"><span class="num">02</span><h4>Story progress</h4><p>A 0–100% bar under each game. Games without a story mode show no bar.</p></div>
-<div class="goal"><span class="num">03</span><h4>Bottom navigation</h4><p>System buttons move to a full-width bar along the bottom edge, using icon-only buttons.</p></div>
-<div class="goal"><span class="num">04</span><h4>Nintendo themes</h4><p>Light, Dark, and four character backgrounds, chosen from a new Themes button.</p></div>
+<div class="section" id="findings">
+<div class="section-label">From Pain Points to Prototypes</div>
+<h2>Designing From Test Results</h2>
+<p>The team's usability test had two participants, a novice and an expert. Each completed five tasks in handheld mode while thinking aloud, then filled out the System Usability Scale (SUS). Both scored 75, but their feedback differed. The novice struggled to tell what the unlabeled icons did, while the expert wanted faster access to common controls and more personalization. I used these findings as the starting point for every prototype decision.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>What the usability test found</th><th>How I addressed it in the prototypes</th></tr></thead>
+<tbody>
+<tr><td>The expert wanted game icons that look more like the artwork on physical game cases, and larger icons.</td><td><strong>Full portrait cover-art game cards</strong> replace the small square icons.</td></tr>
+<tr><td>The expert found the game title shown above each icon redundant.</td><td>The cover art carries the title, so the cards have <strong>no separate title label</strong>.</td></tr>
+<tr><td>The expert suggested a brightness control on the home screen, next to Wi-Fi, battery, and time.</td><td>A <strong>brightness slider</strong> is grouped with the status indicators in the top-right corner.</td></tr>
+<tr><td>The novice couldn't tell what several unlabeled icons did, and the expert asked for larger bottom icons.</td><td>A <strong>wider, full-width navigation bar</strong> on the bottom edge, with larger buttons closer to the thumbs. The lo-fi prototype labels each button.</td></tr>
+<tr><td>The expert wanted to customize the home screen theme around favorite games.</td><td><strong>Four Nintendo-themed home screens</strong> (Mario, Zelda, Kirby, Donkey Kong) alongside Light and Dark.</td></tr>
+</tbody>
+<tfoot></tfoot>
+</table>
+<p><em>Note.</em> Both participants were team members, so these findings are preliminary rather than generalizable.</p>
 </div>
 </div>
 
 <div class="section" id="wireframe">
 <div class="section-label">Wireframe</div>
-<h2>A Grayscale Blueprint</h2>
-<p>Before building anything interactive, I made a static, grayscale wireframe in Figma to agree on the skeleton of the new home screen. Every change in it traces back to a pain point we found in usability testing. Each screen is a 1920×1080 frame set in Inter, the font used across all three fidelity levels.</p>
-<p>Crossed-out portrait rectangles stand in for game covers, with a black frame on the selected game and a progress bar under each title (left off for games without a story). Ten circles along the bottom became the new navigation bar, three circles in the top left hold profile icons, and the top right has the clock, Wi-Fi, battery, and a new brightness slider. Arrows walk through the main new task: open Themes, pick a theme from a 3×2 grid of previews, and see the home screen change.</p>
+<h2>The Blueprint</h2>
+<p>I started with a static, grayscale wireframe to lay out the redesign before adding interactivity. I built it on a 1920 × 1080 frame in Inter. Portrait rectangles with X's hold the place of game covers in a horizontal row. A black frame marks the selected game, and progress bars sit beneath each cover, left off for games without a story mode.</p>
+<p>Ten circular placeholders along the bottom edge form the new navigation bar. Three in the top left hold profile icons. The top right holds a clock, Wi-Fi and battery placeholders, and a new brightness slider. I also designed the theme selector pop-up: a 3 × 2 grid of crossed-box previews, a Ⓑ Back button, and a black frame with a ✓ around the current theme. Arrows connect the screens to show the user flow, and eight annotations explain the changes.</p>
 <figure class="case-figure tall">
-<span class="fig-num">Figure 1 · Annotated wireframe and theme flow</span>
-<img alt="Annotated grayscale wireframe of the Switch 2 home screen, the theme picker, and the home screen after selecting the Mario theme, connected by arrows" src="images/switch2-01-annotated-low-fidelity-wireframe-of-the.png" loading="lazy"/>
+<span class="fig-num">Figure 1 · Annotated wireframe</span>
+<img alt="Annotated low-fidelity wireframe of the Switch 2 home screen, theme picker, and Mario theme applied" src="images/switch2-01-annotated-low-fidelity-wireframe-of-the.png" loading="lazy"/>
 <ol class="anno-list">
 <li>Status bar with time, Wi-Fi, battery, and a new brightness slider</li>
 <li>Full portrait cover art in a row that scrolls sideways</li>
 <li>Story progress from 0 to 100%. No bar means the game has no story mode</li>
-<li>The selected game is highlighted with an outline</li>
-<li>Nav bar moved to the bottom edge and extended the full width of the screen. The final design uses icon-only buttons</li>
+<li>The selected game has an outline</li>
+<li>Nav bar moved to the bottom edge at full width, closer to the thumbs</li>
 <li>Themes button that opens the theme picker</li>
 <li>Light/Dark plus Nintendo themes, with the current theme marked</li>
 <li>Selecting a theme updates the home background (Mario shown)</li>
@@ -327,42 +349,44 @@ footer>:last-child{justify-self:end}
 <div class="section" id="lofi">
 <div class="section-label">Low-Fidelity Prototype</div>
 <h2>Making the Flow Clickable</h2>
-<p>The lo-fi prototype turned the wireframe into something you can click. I duplicated the light wireframe and its theme picker, then made a red copy of both to stand in for the Mario theme. Game titles went onto each placeholder cover, theme names onto each preview, and labels such as Sleep and eShop under each nav circle.</p>
-<div class="two-col four">
-<div class="card"><h4>Scrolling game row</h4><p>The cover row scrolls sideways, the way a player moves through games on the console.</p></div>
-<div class="card"><h4>Themes button</h4><p>Opens the theme picker over the current home screen.</p></div>
-<div class="card"><h4>Switching themes</h4><p>Choosing Light or Mario in the picker shows the matching home screen.</p></div>
-<div class="card"><h4>Two ways out</h4><p>The Ⓑ Back button or a click anywhere outside the picker returns you to the current home screen.</p></div>
-</div>
-<figure class="case-figure portrait">
-<span class="fig-num">Figure 2 · Lo-fi prototype screens (Light and Mario)</span>
-<img alt="Low-fidelity prototype screens: the light home screen and theme picker, then the red Mario home screen and theme picker, with game titles and theme names labeled" src="images/switch2-27-lofi-prototype-light-and-mario.jpg" loading="lazy"/>
-<p class="figure-caption">Titles in the row: Donkey Kong Bananza, Mario Kart World, Tears of the Kingdom, Super Mario Bros. Wonder, Kirby and the Forgotten Land, Super Mario Galaxy + Super Mario Galaxy 2, Minecraft, and more.</p>
+<p>Next, I turned the wireframe into an interactive lo-fi prototype. I duplicated the light home screen and its theme selector, then gave the copy a red background to represent the Mario theme. Each placeholder got a game title (Donkey Kong Bananza, Mario Kart World, Tears of the Kingdom, and more), and each theme preview got a theme name. Each nav button got a text label.</p>
+<p>In Figma, I wired the screens together. The game row scrolls horizontally. The Themes button opens the theme selector, choosing Light or Mario switches the home screen, and pressing Ⓑ Back or clicking outside the pop-up returns to the current home screen.</p>
+<figure class="case-figure tall">
+<span class="fig-num">Figure 2 · Lo-fi prototype</span>
+<img alt="Low-fidelity prototype screens for the Light and Mario themes: home screen and theme picker, with crossed-box placeholders for game covers and theme thumbnails" src="images/switch2-27-lofi-prototype-light-and-mario.png" loading="lazy" style="max-width:620px"/>
+<p class="figure-caption">Lo-fi prototype screens for the Light and Mario themes, home screen and theme picker.</p>
 </figure>
+<h3><span class="live-dot"></span>Try the Lo-Fi Prototype</h3>
+<div class="viz-embed"><iframe title="Switch 2 home screen low-fidelity interactive prototype (Figma)" src="https://embed.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1&amp;embed-host=share" style="aspect-ratio:16/10;min-height:300px" loading="lazy" allowfullscreen=""></iframe></div>
+<a class="viz-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;viewport=-131%2C166%2C0.25&amp;t=wzCJbuLNxFIy2ONq-1&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1" target="_blank" rel="noopener">Open lo-fi prototype in Figma ↗</a>
 </div>
 
 <div class="section" id="hifi">
 <div class="section-label">High-Fidelity Prototype</div>
 <h2>From Gray Boxes to Real Screens</h2>
-<p>Each lo-fi screen maps directly to a hi-fi Figma screen. I designed the Light home screen first, then duplicated it five times for the other themes so every theme shares the exact same structure and layout.</p>
-<ul>
-<li><strong>Cover art.</strong> Real covers replaced the placeholders, with Switch branding, age ratings, and other additions removed so only the art remains. An "All Software" tile with a 3×3 grid icon ends the row.</li>
-<li><strong>Navigation.</strong> Colored icons from the open-source Iconify plugin, left to right: Switch Online, GameChat, News, eShop, Album, Game Cards, Controllers, Settings, Themes, and Sleep.</li>
-<li><strong>Profiles and status.</strong> Real Switch 2 profile icons (Mario, Bowser, Donkey Kong), plus Iconify Wi-Fi and battery icons.</li>
-<li><strong>Cyan accent.</strong> Used for the progress bars, the brightness slider, and a glowing frame around the selected game.</li>
-<li><strong>Separation from the background.</strong> Covers, progress bars, and status items got drop shadows and glows, and unselected covers got a subtle light gray frame.</li>
-</ul>
+<p>I built the hi-fi prototype on top of the lo-fi layout. I edited every game cover to remove console branding and age ratings, so only the cover art remained. I added an "All Software" card with a 3 × 3 grid icon to the end of the game row. The nav icons came from the open-source Iconify plugin and are colored individually. The profile icons are actual Switch 2 profile icons.</p>
+<p>For focus and contrast, I used a single cyan accent for the progress bars, the brightness slider, and the glowing selection frame around the current game. Covers, progress bars, and status items also got subtle drop shadows and glows so they separate cleanly from any background.</p>
 <figure class="case-figure">
 <span class="fig-num">Figure 3 · Lo-fi vs. hi-fi prototype</span>
-<img alt="Side-by-side comparison of low-fidelity and high-fidelity prototype screens for the Light and Mario themes, home and picker, connected by arrows" src="images/switch2-02-side-by-side-comparison-of-wireframe.jpg" loading="lazy"/>
-<p class="figure-caption">The Light and Mario themes, home screen and theme picker, shown as lo-fi prototype screens (left) and hi-fi prototype screens (right).</p>
+<img alt="Side-by-side comparison of low-fidelity and high-fidelity prototype screens for the Light and Mario themes, home and picker" src="images/switch2-02-side-by-side-comparison-of-wireframe.jpg" loading="lazy"/>
+<p class="figure-caption">The Light and Mario themes, home screen and theme picker, shown as low-fidelity prototype screens (left) and high-fidelity prototype screens (right). <em>Note.</em> Cover images adapted from Jerry88pl (n.d.), megasnorlax (n.d.-a, n.d.-b, n.d.-c, n.d.-d), Nutsacc (n.d.), and SirRandall (n.d.); background image from <em>Super Mario World Wallpaper</em> (n.d.); profile icons from Random Talking Bush (2017). Original artwork © Nintendo; <em>Kirby and the Forgotten Land</em> © Nintendo/HAL Laboratory, Inc.; <em>Minecraft</em> © Mojang AB/Microsoft.</p>
 </figure>
+<h3>Tuning Each Theme</h3>
+<p>All six home screens share one layout. Only colors and the background change, so every theme needed its own contrast adjustments.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Theme</th><th>Background</th><th>Text &amp; status icons</th><th>Nav buttons</th></tr></thead>
+<tbody>
+<tr><td><strong>Light</strong></td><td>Light gray</td><td>Black</td><td>White, with colored icons</td></tr>
+<tr><td><strong>Dark</strong></td><td>Dark gray</td><td>Light gray</td><td>Dark gray, icons keep their colors</td></tr>
+<tr><td><strong>Mario</strong></td><td>Super Mario Galaxy art</td><td>Light gray</td><td>Dark blue, reduced opacity</td></tr>
+<tr><td><strong>Zelda</strong></td><td>Tears of the Kingdom art</td><td>Dark gray</td><td>Dark gray buttons and icons</td></tr>
+<tr><td><strong>Kirby</strong></td><td>Kirby art</td><td>Light gray</td><td>Pink, reduced opacity</td></tr>
+<tr><td><strong>Donkey Kong</strong></td><td>Donkey Kong Bananza art</td><td>Light gray</td><td>Yellow, reduced opacity</td></tr>
+</tbody>
+</table>
 </div>
-
-<div class="section" id="themes">
-<div class="section-label">Theme System</div>
-<h2>Six Themes, One Layout</h2>
-<p>The picker has two system themes and four Nintendo character themes. Each background was chosen to stay recognizable as a small thumbnail in the theme picker and to work behind the full home screen.</p>
+<p>Each theme selector also matches its home screen's background. The current theme is marked with a cyan frame and ✓. Preview images get faint shadows on light backgrounds, a white glow on Dark, and subtle white borders on the busier Mario, Zelda, and Donkey Kong backgrounds so their edges stay visible.</p>
 <h3>Background Themes</h3>
 <div class="bg-gallery">
 <figure class="bg-card"><img alt="Light theme background" src="images/switch2-03-light-theme-background.jpg" loading="lazy"/><figcaption><strong>Light</strong><span>System default</span></figcaption></figure>
@@ -372,8 +396,9 @@ footer>:last-child{justify-self:end}
 <figure class="bg-card"><img alt="Zelda theme background" src="images/switch2-07-zelda-theme-background.jpg" loading="lazy"/><figcaption><strong>Zelda</strong><span>Tears of the Kingdom</span></figcaption></figure>
 <figure class="bg-card"><img alt="Donkey Kong theme background" src="images/switch2-08-donkey-kong-theme-background.jpg" loading="lazy"/><figcaption><strong>Donkey Kong</strong><span>Donkey Kong Bananza</span></figcaption></figure>
 </div>
+<p class="figure-caption"><em>Note.</em> Background images from Dean (2025), <em>Kirby HD Wallpaper</em> (n.d.), Nintendo (n.d.-b), and <em>Super Mario World Wallpaper</em> (n.d.). Original artwork © Nintendo; Kirby artwork © Nintendo/HAL Laboratory, Inc.</p>
 <h3>Themes Applied</h3>
-<p>Every theme keeps the same layout, focus outline, and progress bars. Only the background image and the colors of the time, status icons, brightness slider, progress percentages, and nav buttons change to match. Each theme picker takes on its theme's background, and the current theme is marked with a cyan frame and a ✓. Pick a theme to see its home screen and theme picker.</p>
+<p>Pick a theme to see its home screen and theme selector.</p>
 <div class="switcher">
 <div class="theme-tabs" role="tablist" aria-label="Choose a theme to preview">
 <button class="theme-tab" role="tab" id="tab-light" aria-selected="true" aria-controls="panel-light" tabindex="0"><img loading="lazy" decoding="async" alt="" src="images/switch2-09-light-tab-thumb.jpg"/>Light</button>
@@ -388,95 +413,114 @@ footer>:last-child{justify-self:end}
 <img alt="Light theme home screen" src="images/switch2-15-light-theme-home-screen.jpg" loading="lazy"/>
 <div class="picker-wrap"><span class="screen-label">Light · Theme picker</span>
 <img alt="Light theme picker with Light selected" src="images/switch2-16-light-theme-picker-with-light-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">The default and the base for every other theme. Colored nav icons and black status text on a light gray background. Picker previews sit on faint shadows.</p>
+<p class="theme-note">The default theme. Nav icons keep their colors on a neutral gray background.</p>
 </div>
 <div class="theme-panel" role="tabpanel" id="panel-dark" aria-labelledby="tab-dark">
 <span class="screen-label">Dark · Home</span>
 <img alt="Dark theme home screen" src="images/switch2-17-dark-theme-home-screen.jpg" loading="lazy"/>
 <div class="picker-wrap"><span class="screen-label">Dark · Theme picker</span>
 <img alt="Dark theme picker with Dark selected" src="images/switch2-18-dark-theme-picker-with-dark-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">A dark gray background with darker nav buttons, status text, and progress labels. The nav icons keep their colors, and picker previews get a white glow instead of a shadow.</p>
+<p class="theme-note">A dark version of the default with the same colored icons and cyan focus outline.</p>
 </div>
 <div class="theme-panel" role="tabpanel" id="panel-mario" aria-labelledby="tab-mario">
 <span class="screen-label">Mario · Home</span>
 <img alt="Mario theme home screen" src="images/switch2-19-mario-theme-home-screen.jpg" loading="lazy"/>
 <div class="picker-wrap"><span class="screen-label">Mario · Theme picker</span>
 <img alt="Mario theme picker with Mario selected" src="images/switch2-20-mario-theme-picker-with-mario-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">Super Mario Galaxy art with light gray text and icons on dark blue, semi-transparent nav buttons. Picker previews combine shadows (for the light areas) with subtle white frames (for the dark areas).</p>
+<p class="theme-note">Super Mario Galaxy art. Nav icons switch to translucent circles so the background shows through.</p>
 </div>
 <div class="theme-panel" role="tabpanel" id="panel-kirby" aria-labelledby="tab-kirby">
 <span class="screen-label">Kirby · Home</span>
 <img alt="Kirby theme home screen" src="images/switch2-21-kirby-theme-home-screen.jpg" loading="lazy"/>
 <div class="picker-wrap"><span class="screen-label">Kirby · Theme picker</span>
 <img alt="Kirby theme picker with Kirby selected" src="images/switch2-22-kirby-theme-picker-with-kirby-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">Kirby art on pink, with light gray text and icons on pink, semi-transparent nav buttons.</p>
+<p class="theme-note">A flat pink background with Kirby art. Nav icons pick up the theme color.</p>
 </div>
 <div class="theme-panel" role="tabpanel" id="panel-zelda" aria-labelledby="tab-zelda">
 <span class="screen-label">Zelda · Home</span>
 <img alt="Zelda theme home screen" src="images/switch2-23-zelda-theme-home-screen.jpg" loading="lazy"/>
 <div class="picker-wrap"><span class="screen-label">Zelda · Theme picker</span>
 <img alt="Zelda theme picker with Zelda selected" src="images/switch2-24-zelda-theme-picker-with-zelda-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">Tears of the Kingdom art with dark gray text, nav buttons, and icons to hold contrast against the bright sky. Picker previews get subtle white frames.</p>
+<p class="theme-note">Tears of the Kingdom art with nav icons tinted to match the sky.</p>
 </div>
 <div class="theme-panel" role="tabpanel" id="panel-dk" aria-labelledby="tab-dk">
 <span class="screen-label">Donkey Kong · Home</span>
 <img alt="Donkey Kong theme home screen" src="images/switch2-25-donkey-kong-theme-home-screen.jpg" loading="lazy"/>
 <div class="picker-wrap"><span class="screen-label">Donkey Kong · Theme picker</span>
 <img alt="Donkey Kong theme picker with Donkey Kong selected" src="images/switch2-26-donkey-kong-theme-picker-with-donkey.jpg" loading="lazy"/></div>
-<p class="theme-note">Donkey Kong Bananza art with light gray text and icons on yellow, semi-transparent nav buttons. Picker previews get subtle white frames against the busy background.</p>
+<p class="theme-note">Donkey Kong Bananza art with warm, gold-tinted nav icons.</p>
 </div>
 </div>
-</div>
-
-<div class="section" id="prototypes">
-<div class="section-label">Interactive Prototypes</div>
-<h2>Click Through the Prototypes</h2>
-<p>Both Figma prototypes are embedded below. In the hi-fi prototype, every home screen scrolls sideways through the game row, and the Themes button (the desktop icon) opens the picker for the current theme. On the Donkey Kong home screen, for example, it opens the Donkey Kong picker with that preview framed in cyan. The Ⓑ Back button or a click outside the picker closes it. Click inside a frame to try it, or open it in Figma for a full-screen view.</p>
-<h3>Low-Fidelity Prototype</h3>
-<div class="viz-embed"><iframe title="Switch 2 home screen low-fidelity interactive prototype (Figma)" src="https://embed.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1&amp;embed-host=share" style="aspect-ratio:16/10;min-height:300px" loading="lazy" allowfullscreen=""></iframe></div>
-<a class="viz-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;viewport=-245%2C-62%2C0.23&amp;t=9fxtOVBb5yiDzGFX-1&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1" target="_blank" rel="noopener">Open lo-fi prototype in Figma ↗</a>
-<h3>High-Fidelity Prototype</h3>
+<p class="figure-caption"><em>Note.</em> Cover images adapted from Jerry88pl (n.d.), megasnorlax (n.d.-a, n.d.-b, n.d.-c, n.d.-d), Nutsacc (n.d.), and SirRandall (n.d.); background images from Dean (2025), <em>Kirby HD Wallpaper</em> (n.d.), Nintendo (n.d.-b), and <em>Super Mario World Wallpaper</em> (n.d.); profile icons from Random Talking Bush (2017). Original artwork © Nintendo; Kirby artwork © Nintendo/HAL Laboratory, Inc.; <em>Minecraft</em> © Mojang AB/Microsoft.</p>
+<h3><span class="live-dot"></span>Try the Hi-Fi Prototype</h3>
+<p>Scroll the game row, open the theme selector from the Themes button (the desktop icon), and switch between all six themes.</p>
 <div class="viz-embed"><iframe title="Switch 2 home screen high-fidelity interactive prototype (Figma)" src="https://embed.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-18662&amp;scaling=contain&amp;content-scaling=fixed&amp;starting-point-node-id=201%3A18662&amp;page-id=201%3A18316&amp;embed-host=share" style="aspect-ratio:16/10;min-height:300px" loading="lazy" allowfullscreen=""></iframe></div>
 <a class="viz-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-18662&amp;viewport=191%2C162%2C0.14&amp;t=bjVbAflBDoP2W2ni-1&amp;scaling=contain&amp;content-scaling=fixed&amp;starting-point-node-id=201%3A18662&amp;page-id=201%3A18316" target="_blank" rel="noopener">Open hi-fi prototype in Figma ↗</a>
 </div>
 
-<div class="section" id="decisions">
-<div class="section-label">Human Factors Principles</div>
-<h2>Why It Looks This Way</h2>
-<p>Every change is backed by an established human factors principle, so each design decision rests on evidence instead of taste alone.</p>
+<div class="section" id="hfe">
+<div class="section-label">Human Factors Engineering</div>
+<h2>Why Each Design Choice Works</h2>
+<p>I grounded every addition and change in an established HFE principle, so each design decision rests on evidence rather than intuition alone.</p>
 <div class="table-wrap">
 <table>
-<thead><tr><th>Element</th><th>Design decision</th><th>Human factors rationale</th></tr></thead>
+<thead><tr><th>Design choice</th><th>HFE principles</th><th>How it helps the user</th></tr></thead>
 <tbody>
-<tr><td><strong>Cover art</strong></td><td>Full portrait box art instead of small square tiles</td><td><strong>Fitts' law:</strong> bigger targets should cut selection time, especially with touch in handheld mode. <strong>Recognition over recall:</strong> players spot the box art they already know. Size and position also make the game row the top of the <strong>visual hierarchy</strong>.</td></tr>
-<tr><td><strong>Bottom nav</strong></td><td>A wider, full-width bar along the bottom edge</td><td><strong>Fitts' law and thumb reach:</strong> the buttons are bigger and closer to the thumbs in handheld mode. Moving them below the game row keeps system functions secondary to games.</td></tr>
-<tr><td><strong>Themes</strong></td><td>Four Nintendo backgrounds alongside Light and Dark, all with the same layout</td><td><strong>Personalization and the aesthetic-usability effect:</strong> a console that looks better tends to feel easier to use. A <strong>consistent layout</strong> keeps users' mental model and spatial memory intact when they switch themes.</td></tr>
-<tr><td><strong>Nav icon colors</strong></td><td>Icons keep their own colors, separate from each theme's background</td><td><strong>Figure-ground segregation:</strong> the buttons stay distinct from the background art and keep their luminance contrast.</td></tr>
-<tr><td><strong>Brightness slider</strong></td><td>Added to the status bar next to Wi-Fi and battery</td><td><strong>Minimizing information access cost:</strong> a frequent setting moves out of the Settings menu. It's <strong>grouped by function</strong> with the other system indicators, and left = dimmer, right = brighter matches users' <strong>mental model</strong>.</td></tr>
-<tr><td><strong>Story progress</strong></td><td>A progress bar and percentage directly under each game</td><td><strong>Knowledge in the world, not in the head:</strong> players don't have to remember how far they got. The <strong>proximity compatibility principle</strong> puts the bar right next to its game, and the bar plus the number give <strong>redundancy gain</strong>.</td></tr>
-<tr><td><strong>Selection frame</strong></td><td>A glowing cyan frame on the selected game, with shadows, glows, and gray frames on the other covers</td><td><strong>Attentional salience and discriminability:</strong> the cursor is easy to find on any background, and the covers stand apart from the art behind them.</td></tr>
-<tr><td><strong>Theme picker</strong></td><td>Image previews with shadows, glows, or white frames to fit each background. The current theme gets a cyan frame plus a ✓</td><td><strong>Recognition over recall:</strong> players see each theme before choosing it. The edge treatments improve <strong>luminance contrast</strong>, and the two selection cues give <strong>redundancy gain</strong>. Ⓑ Back or clicking outside the picker supports <strong>user control and freedom</strong>.</td></tr>
-<tr><td><strong>All Software tile</strong></td><td>A tile with a 3×3 grid icon at the end of the game row</td><td>The grid icon <strong>signals</strong> the full library (another redundancy gain), and its spot at the end gives <strong>visibility of system status</strong>: the row is finite, and the rest of the library is one step away.</td></tr>
+<tr><td><strong>Full cover-art game cards</strong></td><td>Fitts' law; attentional salience &amp; visual hierarchy; recognition over recall</td><td>Larger targets are faster to select, especially by touch in handheld mode. Familiar box art lets players spot a game instead of reading for it.</td></tr>
+<tr><td><strong>Wider bottom nav bar</strong></td><td>Fitts' law; thumb reach on handheld touchscreens; visual hierarchy</td><td>Bigger buttons sit closer to the thumbs, and the layout separates secondary system functions from the primary game row.</td></tr>
+<tr><td><strong>Home-screen brightness slider</strong></td><td>Minimizing information access cost; functional grouping; compatible mapping</td><td>A frequent adjustment no longer requires System Settings. It sits with the other status indicators, and sliding left dims while sliding right brightens, matching expectations.</td></tr>
+<tr><td><strong>Story progress bars</strong></td><td>Knowledge in the world; proximity compatibility principle; redundancy gain</td><td>Progress is visible without opening the game. The bar sits directly beneath its game, and a percentage backs up the bar.</td></tr>
+<tr><td><strong>Cyan selection frame, glows &amp; shadows</strong></td><td>Attentional salience; discriminability; figure-ground segregation</td><td>The cursor is easy to find, and covers separate cleanly from any background.</td></tr>
+<tr><td><strong>Nintendo-themed home screens</strong></td><td>Personalization; aesthetic-usability effect; consistency &amp; mental models</td><td>Players can personalize their console. Because the layout never changes between themes, spatial memory of where everything sits carries over.</td></tr>
+<tr><td><strong>Nav icon colors per theme</strong></td><td>Figure-ground segregation; luminance contrast</td><td>Buttons stay distinguishable from the background art.</td></tr>
+<tr><td><strong>Image previews in the theme selector</strong></td><td>Recognition over recall</td><td>Players see each theme instead of having to remember what a name looks like.</td></tr>
+<tr><td><strong>Cyan frame + ✓ on the current theme</strong></td><td>Redundancy gain; discriminability</td><td>Two cues mark the selection. Tailored shadows, glows, and borders keep preview edges visible on every background.</td></tr>
+<tr><td><strong>Ⓑ Back or tap outside to close</strong></td><td>User control and freedom</td><td>Two quick ways to return to the home screen.</td></tr>
+<tr><td><strong>"All Software" tile with grid icon</strong></td><td>Signifiers; redundancy gain; visibility of system status</td><td>The grid signals the full library, and its spot at the end of the row shows the row is finite.</td></tr>
 </tbody>
 </table>
+<p><em>Note.</em> Principles drawn from Fitts (1954), MacKenzie (1992), Bergstrom-Lehtovirta and Oulasvirta (2014), Wickens et al. (2022), Wickens and Carswell (1995), Nielsen (1994), Norman (2013), Sanders and McCormick (1993), Blom and Monk (2003), Kurosu and Kashimura (1995), Tractinsky et al. (2000), and Wagemans et al. (2012).</p>
 </div>
-<h3>Trade-offs</h3>
 <div class="tradeoff">
-<div class="gain"><h4>Expected gain</h4><p>Themes make the console more attractive and personal, and colored nav buttons tie the whole screen to the chosen theme.</p></div>
-<div><h4>Possible cost</h4><p>Busy backgrounds like Mario and Donkey Kong may add <strong>cognitive load</strong> and compete with the covers for attention. Tinting the nav buttons to match the theme can also make each button less salient.</p></div>
+<div class="gain"><h4>Expected benefit</h4><p>Faster game selection, easier thumb reach, fewer trips into System Settings, and a home screen players can make their own.</p></div>
+<div><h4>Trade-off to watch</h4><p>Busy themed backgrounds such as Mario and Donkey Kong may add cognitive load and compete with the game cards for attention (Sweller, 1988). Nav buttons tinted to match a theme may also lose salience.</p></div>
 </div>
 </div>
 
-<div class="section" id="next">
-<div class="section-label">Results</div>
-<h2>Usability Test Results</h2>
-<p>Usability testing of the current home screen is complete, and the team is compiling the results now. A full write-up of the pain points we found, and how each one maps to the redesign, will be added here soon.</p>
-<div class="callout"><p><strong>Next step: validate the redesign.</strong> A round of usability validation should test whether each principle actually improves the experience. Contrast deserves particular attention: over the Mario and Donkey Kong backgrounds, the small progress labels and translucent nav buttons are hardest to read, and a scrim or stronger contrast behind text may be needed.</p></div>
+<div class="section" id="learned">
+<div class="section-label">What I Learned</div>
+<h2>Prototyping Findings</h2>
+<p>Prototyping showed me how well-designed the original HOME Menu already is. It's minimalist and puts the user first, presenting only a few essential tasks with almost no visual clutter. That made it hard to find pain points worth redesigning. Building interactive prototypes instead of static mockups helped me understand how each redesigned element would actually behave before implementation, and taught me Figma's prototyping tools in depth.</p>
+<h3>What the Original Gets Right</h3>
+<div class="two-col four">
+<div class="card"><h4>Clear cursor location</h4><p>A cyan frame always shows which element is selected.</p></div>
+<div class="card"><h4>Button prompts</h4><p>Small cues like "Ⓧ Close software" and "Ⓐ Continue" in the bottom right remind players which button does what.</p></div>
+<div class="card"><h4>Games come first</h4><p>Game cards are the most salient element and sit in the user's focal vision, with system areas one tilt or press away.</p></div>
+<div class="card"><h4>Status at a glance</h4><p>Wi-Fi and battery level are always visible in the top-right corner.</p></div>
+</div>
+</div>
+
+<div class="section" id="suggestions">
+<div class="section-label">Redesign Suggestions</div>
+<h2>Strengths, Counterarguments &amp; Next Steps</h2>
+<p>The prototypes bring four improvements suggested by usability testing: larger game cards, a redesigned and larger navigation bar, a home-screen brightness slider, and Nintendo-themed home screens. Each comes with a counterargument worth weighing against Nintendo's minimalist design language.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Redesign</th><th>Counterargument</th><th>Possible fix</th></tr></thead>
+<tbody>
+<tr><td>Nintendo-themed home screens</td><td>Busy backgrounds add visual clutter and cognitive load.</td><td>Use simpler backgrounds, which would also sharpen the edges of game cards and nav buttons and keep the game row the clear focal point.</td></tr>
+<tr><td>Theme-matched nav buttons</td><td>Buttons colored like the background lose salience.</td><td>Use nav button colors that contrast with each background.</td></tr>
+<tr><td>Home-screen brightness slider</td><td>Unnecessary clutter for players who use auto-brightness.</td><td>Add a setting to show or hide the slider.</td></tr>
+<tr><td>Theme selector pop-up</td><td>Only six themes fit at once.</td><td>Use a larger pop-up if more themes are added.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout"><p><strong>Next step:</strong> run a usability test on the hi-fi prototype to confirm whether each HFE principle actually improves the experience, and find which changes to keep, adjust, or remove.</p></div>
 </div>
 
 <div class="section" id="references">
 <div class="section-label">References</div>
-<h2>References</h2>
+<h2>Sources</h2>
 <ul class="ref-list">
 <li>Bergstrom-Lehtovirta, J., &amp; Oulasvirta, A. (2014). Modeling the functional area of the thumb on mobile touchscreen surfaces. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 1991–2000). ACM. <a href="https://doi.org/10.1145/2556288.2557354" target="_blank" rel="noopener">https://doi.org/10.1145/2556288.2557354</a></li>
 <li>Blom, J. O., &amp; Monk, A. F. (2003). Theory of personalization of appearance: Why users personalize their PCs and mobile phones. <em>Human–Computer Interaction, 18</em>(3), 193–228. <a href="https://doi.org/10.1207/S15327051HCI1803_1" target="_blank" rel="noopener">https://doi.org/10.1207/S15327051HCI1803_1</a></li>
@@ -492,6 +536,7 @@ footer>:last-child{justify-self:end}
 <li>Jerry88pl. (n.d.). <em>Super Mario Galaxy + Super Mario Galaxy 2</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=19903" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=19903</a></li>
 <li><em>Kirby HD wallpaper: A starry adventure awaits</em> [Wallpaper]. (n.d.). Wallpaper Abyss. <a href="https://wall.alphacoders.com/big.php?i=317170" target="_blank" rel="noopener">https://wall.alphacoders.com/big.php?i=317170</a></li>
 <li>KirbyFan932. (n.d.). <em>Super Mario Odyssey</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=9843" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=9843</a></li>
+<li>Kortum, P. (2008). <em>HCI beyond the GUI: Design for haptic, speech, olfactory, and other nontraditional interfaces</em>. Morgan Kaufmann.</li>
 <li>Kurosu, M., &amp; Kashimura, K. (1995). Apparent usability vs. inherent usability: Experimental analysis on the determinants of the apparent usability. In <em>Conference Companion on Human Factors in Computing Systems</em> (pp. 292–293). ACM. <a href="https://doi.org/10.1145/223355.223680" target="_blank" rel="noopener">https://doi.org/10.1145/223355.223680</a></li>
 <li>lenoxseer. (n.d.). <em>The Legend of Zelda: Link’s Awakening – Nintendo Switch</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=10120" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=10120</a></li>
 <li>LoganGamer20. (n.d.). <em>Super Mario 3D World + Bowser’s Fury</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14884" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14884</a></li>
@@ -505,28 +550,34 @@ footer>:last-child{justify-self:end}
 <li>Nielsen, J. (1994). Enhancing the explanatory power of usability heuristics. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 152–158). ACM. <a href="https://doi.org/10.1145/191666.191729" target="_blank" rel="noopener">https://doi.org/10.1145/191666.191729</a></li>
 <li>Nintendo. (n.d.-a). <em>The Legend of Zelda: Ocarina of Time – Nintendo Switch 2</em> [Cover image]. GameStop. <a href="https://www.gamestop.com/video-games/nintendo-switch-2/products/the-legend-of-zelda-ocarina-of-time---nintendo-switch-2/20036066.html" target="_blank" rel="noopener">https://www.gamestop.com/video-games/nintendo-switch-2/products/the-legend-of-zelda-ocarina-of-time---nintendo-switch-2/20036066.html</a></li>
 <li>Nintendo. (n.d.-b). <em>The Legend of Zelda: Tears of the Kingdom</em> [Key art]. <a href="https://zelda.com/assets/img/tears/keyArt_desktop.jpg" target="_blank" rel="noopener">https://zelda.com/assets/img/tears/keyArt_desktop.jpg</a></li>
-<li>Nintendo of America. (n.d.). <em>Nintendo Switch 2 system</em> [Image of the console in handheld mode]. Nintendo. <a href="https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/" target="_blank" rel="noopener">https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/</a></li>
+<li>Nintendo of America. (n.d.). <em>Nintendo Switch 2 system</em> [Image of the console in handheld mode]. <a href="https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/" target="_blank" rel="noopener">https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/</a></li>
+<li>Nintendo of America. (2025a). <em>Nintendo Switch 2 HOME Menu overview and Accessibility settings</em>. Nintendo Support. <a href="https://en-americas-support.nintendo.com/app/answers/detail/a_id/68181" target="_blank" rel="noopener">https://en-americas-support.nintendo.com/app/answers/detail/a_id/68181</a></li>
+<li>Nintendo of America. (2025b). <em>Nintendo Switch 2 system and technical specifications</em>. <a href="https://www.nintendo.com/us/gaming-systems/switch-2/tech-specs/" target="_blank" rel="noopener">https://www.nintendo.com/us/gaming-systems/switch-2/tech-specs/</a></li>
 <li>Norman, D. A. (2013). <em>The design of everyday things</em> (Rev. and expanded ed.). Basic Books.</li>
 <li>Nutsacc. (n.d.). <em>Kirby and the Forgotten Land</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=15137" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=15137</a></li>
 <li>Random Talking Bush. (2017, July 12). <em>Profile icons</em> [Sprite sheet]. The Spriters Resource. <a href="https://www.spriters-resource.com/nintendo_switch/systembios/asset/93824/" target="_blank" rel="noopener">https://www.spriters-resource.com/nintendo_switch/systembios/asset/93824/</a></li>
+<li>Salvendy, G., &amp; Karwowski, W. (Eds.). (2021). <em>Handbook of human factors and ergonomics</em> (5th ed.). Wiley.</li>
 <li>Sanders, M. S., &amp; McCormick, E. J. (1993). <em>Human factors in engineering and design</em> (7th ed.). McGraw-Hill.</li>
 <li>SirRandall. (n.d.). <em>Mario Kart World</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=30716" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=30716</a></li>
 <li><em>Super Mario World wallpaper</em> [Wallpaper]. (n.d.). GetWallpapers. <a href="https://getwallpapers.com/collection/super-mario-world-wallpaper" target="_blank" rel="noopener">https://getwallpapers.com/collection/super-mario-world-wallpaper</a></li>
 <li>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science, 12</em>(2), 257–285. <a href="https://doi.org/10.1207/s15516709cog1202_4" target="_blank" rel="noopener">https://doi.org/10.1207/s15516709cog1202_4</a></li>
+<li>Ting, C. A. R., Mondragon, J. M., Almirante, J. I. F., Ramolete, G. I. L., Cohen, M. A. P. C., &amp; Custodio, B. P. (2020). Usability and gaming experience assessment of the Nintendo Switch user interface by Filipino users. In T. Ahram &amp; C. Falcão (Eds.), <em>Advances in usability, user experience, wearable and assistive technology</em> (pp. 777–783). Springer. <a href="https://doi.org/10.1007/978-3-030-51828-8_103" target="_blank" rel="noopener">https://doi.org/10.1007/978-3-030-51828-8_103</a></li>
 <li>Tractinsky, N., Katz, A. S., &amp; Ikar, D. (2000). What is beautiful is usable. <em>Interacting with Computers, 13</em>(2), 127–145. <a href="https://doi.org/10.1016/S0953-5438(00)00031-X" target="_blank" rel="noopener">https://doi.org/10.1016/S0953-5438(00)00031-X</a></li>
+<li>UXtweak. (n.d.). <em>System usability scale</em> [Blog post]. <a href="https://blog.uxtweak.com/system-usability-scale/" target="_blank" rel="noopener">https://blog.uxtweak.com/system-usability-scale/</a></li>
 <li>Wagemans, J., Elder, J. H., Kubovy, M., Palmer, S. E., Peterson, M. A., Singh, M., &amp; von der Heydt, R. (2012). A century of Gestalt psychology in visual perception: I. Perceptual grouping and figure–ground organization. <em>Psychological Bulletin, 138</em>(6), 1172–1217. <a href="https://doi.org/10.1037/a0029333" target="_blank" rel="noopener">https://doi.org/10.1037/a0029333</a></li>
 <li>Wickens, C. D., &amp; Carswell, C. M. (1995). The proximity compatibility principle: Its psychological foundation and relevance to display design. <em>Human Factors, 37</em>(3), 473–494. <a href="https://doi.org/10.1518/001872095779049408" target="_blank" rel="noopener">https://doi.org/10.1518/001872095779049408</a></li>
 <li>Wickens, C. D., Helton, W. S., Hollands, J. G., &amp; Banbury, S. (2022). <em>Engineering psychology and human performance</em> (5th ed.). Routledge. <a href="https://doi.org/10.4324/9781003177616" target="_blank" rel="noopener">https://doi.org/10.4324/9781003177616</a></li>
 </ul>
-<p class="figure-caption">All game artwork, characters, and trademarks belong to their respective owners and are used here for non-commercial, educational portfolio purposes only. Game covers and theme art © Nintendo, except Minecraft (Mojang / Microsoft). Profile icons © Nintendo.</p>
+<p class="figure-caption">All game artwork, characters, and trademarks belong to their respective owners and are used here for non-commercial, educational portfolio purposes only.</p>
 </div>
 
 </div>
+
 </div>
 <footer>
 <span>Joseph Brazina — Portfolio</span>
 <a href="index.html">Back to Home</a>
-<span>Results in progress</span>
+<span>Completed study</span>
 </footer>
 <script>
 (function(){
