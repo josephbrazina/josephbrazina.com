@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Try 60-second versions of the conditions in Joseph Brazina's multiple resource theory experiment: Tetris alone, Tetris with mental rotation, and Tetris with phoneme discrimination.">
+<title>Try the Dual-Task Conditions | Joseph Brazina</title>
+<style>
+:root{--bg:#fff;--surface:#f5f5f7;--ink:#1d1d1f;--ink2:#424245;--muted:#6e6e73;--line:#d2d2d7;--maroon:#861f41;--orange:#e5751f;--good:#1f7a4d;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}a{color:var(--maroon);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible,input:focus-visible+.mode-card{outline:3px solid var(--orange);outline-offset:3px}
+nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}.nav-inner{max-width:1200px;height:48px;margin:auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{color:var(--ink);font-weight:600;font-size:.95rem}.nav-links{display:flex;gap:22px;font-size:.8rem}.nav-links a{color:var(--ink2)}
+.wrap{max-width:1100px;margin:auto;padding:56px 48px 90px}
+.kicker{font:.78rem var(--mono);color:var(--muted)}.kicker:before{content:"";display:inline-block;background:var(--orange);height:8px;width:8px;border-radius:2px;margin-right:10px}
+h1{font-size:clamp(2.1rem,4.4vw,3.6rem);line-height:1.08;letter-spacing:-.04em;font-weight:600;margin:16px 0 16px;max-width:820px}
+h2{font-size:clamp(1.5rem,2.6vw,2rem);letter-spacing:-.03em;line-height:1.15;font-weight:600;margin:0 0 12px}
+.lede{font-size:1.18rem;color:var(--ink2);max-width:720px;margin:0 0 34px}
+p{color:var(--ink2)}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 26px;border:0;padding:0}
+.modes legend{font:.72rem var(--mono);color:var(--muted);margin-bottom:12px;padding:0}
+.modes input{position:absolute;opacity:0;pointer-events:none}
+.mode-card{display:block;height:100%;cursor:pointer;border:1.5px solid var(--line);border-radius:20px;padding:20px 20px 22px;background:#fff;transition:border-color .15s}
+.mode-card:hover{border-color:#a1a1a6}
+input:checked+.mode-card{border-color:var(--maroon);background:#fbf5f7}
+.mode-card strong{display:block;font-size:1.05rem;letter-spacing:-.01em;margin-bottom:6px}
+.mode-card span{display:block;font-size:.88rem;color:var(--ink2);line-height:1.5}
+.mode-card em{display:block;font:normal .7rem var(--mono);color:var(--maroon);margin-bottom:10px}
+.brief{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;background:var(--surface);border-radius:24px;padding:28px}
+.brief h3{margin:0 0 8px;font-size:1.1rem}.brief p{margin:0 0 12px;font-size:.95rem}
+.keys{display:grid;gap:8px;font-size:.88rem;color:var(--ink2)}
+.keyrow{display:flex;align-items:center;gap:10px}
+kbd{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:30px;padding:0 8px;border:1px solid #b9b9c0;border-bottom-width:3px;border-radius:7px;background:#fff;font:600 .82rem var(--sans);color:var(--ink)}
+.start-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:26px}
+.button{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;border-radius:980px;background:var(--maroon);color:#fff;padding:12px 24px;font:500 .98rem var(--sans)}.button:hover{background:#a02a52;text-decoration:none;color:#fff}.button:disabled{opacity:.5;cursor:wait}
+.button-outline{background:#fff;color:var(--maroon);border:1px solid var(--maroon)}.button-outline:hover{background:var(--maroon);color:#fff}
+.status{font-size:.9rem;color:var(--muted);margin:0}.status.error{color:#b3261e}
+.notice{border-left:3px solid var(--orange);background:#f9f1e8;border-radius:0 16px 16px 0;padding:14px 18px;margin:22px 0 0;font-size:.9rem;color:var(--ink2)}
+.hidden{display:none!important}
+/* run view */
+#run{margin-top:-32px}
+.runbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+.runbar h2{margin:0;font-size:1.3rem}
+.clock{font:600 1.5rem var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.quit{font-size:.82rem;color:var(--muted)}
+.stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start}
+.stage.solo{grid-template-columns:auto;justify-content:center}
+.pane{border:1px solid var(--line);border-radius:22px;padding:20px;background:#fff;min-width:0}
+.pane h3{margin:0 0 4px;font-size:1.05rem}.pane .hint{font-size:.86rem;margin:0 0 14px;color:var(--muted)}
+.figures{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 16px}
+.figures div{border:1px solid var(--line);border-radius:14px;background:#fff;padding:8px}
+.figures img{display:block;width:100%;height:min(260px,34vh);object-fit:contain}
+.response{min-height:28px;font-weight:600;text-align:center;color:var(--ink)}
+.answer-keys{text-align:center;font-size:.88rem;color:var(--muted);margin:8px 0 0}
+.listen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:240px}
+.bars{display:flex;align-items:center;gap:5px;height:70px}
+.bars i{display:block;width:6px;height:18px;border-radius:6px;background:var(--line);transition:height .12s,background .12s}
+.playing .bars i{background:var(--orange)}
+.playing .bars i:nth-child(odd){height:56px}.playing .bars i:nth-child(3n){height:38px}
+.tetris{display:flex;gap:16px;align-items:flex-start}
+#board{display:block;height:min(600px,64vh);width:auto;aspect-ratio:1/2;border-radius:10px;background:#101729}
+.side{font-size:.85rem;color:var(--ink2);min-width:118px}
+.side .stat{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:6px 0}
+.side .stat b{font-variant-numeric:tabular-nums}
+#next{display:block;width:104px;height:104px;border-radius:10px;margin:6px 0 14px}
+.side .keys{margin-top:14px;font-size:.78rem;gap:6px}.side kbd{min-width:28px;height:26px;font-size:.75rem}
+.countdown{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.86);border-radius:22px;font:600 clamp(4rem,10vw,7rem) var(--sans);color:var(--maroon);z-index:5}
+/* results */
+.results-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.result{background:var(--surface);border-radius:20px;padding:22px}
+.result h3{margin:0 0 12px;font-size:1rem}
+.result dl{display:grid;grid-template-columns:1fr auto;gap:8px 16px;margin:0;font-size:.95rem}
+.result dt{color:var(--ink2)}.result dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:18px;margin:10px 0 6px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem}th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line)}th{font:.72rem var(--mono);background:var(--surface)}tr:last-child td{border:0}td{color:var(--ink2)}td:first-child{color:var(--ink);font-weight:600}
+.small{font-size:.84rem;color:var(--muted)}
+footer{background:#111;color:#a1a1a6;padding:24px 48px;display:flex;justify-content:space-between;gap:14px;font:.78rem var(--mono)}footer a{color:#f0a96b}
+@media(max-width:900px){.wrap{padding:36px 20px 70px}.nav-inner{padding:0 20px}.modes{grid-template-columns:1fr}.brief{grid-template-columns:1fr}.stage{grid-template-columns:1fr}.tetris{justify-content:center}.results-grid{grid-template-columns:1fr}footer{padding:22px 20px;flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.bars i{transition:none}}
+</style>
+</head>
+<body>
+<nav aria-label="Primary"><div class="nav-inner"><a class="brand" href="index.html">Joseph Brazina</a><div class="nav-links"><a href="casestudy_mrt.html">Case study</a><a href="index.html#projects">Work</a><a href="index.html#contact">Contact</a></div></div></nav>
+<div class="wrap">
+
+<section id="intro">
+<span class="kicker">Interactive demo · multiple resource theory</span>
+<h1>Feel the dual-task cost yourself.</h1>
+<p class="lede">These are 60-second versions of the conditions from my experiment. Play Tetris alone first, then try it with a visual or an auditory task running at the same time, and compare how your game holds up.</p>
+
+<fieldset class="modes">
+<legend>Choose a condition</legend>
+<label><input type="radio" name="mode" value="tetris"><span class="mode-card"><em>Baseline</em><strong>Tetris alone</strong><span>Just the game. Use it as your reference point.</span></span></label>
+<label><input type="radio" name="mode" value="rotation" checked><span class="mode-card"><em>High visual-spatial overlap</em><strong>Tetris + mental rotation</strong><span>Every 6 seconds, judge whether two 3D figures are the same shape or mirror images.</span></span></label>
+<label><input type="radio" name="mode" value="phonemes"><span class="mode-card"><em>Cross-modal pairing</em><strong>Tetris + phonemes</strong><span>Every 3 seconds, hear two syllables and judge whether they are the same or different.</span></span></label>
+</fieldset>
+
+<div class="brief">
+<div>
+<h3 id="briefTitle">Tetris + mental rotation</h3>
+<p id="briefText"></p>
+<p class="small">Keep both tasks going: answer each judgment while keeping your stack low. Results appear at the end and stay in this tab.</p>
+</div>
+<div class="keys" aria-label="Keyboard controls">
+<div class="keyrow"><kbd>←</kbd><kbd>→</kbd> Move piece</div>
+<div class="keyrow"><kbd>↑</kbd> Rotate counterclockwise</div>
+<div class="keyrow"><kbd>↓</kbd> Soft drop · <kbd>Space</kbd> Hard drop</div>
+<div class="keyrow" id="sdKeys"><kbd>S</kbd> Same · <kbd>D</kbd> Different</div>
+<div class="keyrow"><kbd>Esc</kbd> Quit the block</div>
+</div>
+</div>
+
+<div class="start-row">
+<button class="button" id="start" type="button">Start 60-second block</button>
+<p class="status" id="status" role="status"></p>
+</div>
+<p class="notice hidden" id="touchNotice">This demo needs a physical keyboard. On a phone or tablet, open it on a computer instead.</p>
+<p class="notice">This is a portfolio demo, not the research study. Nothing you do here is recorded, uploaded, or saved. The mental rotation figures come from Kim, Lester, and Yang (2025); the syllables are my own /ba/–/ga/ recordings. See the <a href="casestudy_mrt.html#sources">case study sources</a>.</p>
+</section>
+
+<section id="run" class="hidden" aria-labelledby="runTitle">
+<div class="runbar"><h2 id="runTitle"></h2><span class="clock" id="clock" aria-live="off">1:00</span><span class="quit">Press <kbd>Esc</kbd> to quit</span></div>
+<div class="stage" id="stage">
+<div class="countdown hidden" id="countdown" aria-live="assertive"></div>
+<section class="pane hidden" id="rotationPane" aria-label="Mental rotation task">
+<h3>Mental rotation</h3><p class="hint">Is the right figure the same shape as the left, just rotated?</p>
+<div class="figures"><div><img id="imgLeft" alt="Reference figure"></div><div><img id="imgRight" alt="Comparison figure"></div></div>
+<div class="response" id="rotationResponse" aria-live="polite">Press S or D</div>
+<p class="answer-keys"><kbd>S</kbd> same &nbsp; <kbd>D</kbd> different (mirrored)</p>
+</section>
+<section class="pane hidden" id="phonemePane" aria-label="Phoneme discrimination task">
+<h3>Phoneme discrimination</h3><p class="hint">Headphones recommended. Two syllables play 0.5 seconds apart.</p>
+<div class="listen" id="listen"><div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="response" id="phonemeResponse" aria-live="polite">Listen, then press S or D</div></div>
+<p class="answer-keys"><kbd>S</kbd> same &nbsp; <kbd>D</kbd> different</p>
+</section>
+<section class="pane" id="tetrisPane" aria-label="Tetris">
+<div class="tetris">
+<canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas>
+<div class="side">
+Next<canvas id="next" width="104" height="104" aria-label="Next piece"></canvas>
+<div class="stat"><span>Lines</span><b id="lines">0</b></div>
+<div class="stat"><span>Score</span><b id="score">0</b></div>
+<div class="stat"><span>Top-outs</span><b id="topouts">0</b></div>
+<div class="keys"><div class="keyrow"><kbd>←</kbd><kbd>→</kbd> move</div><div class="keyrow"><kbd>↑</kbd> rotate</div><div class="keyrow"><kbd>↓</kbd> soft drop</div><div class="keyrow"><kbd>␣</kbd> hard drop</div></div>
+</div>
+</div>
+</section>
+</div>
+</section>
+
+<section id="results" class="hidden" aria-labelledby="resultsTitle">
+<span class="kicker">Your block</span>
+<h2 id="resultsTitle" style="margin-top:14px"></h2>
+<div class="results-grid" id="resultCards"></div>
+<div id="compareBlock" class="hidden">
+<h3>This session so far</h3>
+<div class="table-wrap"><table><thead><tr><th>Condition</th><th>Lines cleared</th><th>Pieces placed</th><th>Judgment accuracy</th><th>Mean response time</th></tr></thead><tbody id="compareRows"></tbody></table></div>
+<p class="small" id="compareNote"></p>
+</div>
+<p class="small">One 60-second block is a feel for the task, not a measurement. The real study uses three-minute blocks, practice, counterbalanced order, and workload ratings after each block.</p>
+<div class="start-row"><button class="button" id="again" type="button">Try another condition</button><button class="button button-outline" id="repeat" type="button">Repeat this one</button><a href="casestudy_mrt.html">Back to the case study</a></div>
+</section>
+
+</div>
+<footer><span>© 2026 Joseph Brazina · Human Factors &amp; UX</span><a href="casestudy_mrt.html">← Back to the case study</a></footer>
+
+<script>
+'use strict';
+/* ---- Where the experiment's stimuli live ----
+   The stimuli/ folder in the tetris-multiple-resources repo, served by GitHub Pages.
+   The second address is a backup copy of the same repo files, used only if the first can't be reached.
+   Expected layout: step1.wav … step7.wav, rotations/A/A0.jpg … rotations/J/J14.jpg,
+   mirrored/A/A0_m.jpg … mirrored/J/J14_m.jpg. Keep the trailing slashes. */
+const STIMULI_SOURCES = [
+  'https://josephbrazina.github.io/tetris-multiple-resources/stimuli/',
+  'https://raw.githubusercontent.com/josephbrazina/tetris-multiple-resources/main/stimuli/'
+];
+let STIMULI_BASE = null;
+async function resolveStimuli() {
+  if (STIMULI_BASE) return;
+  for (const base of STIMULI_SOURCES) {
+    try { const res = await fetch(base + 'step1.wav', {method: 'HEAD', cache: 'no-store'}); if (res.ok) { STIMULI_BASE = base; return; } } catch (e) {}
+  }
+  throw Error('the stimuli folder could not be reached');
+}
+
+const $ = id => document.getElementById(id);
+const DEMO_MS = 60000, GRAVITY = 650, ROT_MS = 6000, PHONE_MS = 3000, GAP_MS = 500, COUNTDOWN = 3;
+const MODES = {
+  tetris:   {name: 'Tetris alone', secondary: null,
+             brief: 'Clear as many lines as you can in 60 seconds. Pieces fall at the same speed as in the study (650 ms per cell).'},
+  rotation: {name: 'Tetris + mental rotation', secondary: 'rotation',
+             brief: 'A new pair of figures appears every 6 seconds (10 pairs). Press S if the right figure is the same shape rotated, D if it is a mirror image. Both tasks compete for visual-spatial processing.'},
+  phonemes: {name: 'Tetris + phonemes', secondary: 'phoneme',
+             brief: 'A new pair of syllables plays every 3 seconds (20 pairs) from my /ba/–/ga/ continuum. Press S if they sound the same, D if different. Turn your volume to a comfortable level first.'}
+};
+let mode = 'rotation', run = null, audioCtx = null, waves = null, pairCache = new Map(), source = null;
+const session = {};
+
+/* ---------- mode selection and #hash links ---------- */
+function selectMode(m, updateHash = true) {
+  if (!MODES[m] || run) return;
+  mode = m;
+  document.querySelector(`input[name=mode][value=${m}]`).checked = true;
+  $('briefTitle').textContent = MODES[m].name;
+  $('briefText').textContent = MODES[m].brief;
+  $('sdKeys').classList.toggle('hidden', !MODES[m].secondary);
+  setStatus('');
+  if (updateHash && location.hash.slice(1) !== m) history.replaceState(null, '', '#' + m);
+}
+document.querySelectorAll('input[name=mode]').forEach(r => r.addEventListener('change', () => selectMode(r.value)));
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (run || !MODES[h]) return; selectMode(h, false); show('intro'); });
+selectMode(MODES[location.hash.slice(1)] ? location.hash.slice(1) : 'rotation', false);
+if (matchMedia('(hover: none) and (pointer: coarse)').matches) $('touchNotice').classList.remove('hidden');
+
+function setStatus(text, error = false) { $('status').textContent = text; $('status').classList.toggle('error', error); }
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ---------- stimuli ---------- */
+function rotationTrials() {
+  const figures = [...'ABCDEFGHIJ'], picks = [];
+  for (let i = 0; i < DEMO_MS / ROT_MS; i++) {
+    const figure = figures[Math.floor(Math.random() * figures.length)], rotation = Math.floor(Math.random() * 15), same = i % 2 === 0;
+    picks.push({figure, rotation, same, answer: same ? 'S' : 'D',
+      left: `${STIMULI_BASE}rotations/${figure}/${figure}0.jpg`,
+      right: same ? `${STIMULI_BASE}rotations/${figure}/${figure}${rotation}.jpg` : `${STIMULI_BASE}mirrored/${figure}/${figure}${rotation}_m.jpg`});
+  }
+  return shuffle(picks);
+}
+function phonemeTrials() {
+  const n = DEMO_MS / PHONE_MS, same = [], diff = [], pairs = [[1,4],[4,1],[2,5],[5,2],[3,6],[6,3],[4,7],[7,4]];
+  for (let i = 0; i < n / 2; i++) { const l = 1 + Math.floor(Math.random() * 7); same.push({a: l, b: l, answer: 'S'}); }
+  for (let i = 0; i < n / 2; i++) { const [a, b] = pairs[Math.floor(Math.random() * pairs.length)]; diff.push({a, b, answer: 'D'}); }
+  return shuffle(same.concat(diff));
+}
+function loadImage(src) {
+  return new Promise((resolve, reject) => { const img = new Image(); img.onload = () => resolve(img); img.onerror = () => reject(Error('missing image ' + src)); img.src = encodeURI(src); });
+}
+async function loadWaves() {
+  if (waves) return;
+  const out = {};
+  for (let i = 1; i <= 7; i++) {
+    const url = `${STIMULI_BASE}step${i}.wav`, res = await fetch(url);
+    if (!res.ok) throw Error(`missing sound ${url} (HTTP ${res.status})`);
+    out[i] = await audioCtx.decodeAudioData(await res.arrayBuffer());
+  }
+  waves = out;
+}
+function pairBuffer(a, b) {
+  const key = a + '-' + b;
+  if (!pairCache.has(key)) {
+    const one = waves[a], two = waves[b], rate = audioCtx.sampleRate, gap = Math.round(rate * GAP_MS / 1000);
+    const ch = Math.max(one.numberOfChannels, two.numberOfChannels), buf = audioCtx.createBuffer(ch, one.length + gap + two.length, rate);
+    for (let c = 0; c < ch; c++) { const d = buf.getChannelData(c); d.set(one.getChannelData(Math.min(c, one.numberOfChannels - 1)), 0); d.set(two.getChannelData(Math.min(c, two.numberOfChannels - 1)), one.length + gap); }
+    pairCache.set(key, buf);
+  }
+  return pairCache.get(key);
+}
+function stopAudio() { if (source) { try { source.stop(); } catch (e) {} source = null; } $('listen').classList.remove('playing'); }
+function playPair(t) {
+  stopAudio();
+  const src = audioCtx.createBufferSource(); src.buffer = pairBuffer(t.a, t.b); src.connect(audioCtx.destination);
+  source = src; $('listen').classList.add('playing');
+  src.onended = () => { if (source === src) { source = null; $('listen').classList.remove('playing'); } };
+  src.start(audioCtx.currentTime + 0.03);
+}
+
+/* ---------- secondary task (shared logic for both judgment tasks) ---------- */
+function presentTrial(i) {
+  const s = run.sec, t = s.trials[i]; s.response = null;
+  if (s.kind === 'rotation') { $('imgLeft').src = encodeURI(t.left); $('imgRight').src = encodeURI(t.right); $('rotationResponse').textContent = 'Press S or D'; }
+  else { $('phonemeResponse').textContent = 'Listen, then press S or D'; playPair(t); }
+}
+function finalizeTrial() {
+  const s = run.sec, t = s.trials[s.done];
+  if (s.response) { s.answered++; s.rtSum += s.response.rt; if (s.response.key === t.answer) s.correct++; }
+  s.response = null;
+}
+function updateSecondary(now) {
+  const s = run?.sec; if (!s) return;
+  const due = Math.min(s.trials.length, Math.floor((now - run.start) / s.ms));
+  while (s.done < due) { finalizeTrial(); s.done++; if (s.done < s.trials.length && s.done === due) presentTrial(s.done); }
+}
+function respond(key, now) {
+  const s = run.sec; if (!s || s.done >= s.trials.length || s.response) return;
+  s.response = {key, rt: now - (run.start + s.done * s.ms)};
+  $(s.kind === 'rotation' ? 'rotationResponse' : 'phonemeResponse').textContent = key === 'S' ? 'Answered: same' : 'Answered: different';
+}
+
+/* ---------- Tetris (same rules as the study: 7-bag, SRS kicks, counterclockwise rotation) ---------- */
+const W = 10, H = 20, CELL = 30, colors = {I:'#00f0f0',O:'#f0f000',T:'#a000f0',S:'#00f000',Z:'#f00000',J:'#0000f0',L:'#f0a000'};
+const shapes = {I:['....','IIII','....','....'],O:['.OO.','.OO.','....','....'],T:['.T.','TTT','...'],S:['.SS','SS.','...'],Z:['ZZ.','.ZZ','...'],J:['J..','JJJ','...'],L:['..L','LLL','...']};
+const kicks = {'0>3':[[0,0],[1,0],[1,-1],[0,2],[1,2]],'1>0':[[0,0],[1,0],[1,1],[0,-2],[1,-2]],'2>1':[[0,0],[-1,0],[-1,-1],[0,2],[-1,2]],'3>2':[[0,0],[-1,0],[-1,1],[0,-2],[-1,-2]]};
+const iKicks = {'0>3':[[0,0],[-1,0],[2,0],[-1,-2],[2,1]],'1>0':[[0,0],[2,0],[-1,0],[2,-1],[-1,2]],'2>1':[[0,0],[1,0],[-2,0],[1,2],[-2,-1]],'3>2':[[0,0],[-2,0],[1,0],[-2,-1],[1,2]]};
+const ctx = $('board').getContext('2d'), preview = $('next').getContext('2d');
+const newBoard = () => Array.from({length: H}, () => Array(W).fill(null));
+const matrix = type => shapes[type].map(row => [...row].map(c => c === '.' ? 0 : type));
+function cells(p) { const out = []; p.matrix.forEach((row, y) => row.forEach((v, x) => { if (v) out.push([p.x + x, p.y + y]); })); return out; }
+const fits = (g, p) => cells(p).every(([x, y]) => x >= 0 && x < W && y < H && (y < 0 || !g.board[y][x]));
+function bagPiece(g) { if (!g.bag.length) g.bag = shuffle(Object.keys(shapes)); return g.bag.pop(); }
+const tetrisState = () => ({board: newBoard(), bag: [], current: null, next: null, lines: 0, score: 0, pieces: 0, topOuts: 0, fall: 0, last: performance.now(), down: false});
+function spawn(g) {
+  const type = g.next || bagPiece(g); g.next = bagPiece(g);
+  const piece = {type, matrix: matrix(type), rotation: 0, x: Math.floor((W - shapes[type].length) / 2), y: -1};
+  g.current = piece; g.fall = 0;
+  if (!fits(g, piece)) topOut(g);
+}
+function topOut(g) { g.topOuts++; g.board = newBoard(); g.current = null; g.fall = 0; if (run?.active) spawn(g); }
+function lock(g) {
+  const piece = g.current; if (!piece) return;
+  if (cells(piece).some(([, y]) => y < 0)) { topOut(g); return; }
+  for (const [x, y] of cells(piece)) g.board[y][x] = piece.type;
+  let cleared = 0;
+  for (let y = H - 1; y >= 0; y--) if (g.board[y].every(Boolean)) { g.board.splice(y, 1); g.board.unshift(Array(W).fill(null)); cleared++; y++; }
+  g.lines += cleared; g.score += [0, 100, 300, 500, 800][cleared]; g.pieces++;
+  g.current = null; if (run?.active) spawn(g);
+}
+function stepDown(g, soft) { if (!g.current) return; const moved = {...g.current, y: g.current.y + 1}; if (fits(g, moved)) { g.current = moved; if (soft) g.score++; } else lock(g); }
+function hardDrop(g) { if (!g.current) return; let d = 0; while (fits(g, {...g.current, y: g.current.y + 1})) { g.current.y++; d++; } g.score += d * 2; lock(g); }
+function rotateCCW(g) {
+  const cur = g.current; if (!cur || cur.type === 'O') return;
+  const n = cur.matrix.length, rotated = Array.from({length: n}, (_, y) => Array.from({length: n}, (_, x) => cur.matrix[x][n - 1 - y])), to = (cur.rotation + 3) % 4;
+  for (const [dx, dy] of (cur.type === 'I' ? iKicks : kicks)[`${cur.rotation}>${to}`]) { const c = {...cur, matrix: rotated, rotation: to, x: cur.x + dx, y: cur.y + dy}; if (fits(g, c)) { g.current = c; return; } }
+}
+function drawCell(c, x, y, size, color, ghost) {
+  if (ghost) { c.strokeStyle = color; c.lineWidth = 2; c.strokeRect(x + 2, y + 2, size - 4, size - 4); return; }
+  c.fillStyle = color; c.fillRect(x + 1, y + 1, size - 2, size - 2); c.strokeStyle = '#ffffff62'; c.lineWidth = 1; c.strokeRect(x + 1.5, y + 1.5, size - 3, size - 3);
+}
+function paint(g) {
+  ctx.fillStyle = '#101729'; ctx.fillRect(0, 0, 300, 600); ctx.strokeStyle = '#ffffff0d'; ctx.lineWidth = 1;
+  for (let x = 0; x <= W; x++) { ctx.beginPath(); ctx.moveTo(x * CELL + .5, 0); ctx.lineTo(x * CELL + .5, 600); ctx.stroke(); }
+  for (let y = 0; y <= H; y++) { ctx.beginPath(); ctx.moveTo(0, y * CELL + .5); ctx.lineTo(300, y * CELL + .5); ctx.stroke(); }
+  if (g) {
+    g.board.forEach((row, y) => row.forEach((t, x) => { if (t) drawCell(ctx, x * CELL, y * CELL, CELL, colors[t]); }));
+    if (g.current) {
+      const ghost = {...g.current}; while (fits(g, {...ghost, y: ghost.y + 1})) ghost.y++;
+      if (ghost.y !== g.current.y) for (const [x, y] of cells(ghost)) if (y >= 0) drawCell(ctx, x * CELL, y * CELL, CELL, colors[g.current.type], true);
+      for (const [x, y] of cells(g.current)) if (y >= 0) drawCell(ctx, x * CELL, y * CELL, CELL, colors[g.current.type]);
+    }
+  }
+  preview.fillStyle = '#171e33'; preview.fillRect(0, 0, 104, 104);
+  if (g?.next) {
+    const occ = []; matrix(g.next).forEach((row, y) => row.forEach((v, x) => { if (v) occ.push([x, y]); }));
+    const minX = Math.min(...occ.map(v => v[0])), minY = Math.min(...occ.map(v => v[1])), w = Math.max(...occ.map(v => v[0])) - minX + 1, h = Math.max(...occ.map(v => v[1])) - minY + 1;
+    for (const [x, y] of occ) drawCell(preview, (104 - w * 23) / 2 + (x - minX) * 23, (104 - h * 23) / 2 + (y - minY) * 23, 23, colors[g.next]);
+  }
+  $('lines').textContent = g ? g.lines : 0; $('score').textContent = g ? g.score : 0; $('topouts').textContent = g ? g.topOuts : 0;
+}
+function tetrisKey(g, code, repeat) {
+  if (code === 'ArrowLeft' || code === 'ArrowRight') { if (g.current) { const c = {...g.current, x: g.current.x + (code === 'ArrowLeft' ? -1 : 1)}; if (fits(g, c)) g.current = c; } }
+  else if (code === 'ArrowUp' && !repeat) rotateCCW(g);
+  else if (code === 'ArrowDown') { if (!g.down) { g.down = true; g.fall = 0; stepDown(g, true); } }
+  else if (code === 'Space' && !repeat) hardDrop(g);
+  paint(g);
+}
+
+/* ---------- block flow ---------- */
+function show(view) { for (const v of ['intro', 'run', 'results']) $(v).classList.toggle('hidden', v !== view); window.scrollTo(0, 0); }
+async function startBlock() {
+  if (run) return;
+  const m = MODES[mode], btn = $('start'); btn.disabled = true;
+  let trials = null;
+  try {
+    if (m.secondary === 'rotation') {
+      setStatus('Loading figures…'); await resolveStimuli(); trials = rotationTrials();
+      await Promise.all([...new Set(trials.flatMap(t => [t.left, t.right]))].map(loadImage));
+    } else if (m.secondary === 'phoneme') {
+      setStatus('Loading sounds…');
+      if (!audioCtx) { const C = window.AudioContext || window.webkitAudioContext; if (!C) throw Error('this browser does not support Web Audio'); audioCtx = new C(); }
+      await audioCtx.resume(); await resolveStimuli(); await loadWaves(); trials = phonemeTrials();
+    }
+  } catch (e) {
+    setStatus(`Couldn’t load the stimuli: ${e.message}.`, true); btn.disabled = false; return;
+  }
+  setStatus(''); btn.disabled = false;
+  $('runTitle').textContent = m.name;
+  $('rotationPane').classList.toggle('hidden', m.secondary !== 'rotation');
+  $('phonemePane').classList.toggle('hidden', m.secondary !== 'phoneme');
+  $('stage').classList.toggle('solo', !m.secondary);
+  $('clock').textContent = '1:00'; $('imgLeft').removeAttribute('src'); $('imgRight').removeAttribute('src');
+  run = {mode, active: false, counting: true, tetris: tetrisState(), sec: m.secondary ? {kind: m.secondary, trials, ms: m.secondary === 'rotation' ? ROT_MS : PHONE_MS, done: 0, response: null, correct: 0, answered: 0, rtSum: 0} : null};
+  paint(run.tetris);
+  show('run');
+  const cd = $('countdown'); cd.classList.remove('hidden');
+  for (let n = COUNTDOWN; n > 0; n--) { cd.textContent = n; await new Promise(r => setTimeout(r, 800)); if (!run) return; }
+  cd.classList.add('hidden');
+  run.counting = false; run.active = true; run.start = performance.now(); run.end = run.start + DEMO_MS;
+  spawn(run.tetris); run.tetris.last = run.start; paint(run.tetris);
+  if (run.sec) presentTrial(0);
+  run.timer = setInterval(tick, 15); requestAnimationFrame(frame);
+}
+function frame(now) {
+  if (!run?.active) return;
+  const g = run.tetris; g.fall += Math.min(Math.max(0, now - g.last), 1000); g.last = now;
+  const interval = g.down ? GRAVITY * 0.6 : GRAVITY;
+  while (g.fall >= interval && run.active) { g.fall -= interval; stepDown(g, g.down); }
+  paint(g);
+  const left = Math.max(0, Math.ceil((run.end - now) / 1000)); $('clock').textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
+  requestAnimationFrame(frame);
+}
+function tick() { if (!run?.active) return; const now = performance.now(); updateSecondary(Math.min(now, run.end)); if (now >= run.end) endBlock(); }
+function stopRun() { if (!run) return; clearInterval(run.timer); run.active = false; stopAudio(); }
+function quitBlock() { stopRun(); run = null; $('countdown').classList.add('hidden'); show('intro'); }
+function endBlock() {
+  updateSecondary(run.end); stopRun();
+  const r = run, g = r.tetris, s = r.sec;
+  const result = {mode: r.mode, lines: g.lines, pieces: g.pieces, score: g.score, topOuts: g.topOuts,
+    accuracy: s ? s.correct / s.trials.length : null, answered: s ? s.answered : null, total: s ? s.trials.length : null, meanRt: s && s.answered ? s.rtSum / s.answered : null};
+  session[r.mode] = result; run = null;
+  renderResults(result); show('results');
+}
+const pct = v => v == null ? '—' : Math.round(v * 100) + '%';
+const secs = v => v == null ? '—' : (v / 1000).toFixed(2) + ' s';
+function renderResults(res) {
+  const m = MODES[res.mode];
+  $('resultsTitle').textContent = m.name;
+  let html = `<div class="result"><h3>Tetris</h3><dl><dt>Lines cleared</dt><dd>${res.lines}</dd><dt>Pieces placed</dt><dd>${res.pieces}</dd><dt>Score</dt><dd>${res.score}</dd><dt>Top-outs</dt><dd>${res.topOuts}</dd></dl></div>`;
+  if (m.secondary) html += `<div class="result"><h3>${m.secondary === 'rotation' ? 'Mental rotation' : 'Phoneme discrimination'}</h3><dl><dt>Correct</dt><dd>${pct(res.accuracy)}</dd><dt>Pairs answered</dt><dd>${res.answered} of ${res.total}</dd><dt>Mean response time</dt><dd>${secs(res.meanRt)}</dd></dl></div>`;
+  else html += `<div class="result"><h3>Next step</h3><p style="margin:0">You have a baseline. Now try one of the paired conditions and see how many lines you keep.</p></div>`;
+  $('resultCards').innerHTML = html;
+  const done = Object.keys(MODES).filter(k => session[k]);
+  $('compareBlock').classList.toggle('hidden', done.length < 2);
+  $('compareRows').innerHTML = done.map(k => { const r = session[k]; return `<tr><td>${MODES[k].name}</td><td>${r.lines}</td><td>${r.pieces}</td><td>${pct(r.accuracy)}</td><td>${secs(r.meanRt)}</td></tr>`; }).join('');
+  const base = session.tetris, notes = [];
+  for (const k of ['rotation', 'phonemes']) if (base && session[k]) {
+    const diff = base.pieces ? Math.round((session[k].pieces - base.pieces) / base.pieces * 100) : 0;
+    notes.push(`with ${k === 'rotation' ? 'mental rotation' : 'phonemes'} you placed ${diff === 0 ? 'the same number of' : Math.abs(diff) + '% ' + (diff < 0 ? 'fewer' : 'more')} pieces as when playing alone`.replace(' more pieces as', ' more pieces than').replace(' fewer pieces as', ' fewer pieces than'));
+  }
+  $('compareNote').textContent = notes.length ? notes.join('; ').replace(/^w/, 'W') + '. Multiple resource theory predicts the bigger drop with mental rotation.' : '';
+}
+
+/* ---------- input ---------- */
+$('start').addEventListener('click', startBlock);
+$('again').addEventListener('click', () => { show('intro'); $('start').focus(); });
+$('repeat').addEventListener('click', startBlock);
+window.addEventListener('keydown', e => {
+  if (!run) return;
+  const code = e.code || e.key;
+  if (code === 'Escape') { e.preventDefault(); quitBlock(); return; }
+  if (!['KeyS', 'KeyD', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'].includes(code)) return;
+  e.preventDefault();
+  if (!run.active) return;
+  tick(); if (!run?.active) return;
+  if (code === 'KeyS' || code === 'KeyD') { if (!e.repeat) respond(code === 'KeyS' ? 'S' : 'D', performance.now()); }
+  else tetrisKey(run.tetris, code, e.repeat);
+});
+window.addEventListener('keyup', e => { if (e.code === 'ArrowDown' && run?.tetris) { run.tetris.down = false; run.tetris.fall = 0; } });
+window.addEventListener('blur', () => { if (run?.tetris) { run.tetris.down = false; run.tetris.fall = 0; } });
+paint(null);
+</script>
+</body>
+</html>
