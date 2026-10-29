@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configural Conflict Display for ATC — Joseph Brazina</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #E4E2DD; --bg-2: #D8D6D1; --bg-3: #CCCAC5; --surface: #ECEAE6;
+      --ink: #111111; --ink-2: #444444; --ink-3: #777777;
+      --border: 1px solid #BEBCB7; --border-heavy: 2px solid #111111;
+      --mono: 'Space Mono', monospace; --sans: 'Space Grotesk', sans-serif; --radius: 2px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); font-size: 16px; line-height: 1.5; color: var(--ink); background: var(--bg); }
+    a { color: var(--ink); text-decoration: none; }
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: var(--border-heavy); }
+    .nav-inner { padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; }
+    .nav-links { display: flex; }
+    .nav-links a { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px; height: 56px; display: flex; align-items: center; border-left: var(--border); transition: background .12s, color .12s; }
+    .nav-links a:hover { background: var(--ink); color: var(--bg); }
+    /* HERO */
+    .case-hero { background: var(--surface); border-bottom: var(--border-heavy); padding: 56px 48px 48px; }
+    .label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 20px; }
+    .case-hero h1 { font-family: var(--sans); font-size: 2.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; text-transform: uppercase; color: var(--ink); max-width: 860px; margin-bottom: 32px; }
+    .hero-meta { display: flex; flex-wrap: wrap; border-top: var(--border-heavy); border-bottom: var(--border-heavy); margin-bottom: 28px; }
+    .meta-item { padding: 14px 28px; border-right: var(--border); font-family: var(--mono); }
+    .meta-item:first-child { padding-left: 0; }
+    .meta-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+    .meta-value { font-size: 0.78rem; color: var(--ink); }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius); border: 1px solid var(--ink-3); color: var(--ink-2); background: transparent; }
+    .tag.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    /* CONTENT */
+    .content-grid { display: grid; grid-template-columns: 200px 1fr; }
+    .sidebar { border-right: var(--border-heavy); padding: 40px 24px; position: sticky; top: 56px; height: fit-content; }
+    .sidebar-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); margin-bottom: 14px; }
+    .sidebar-nav a { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); padding: 9px 0; border-bottom: var(--border); transition: color .12s; }
+    .sidebar-nav a:hover { color: var(--ink); }
+    .main-content { padding: 48px 48px 96px; }
+    /* SECTIONS */
+    .section { margin-bottom: 60px; padding-bottom: 60px; border-bottom: var(--border); }
+    .section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .section-label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 16px; }
+    h2 { font-family: var(--sans); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink); margin-bottom: 20px; }
+    h3 { font-family: var(--sans); font-size: 0.96rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); margin: 28px 0 10px; border-bottom: var(--border); padding-bottom: 6px; }
+    p { font-size: 0.92rem; color: var(--ink-2); margin-bottom: 14px; line-height: 1.75; }
+    p:last-child { margin-bottom: 0; }
+    ul, ol { padding-left: 18px; margin-bottom: 14px; }
+    li { font-size: 0.92rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 4px; }
+    strong { color: var(--ink); }
+    /* CALLOUT */
+    .callout { background: var(--surface); border-left: 2px solid var(--ink); padding: 18px 22px; margin: 24px 0; }
+    .callout p { margin: 0; font-size: 0.88rem; }
+    /* TWO COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; border: var(--border-heavy); margin: 20px 0; }
+    .card { padding: 20px 22px; border-right: var(--border); border-bottom: var(--border); }
+    .card:nth-child(even) { border-right: none; }
+    .card:nth-child(3), .card:nth-child(4) { border-bottom: none; }
+    .card h4 { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+    .card p { font-size: 0.86rem; margin: 0; }
+    /* TABLE */
+    .table-wrap { border: var(--border-heavy); margin: 20px 0; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    th { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); background: var(--surface); border-bottom: var(--border-heavy); padding: 10px 16px; text-align: left; }
+    td { padding: 12px 16px; border-bottom: var(--border); color: var(--ink-2); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    /* PROCESS STEPS */
+    .process { display: flex; border: var(--border-heavy); margin: 20px 0; }
+    .step { flex: 1; padding: 18px 12px; border-right: var(--border); text-align: center; }
+    .step:last-child { border-right: none; }
+    .step-num { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+    .step-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--ink); }
+    /* FOOTER */
+    footer { background: var(--ink); border-top: var(--border-heavy); padding: 20px 48px; font-family: var(--mono); font-size: 0.7rem; color: #555; letter-spacing: 0.08em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+    footer a { color: #777; }
+    footer a:hover { color: var(--bg); }
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .case-hero, .main-content { padding-left: 20px; padding-right: 20px; }
+      .case-hero h1 { font-size: 1.8rem; }
+      .nav-inner { padding: 0 20px; }
+      .two-col { grid-template-columns: 1fr; }
+      .card { border-right: none !important; }
+      .card:nth-child(3) { border-bottom: var(--border); }
+      .process { flex-direction: column; }
+      .step { border-right: none; border-bottom: var(--border); }
+      .step:last-child { border-bottom: none; }
+      footer { padding: 16px 20px; flex-direction: column; gap: 6px; }
+    }
+
+    .stim-grid { display:grid; grid-template-columns:repeat(3,1fr); border:var(--border-heavy); margin:16px 0; }
+    .stim-card { border-right:var(--border); }
+    .stim-card:last-child { border-right:none; }
+    .stim-meta { padding:12px 14px; }
+    .stim-label { display:block; font-family:var(--mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink); margin-bottom:3px; }
+    .stim-sub { font-family:var(--mono); font-size:0.6rem; color:var(--ink-3); letter-spacing:0.05em; }
+    @media(max-width:900px){ .stim-grid{ grid-template-columns:1fr; } .stim-card{ border-right:none; border-bottom:var(--border); } .stim-card:last-child{ border-bottom:none; } }
+/* ── maroon Apple-style skin ── */
+:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
+html{scroll-padding-top:48px}
+body{-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-2);color:#fff}
+nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+.nav-inner{height:48px}
+.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
+.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
+.nav-links a:hover{background:none;color:var(--accent)}
+.sidebar{top:48px}
+.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
+.sidebar-label{font-size:.72rem}
+.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
+.sidebar-nav a:hover{color:var(--accent)}
+.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
+.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
+.case-hero>*,.hero>*{position:relative;z-index:1}
+.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
+.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
+.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
+h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
+h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
+.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
+.tag.primary{background:var(--accent);color:#fff}
+.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+.meta-value{font-weight:500}
+.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
+@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
+.section{border-bottom:var(--border)}
+.callout{background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
+.two-col,.stim-grid,.process,.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
+.card h4,.step-num,th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
+th{font-family:var(--mono);border-bottom:var(--border)}
+.step{background:var(--surface)}
+.step-label{text-transform:none;font-weight:600;font-size:.9rem}
+.stim-label{text-transform:none;letter-spacing:.01em}
+footer{background:#000;border-top:1px solid #2a2a2c;font-size:.75rem;color:#86868b;text-transform:none;letter-spacing:.01em}
+footer a{color:#a1a1a6}
+footer a:hover{color:var(--accent-2)}
+
+.result-figure{margin:28px 0 22px}
+.results-figure-img{display:block;width:100%;max-width:1200px;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
+.figure-caption{font-size:.78rem!important;color:var(--ink-3)!important;margin-top:10px!important;line-height:1.55!important}
+.result-figure h3{margin-top:0}
+.table-wrap p{padding:12px 16px;margin:0;font-size:.78rem;color:var(--ink-3);line-height:1.55}
+
+
+/* ── infoviz case study additions (same skin) ── */
+.content-grid>*{min-width:0}
+.hero-sub{font-size:1.2rem;color:var(--ink-3);max-width:720px;line-height:1.5;margin:-12px 0 32px}
+.case-figure{margin:24px 0 26px}
+.case-figure img{display:block;width:100%;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
+.case-figure.portrait img{max-width:560px}
+.case-figure .figure-caption{max-width:900px}
+.fig-num{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin-bottom:8px}
+.fig-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0 26px;align-items:start}
+.fig-pair .case-figure{margin:0}
+.case-intro{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 22px}
+.stage{background:var(--surface);border-radius:24px;padding:26px 28px;margin:26px 0}
+.stage>h3:first-child{margin-top:0}
+.stage p:last-child{margin-bottom:0}
+.viz-embed{border:1px solid #d2d2d7;border-radius:16px;overflow:hidden;background:#fff;margin:6px 0 10px}
+.viz-embed iframe{display:block;width:100%;border:0;background:#fff}
+.viz-link{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--accent);margin-top:4px}
+.viz-link:hover{text-decoration:underline}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-2);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 4px rgba(229,117,31,.18)}
+.anno-list{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;counter-reset:anno}
+.anno-list li{counter-increment:anno;position:relative;padding-left:34px;font-size:.88rem;line-height:1.55;margin:0}
+.anno-list li::before{content:counter(anno);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:.7rem;display:flex;align-items:center;justify-content:center}
+.feedback-table td:first-child{width:34%}
+.verdict{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:2px 9px;border-radius:980px;margin-bottom:6px}
+.verdict.yes{background:#e3f3e6;color:#1f6b33}
+.verdict.adapt{background:#fdf0e3;color:#9a4a0b}
+.verdict.no{background:var(--bg-2);color:var(--ink-3)}
+.tradeoff{display:grid;grid-template-columns:1fr 1fr;border:var(--border);border-radius:20px;overflow:hidden;margin:20px 0}
+.tradeoff>div{padding:20px 22px}
+.tradeoff>div:first-child{border-right:var(--border)}
+.tradeoff h4{font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--ink-3);margin-bottom:8px}
+.tradeoff p{font-size:.88rem;margin:0}
+.tradeoff .gain{background:var(--surface)}
+.case-divider{font-family:var(--mono);font-size:.78rem;color:var(--ink-3)}
+.two-col.four .card:nth-child(3),.two-col.four .card:nth-child(4){border-bottom:none}
+.ref-list{list-style:none;padding:0}
+.ref-list li{margin-bottom:12px;padding-left:24px;text-indent:-24px}
+.ref-list a{color:var(--accent);word-break:break-all}
+@media(max-width:900px){
+  .fig-pair,.anno-list,.tradeoff{grid-template-columns:1fr}
+  .tradeoff>div:first-child{border-right:none;border-bottom:var(--border)}
+  .stage{padding:20px 18px}
+  .hero-meta{flex-direction:column}
+  .meta-item{padding-left:0;border-right:none;border-bottom:var(--border)}
+  .meta-item:last-child{border-bottom:none}
+}
+
+/* ── switch case study additions ── */
+.goal-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--border);border-radius:20px;overflow:hidden;margin:20px 0}
+.goal{padding:20px 20px 22px;border-right:var(--border);background:var(--surface)}
+.goal:last-child{border-right:none}
+.goal .num{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin-bottom:10px}
+.goal h4{font-size:.98rem;font-weight:600;letter-spacing:-.01em;margin-bottom:6px;color:var(--ink)}
+.goal p{font-size:.84rem;margin:0;line-height:1.6}
+.case-figure.tall img{max-width:760px}
+.badge-progress{display:inline-block;font-family:var(--mono);font-size:.7rem;background:var(--accent-2);color:#fff;padding:3px 10px;border-radius:980px;margin-left:10px;vertical-align:middle}
+/* theme switcher */
+.switcher{background:var(--surface);border-radius:28px;padding:22px;margin:24px 0}
+.theme-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.theme-tab{font-family:var(--sans);font-size:.88rem;color:var(--ink-2);background:#fff;border:1px solid #d2d2d7;border-radius:980px;padding:6px 14px 6px 6px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:border-color .15s,color .15s,box-shadow .15s}
+.theme-tab img{width:34px;height:22px;object-fit:cover;object-position:center;border-radius:980px;display:block;border:1px solid rgba(0,0,0,.08)}
+.theme-tab:hover{border-color:var(--ink-3);color:var(--ink)}
+.theme-tab[aria-selected="true"]{border-color:var(--accent);color:var(--ink);box-shadow:0 0 0 3px rgba(134,31,65,.14)}
+.theme-tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.theme-panel{display:none}
+.theme-panel.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:.3}to{opacity:1}}
+.theme-panel .screen-label{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin:0 0 8px}
+.theme-panel img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid #d2d2d7;background:#fff}
+.theme-panel .picker-wrap{max-width:640px;margin-top:20px}
+.theme-panel p.theme-note{font-size:.86rem;margin:14px 0 0}
+@media(max-width:900px){
+  .goal-grid{grid-template-columns:1fr 1fr}
+  .goal:nth-child(2){border-right:none}
+  .goal:nth-child(-n+2){border-bottom:var(--border)}
+  .switcher{padding:14px;border-radius:20px}
+}
+.bg-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 28px}
+.bg-card{margin:0}
+.bg-card img{display:block;width:100%;aspect-ratio:290/158;object-fit:cover;border-radius:14px;border:1px solid #d2d2d7}
+.bg-card figcaption{margin-top:8px;font-size:.86rem;color:var(--ink-2)}
+.bg-card figcaption strong{display:block;color:var(--ink);font-weight:600}
+.bg-card figcaption span{font-family:var(--mono);font-size:.7rem;color:var(--ink-3)}
+@media(max-width:900px){.bg-gallery{grid-template-columns:1fr 1fr}}
+footer{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px 24px;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;text-transform:none}
+footer>:first-child{justify-self:start}
+footer>:last-child{justify-self:end}
+@media(max-width:700px){footer{grid-template-columns:1fr;justify-items:center;text-align:center;padding:16px 20px}footer>*{justify-self:center!important}}
+</style>
+<style>
+/* ── ATC case study additions (same skin) ── */
+.goal-grid.three{grid-template-columns:repeat(3,1fr)}
+.scope-frame{background:#13232e;border-radius:16px;overflow:hidden;border:1px solid #d2d2d7}
+.scope-frame video,.scope-frame img{display:block;width:100%;height:auto}
+.player{margin:24px 0 26px}
+.figma-embed{background:#13232e}
+.figma-embed iframe{aspect-ratio:1120/800;height:auto;min-height:320px}
+.frame-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.frame-tab{font-family:var(--mono);font-size:.76rem;color:var(--ink-2);background:#fff;border:1px solid #d2d2d7;border-radius:980px;padding:6px 12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:border-color .15s,color .15s,box-shadow .15s}
+.frame-tab .sw{width:10px;height:10px;border-radius:50%;background:#d2d2d7;display:inline-block}
+.frame-tab:hover{border-color:var(--ink-3);color:var(--ink)}
+.frame-tab[aria-selected="true"]{border-color:var(--accent);color:var(--ink);box-shadow:0 0 0 3px rgba(134,31,65,.14)}
+.frame-tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.frame-panel{display:none}
+.frame-panel.active{display:block;animation:fadeIn .25s ease}
+.frame-panel p.frame-note{font-size:.88rem;margin:14px 0 0}
+.stage-key{display:flex;flex-wrap:wrap;gap:6px 18px;margin:14px 0 0;font-family:var(--mono);font-size:.72rem;color:var(--ink-3)}
+.stage-key span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.case-figure.narrow img{max-width:560px}
+.verdict.yes{background:#e3f3e6;color:#1f6b33}
+@media(max-width:900px){.goal-grid.three{grid-template-columns:1fr}.goal-grid.three .goal{border-right:none;border-bottom:var(--border)}.goal-grid.three .goal:last-child{border-bottom:none}}
+</style>
+</head>
+<body>
+<nav>
+<div class="nav-inner">
+<span class="nav-logo">JOSEPH BRAZINA</span>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="index.html#projects">Work</a>
+<a href="index.html#research">Research</a>
+<a href="index.html#contact">Contact</a>
+</div>
+</div>
+</nav>
+<div class="case-hero">
+<div class="label">Case Study · Visual Display Systems</div>
+<h1>Configural Conflict Display for En-Route Air Traffic Control</h1>
+<p class="hero-sub">An animated radar scope, built in Figma from real flight data, where two converging aircraft form a single shape that grows from a faint yellow hint into a solid red warning as a loss of separation becomes likely.</p>
+<div class="hero-meta">
+<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">Human Factors of Visual Display Systems</div></div>
+<div class="meta-item"><div class="meta-label">My role</div><div class="meta-value">Sole designer</div></div>
+<div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma · Excel · OpenSky Network data</div></div>
+<div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Oct 2026</div></div>
+</div>
+<div class="tags">
+<span class="tag primary">Configural Display Design</span>
+<span class="tag primary">Figma Prototyping</span>
+<span class="tag">Emergent Features</span>
+<span class="tag">Air Traffic Control</span>
+<span class="tag">Data Visualization</span>
+<span class="tag">Coursework</span>
+</div>
+</div>
+<div class="content-grid">
+<div class="sidebar">
+<div class="sidebar-label">Contents</div>
+<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#needs">User Needs</a><a href="#data">Data &amp; Build</a><a href="#concepts">Design Concepts</a><a href="#journey">Design Journey</a><a href="#final">Final Design</a><a href="#beyond">Beyond ERAM</a><a href="#learned">What I Learned</a><a href="#references">Sources</a></div>
+</div>
+<div class="main-content">
+
+<div class="section" id="overview">
+<div class="section-label">Overview</div>
+<h2>The Problem</h2>
+<p>En-route controllers must keep aircraft at least 5 NM apart horizontally or 1,000 ft apart vertically. Today they judge that by mentally comparing positions, headings and numbers in each aircraft’s data block, and by predicting where two aircraft will be minutes from now. The FAA’s ERAM system adds a Conflict Alert that flashes both data blocks about 2.5 minutes before a predicted loss of separation, but the alert is on or off and does not show where or why the conflict will happen.</p>
+<p>I designed a configural display that turns that judgment into something seen rather than calculated. Position, track, ground speed, altitude and vertical rate for two aircraft combine into one shape that builds gradually as risk increases, while every one of the five variables stays traceable on screen.</p>
+<figure class="case-figure player">
+<span class="fig-num">Final prototype · 20:09:50 to 20:17:50 UTC, about 60× real time</span>
+<div class="viz-embed figma-embed"><iframe src="https://embed.figma.com/proto/MniTJi7zBoRglnZTWX0uvI/ATC-Configural-Prototype?node-id=89-1822&amp;viewport=104%2C476%2C0.12&amp;t=F3YKDGLBdKExqSdo-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=89%3A1400&amp;page-id=89%3A1388&amp;embed-host=share" title="ATC configural display Figma prototype" loading="lazy" allowfullscreen></iframe></div>
+<a class="viz-link" href="https://www.figma.com/proto/MniTJi7zBoRglnZTWX0uvI/ATC-Configural-Prototype?node-id=89-1822&amp;viewport=104%2C476%2C0.12&amp;t=F3YKDGLBdKExqSdo-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=89%3A1400&amp;page-id=89%3A1388" target="_blank" rel="noopener"><span class="live-dot"></span>Open the interactive prototype in Figma →</a>
+<p class="figure-caption">Real OpenSky traffic around IAD and DCA. Conflict A (UAL1484 and synthetic DAL2214) builds to a predicted loss of separation; Conflict B (NKS140 and RPA4581) appears and then resolves.</p>
+</figure>
+<div class="callout"><p><strong>My role:</strong> individual project. I selected and filtered the data, designed every element, built all seven Figma frames and their Smart Animate transitions, and wrote the risk calculation that drives the feature.</p></div>
+<div class="process">
+<div class="step"><div class="step-num">01</div><div class="step-label">Data selection</div></div>
+<div class="step"><div class="step-num">02</div><div class="step-label">Baseline scope</div></div>
+<div class="step"><div class="step-num">03</div><div class="step-label">Emergent feature</div></div>
+<div class="step"><div class="step-num">04</div><div class="step-label">Class feedback</div></div>
+<div class="step"><div class="step-num">05</div><div class="step-label">Feature redesign</div></div>
+<div class="step"><div class="step-num">06</div><div class="step-label">Motion &amp; legend</div></div>
+</div>
+</div>
+
+<div class="section" id="needs">
+<div class="section-label">User Needs</div>
+<h2>Designing for Three Questions</h2>
+<p>Each element of the display answers one of three questions an en-route controller asks continuously.</p>
+<div class="goal-grid three">
+<div class="goal"><span class="num">01</span><h4>Where is everyone?</h4><p>Know where every aircraft is, where it is heading and at what altitude. Answered by the glyph and data block.</p></div>
+<div class="goal"><span class="num">02</span><h4>Is a conflict forming?</h4><p>Spot a developing conflict early, before a loss of separation. Answered by the feature’s faint early stages.</p></div>
+<div class="goal"><span class="num">03</span><h4>How urgent, and why?</h4><p>Judge urgency and whether the problem is horizontal, vertical or both. Answered by color, the time ring, the circles and the tags.</p></div>
+</div>
+</div>
+
+<div class="section" id="data">
+<div class="section-label">Data &amp; Build</div>
+<h2>Real Traffic, Precisely Placed</h2>
+<p>The display uses real ADS-B state vectors from the OpenSky Network for 1 July 2019. My first data set, 08:00 UTC, held only five aircraft because it was 4 a.m. locally; switching to 20:00 UTC (4 p.m.) gave 19 to 25 aircraft on screen at once, enough for traffic patterns to emerge.</p>
+<div class="two-col four">
+<div class="card"><h4>Window</h4><p>20:09:50 to 20:17:50 UTC, the busiest stretch of the hour, in seven frames: 2-minute steps, then 1-minute steps while the conflict builds.</p></div>
+<div class="card"><h4>Filters</h4><p>Above FL180 (en-route traffic), airborne, positions no more than 15 seconds old, within 50 NM of the IAD/DCA midpoint.</p></div>
+<div class="card"><h4>Build</h4><p>A spreadsheet converted every position to Figma coordinates (8 px per NM). Reusable Symbol and Data block components, matched across frames by ICAO code, glide between frames with Smart Animate.</p></div>
+<div class="card"><h4>Synthetic aircraft</h4><p>No real pair lost separation, because real traffic is controlled. One synthetic aircraft, DAL2214, creates a full conflict with real UAL1484. It looks identical to real traffic, so it does not give the conflict away.</p></div>
+</div>
+<h3>How the Five Variables Become One Risk Score</h3>
+<p>Each pair is projected forward assuming constant track, ground speed and vertical rate. Within a 7-minute look-ahead, the moment of closest approach gives a predicted horizontal gap and vertical gap. Three factors, each from 0 to 1, are multiplied, so risk is only high when the aircraft will be close in both dimensions, and soon.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Factor</th><th>Rises from 0 at…</th><th>…to 1 at</th></tr></thead>
+<tbody>
+<tr><td>Predicted horizontal gap</td><td>15 NM</td><td>5 NM (the separation standard)</td></tr>
+<tr><td>Predicted vertical gap</td><td>3,000 ft</td><td>1,000 ft (the separation standard)</td></tr>
+<tr><td>Time to closest approach</td><td>7 minutes</td><td>1 minute</td></tr>
+</tbody>
+</table>
+<p>Stages begin at risk 0.2, 0.4, 0.6 and 0.8. Stage 4 also requires a predicted loss of separation: under 5 NM and under 1,000 ft.</p>
+</div>
+</div>
+
+<div class="section" id="concepts">
+<div class="section-label">Design Concepts</div>
+<h2>Concepts Applied</h2>
+<p>Five concepts from Bennett and Flach (2011) and course lectures shape every element. Each maps to specific parts of the display.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Concept</th><th>Applied as</th></tr></thead>
+<tbody>
+<tr><td><strong>Emergent features</strong>, at three levels</td><td><strong>Global:</strong> parallel track lines form traffic streams. <strong>Intermediate:</strong> projection lines close into a “V”, circles overlap, tags converge and the ring tightens. <strong>Local:</strong> dot, line, size and color form one aircraft glyph.</td></tr>
+<tr><td><strong>Semantic mapping</strong> (domain, display, agent)</td><td>Each protected circle has a 2.5 NM radius, so two circles touch at exactly 5 NM. The outline turns solid only when both gaps fall below the standards, mirroring the rule that both must be lost for a loss of separation.</td></tr>
+<tr><td><strong>Proximity compatibility principle</strong></td><td>Judging a conflict means integrating ten values (five variables × two aircraft), so every conflict element shares one place, one color and a physical connection. Details used for single-aircraft checks stay in separate data blocks.</td></tr>
+<tr><td><strong>Analogical format</strong></td><td>The scope is a scaled map (8 px per NM, rings every 10 NM). Projection length is distance flown, circle overlap is the horizontal gap and ring size is time remaining. Data blocks stay propositional for exact values.</td></tr>
+<tr><td><strong>Redundant coding and salience</strong></td><td>Altitude is coded by color and dot size. Urgency is coded by color (yellow to red), opacity and ring size, so salience rises only as risk rises.</td></tr>
+</tbody>
+</table>
+</div>
+<figure class="case-figure">
+<span class="fig-num">Annotated final design · 20:17:50 UTC</span>
+<img src="images/atc-annotated-full-201750.jpg" alt="Final display at 20:17:50 annotated with six callouts: global traffic streams, the intermediate conflict shape, the local glyph, the analogical scale, the propositional data block, and the legend" loading="lazy"/>
+<p class="figure-caption">All three levels of emergent features are visible at once: where traffic is, where risk is, and the details of each aircraft.</p>
+</figure>
+</div>
+
+<div class="section" id="journey">
+<div class="section-label">Design Journey</div>
+<h2>From Traffic Picture to Conflict Shape</h2>
+<p>The design went through four iterations over eight days. I first built a baseline scope with no emergent feature, both as the comparison case and as the global and local levels of the final design. The first emergent version then added projection lines, a connector, predicted-altitude tags and a risk zone whose size encoded risk, all in one amber color.</p>
+<div class="fig-pair">
+<figure class="case-figure">
+<span class="fig-num">Baseline · no emergent feature, 20:17:50</span>
+<div class="scope-frame"><img src="images/atc-baseline-201750.jpg" alt="Baseline radar scope at 20:17:50 showing the same traffic with no conflict feature" loading="lazy"/></div>
+<p class="figure-caption">The same moment as the final design. UAL1484 and DAL2214 are about to lose separation, but nothing on screen says so.</p>
+</figure>
+<figure class="case-figure">
+<span class="fig-num">Iteration 1 · amber size-coded zone, 20:16:50</span>
+<div class="scope-frame"><img src="images/atc-iter1-201650.jpg" alt="First emergent iteration at 20:16:50 with a single large amber risk zone around the predicted meeting point" loading="lazy"/></div>
+<p class="figure-caption">One amber color at every stage, with the zone’s size standing for risk level.</p>
+</figure>
+</div>
+<h3>Key Pivots</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Decision</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Predict the closest approach, rather than stage risk by current distance</td><td>Current distance uses only position and altitude. Prediction brings in all five variables and warns minutes earlier.</td></tr>
+<tr><td>Replace the size-coded zone and connector with 5 NM protected circles</td><td>Size meant “risk”, a code viewers had to learn. The circles are the separation standard drawn to scale, which strengthened semantic mapping and analogical form and made the connector redundant.</td></tr>
+<tr><td>Dashed or solid outline instead of a separate vertical side view</td><td>A side view would add an eighth element and duplicate the tags. The outline shows whether one gap or both are below standard.</td></tr>
+<tr><td>Altitude by line thickness, not line length</td><td>On ERAM, vector length conventionally means speed, so longer lines for higher aircraft would send contradictory cues.</td></tr>
+<tr><td>Invisible copies for fly-ins and fly-outs</td><td>Aircraft were appearing and vanishing in place. A 0% copy at each aircraft’s real position in the neighboring frame lets it glide in or out at the scope edge.</td></tr>
+</tbody>
+</table>
+</div>
+<h3>Class Feedback</h3>
+<div class="table-wrap">
+<table class="feedback-table">
+<thead><tr><th>Suggestion</th><th>What I changed</th></tr></thead>
+<tbody>
+<tr><td><span class="verdict yes">Adopted</span><br/>Change the warning’s color as the conflict gets more urgent, from yellow to red.</td><td>Four stage colors (yellow, amber, orange, red), redundant with opacity and ring size. The steps also darken, so they stay distinguishable with red-green color blindness.</td></tr>
+<tr><td><span class="verdict yes">Adopted</span><br/>Make altitude visible from the symbol itself, through size.</td><td>Dot size of 6, 9 and 12 px and line thickness of 1.5, 2 and 2.5 px by altitude band, redundant with color.</td></tr>
+</tbody>
+</table>
+<p>Both suggestions added a second cue to an existing variable rather than a new element, which kept the feature from becoming cluttered.</p>
+</div>
+<figure class="case-figure">
+<span class="fig-num">The risk feature at stage 4 · first iteration vs final</span>
+<img src="images/atc-feature-before-after.jpg" alt="Side-by-side comparison of the conflict feature at stage 4: an amber size-coded zone in iteration 1, and red overlapping protected circles with a time ring in the final design" loading="lazy"/>
+</figure>
+</div>
+
+<div class="section" id="final">
+<div class="section-label">Final Design</div>
+<h2>Watching a Conflict Emerge</h2>
+<p>Step through the seven frames to see Conflict A build from nothing to a predicted loss of separation, and Conflict B appear and resolve.</p>
+<div class="switcher">
+<div class="frame-tabs" role="tablist" aria-label="Prototype frames"><button class="frame-tab" role="tab" id="ft-200950" aria-controls="fp-200950" aria-selected="false" tabindex="-1"><span class="sw" style="background:#d2d2d7"></span>20:09:50</button><button class="frame-tab" role="tab" id="ft-201150" aria-controls="fp-201150" aria-selected="false" tabindex="-1"><span class="sw" style="background:#d2d2d7"></span>20:11:50</button><button class="frame-tab" role="tab" id="ft-201350" aria-controls="fp-201350" aria-selected="false" tabindex="-1"><span class="sw" style="background:#F5D547"></span>20:13:50</button><button class="frame-tab" role="tab" id="ft-201450" aria-controls="fp-201450" aria-selected="false" tabindex="-1"><span class="sw" style="background:#F2A93B"></span>20:14:50</button><button class="frame-tab" role="tab" id="ft-201550" aria-controls="fp-201550" aria-selected="false" tabindex="-1"><span class="sw" style="background:#EE7A3A"></span>20:15:50</button><button class="frame-tab" role="tab" id="ft-201650" aria-controls="fp-201650" aria-selected="false" tabindex="-1"><span class="sw" style="background:#E5484D"></span>20:16:50</button><button class="frame-tab" role="tab" id="ft-201750" aria-controls="fp-201750" aria-selected="true" tabindex="0"><span class="sw" style="background:#E5484D"></span>20:17:50</button></div>
+<div class="frame-panel" role="tabpanel" id="fp-200950" aria-labelledby="ft-200950"><div class="scope-frame"><img src="images/atc-frame-200950.jpg" alt="Configural display at 20:09:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:09:50 UTC.</strong> Traffic only. Two streams cross the scope (northeast and southwest), and no pair is converging closely enough to show risk.</p></div><div class="frame-panel" role="tabpanel" id="fp-201150" aria-labelledby="ft-201150"><div class="scope-frame"><img src="images/atc-frame-201150.jpg" alt="Configural display at 20:11:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:11:50 UTC.</strong> DAL2214 (synthetic) enters from the top at FL390. Its path will cross UAL1484’s, but it has not started descending, so the predicted vertical gap is too large to count as risk.</p></div><div class="frame-panel" role="tabpanel" id="fp-201350" aria-labelledby="ft-201350"><div class="scope-frame"><img src="images/atc-frame-201350.jpg" alt="Configural display at 20:13:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:13:50 UTC.</strong> Stage 1. DAL2214 has begun descending, so the predicted gaps collapse to about 0.6 NM and 220 ft. The feature appears faintly in yellow, about 4 min 50 s before closest approach.</p></div><div class="frame-panel" role="tabpanel" id="fp-201450" aria-labelledby="ft-201450"><div class="scope-frame"><img src="images/atc-frame-201450.jpg" alt="Configural display at 20:14:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:14:50 UTC.</strong> Conflict A reaches stage 2 (amber). Conflict B appears for NKS140 and RPA4581 at stage 1, with dashed circles that do not overlap.</p></div><div class="frame-panel" role="tabpanel" id="fp-201550" aria-labelledby="ft-201550"><div class="scope-frame"><img src="images/atc-frame-201550.jpg" alt="Configural display at 20:15:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:15:50 UTC.</strong> Conflict A at stage 3 (orange); the time ring has tightened to 118 px. Conflict B holds at stage 1: its vertical gap is closing, its horizontal gap is not.</p></div><div class="frame-panel" role="tabpanel" id="fp-201650" aria-labelledby="ft-201650"><div class="scope-frame"><img src="images/atc-frame-201650.jpg" alt="Configural display at 20:16:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:16:50 UTC.</strong> Conflict A at stage 4: a predicted loss of separation, about 1 min 55 s ahead. Conflict B has faded as RPA4581 keeps descending.</p></div><div class="frame-panel active" role="tabpanel" id="fp-201750" aria-labelledby="ft-201750"><div class="scope-frame"><img src="images/atc-frame-201750.jpg" alt="Configural display at 20:17:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:17:50 UTC.</strong> Stage 4, 56 seconds before closest approach. The circles overlap with a solid outline, and the ring is nearly closed around them.</p></div>
+<div class="stage-key"><span style="--c:#F5D547">1 Hint</span><span style="--c:#F2A93B">2 Forming</span><span style="--c:#EE7A3A">3 High</span><span style="--c:#E5484D">4 Predicted loss of separation</span></div>
+</div>
+<h3>Conflict A: A Conflict That Builds</h3>
+<p>UAL1484 (real) heads northeast at FL350 while DAL2214 (synthetic) heads southeast and descends from FL390. Their predicted paths meet less than 1 NM and a few hundred feet apart.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Frame (UTC)</th><th>Stage</th><th>Time to closest approach</th><th>Predicted gaps</th></tr></thead>
+<tbody>
+<tr><td>20:13:50</td><td>1 · hint</td><td>4 min 50 s</td><td>0.6 NM, 220 ft</td></tr>
+<tr><td>20:14:50</td><td>2 · forming</td><td>3 min 50 s</td><td>0.5 NM, 220 ft</td></tr>
+<tr><td>20:15:50</td><td>3 · high</td><td>2 min 50 s</td><td>0.6 NM, 220 ft</td></tr>
+<tr><td>20:16:50</td><td>4 · predicted loss</td><td>1 min 55 s</td><td>0.9 NM, 260 ft</td></tr>
+<tr><td>20:17:50</td><td>4 · predicted loss</td><td>56 s</td><td>0.8 NM, 150 ft</td></tr>
+</tbody>
+</table>
+<p>Stage 4 arrives about as early as ERAM’s 2.5-minute Conflict Alert would. Stages 1 to 3 add about three minutes of earlier, gradual warning.</p>
+</div>
+<figure class="case-figure">
+<span class="fig-num">Stages 1, 3 and 4 side by side</span>
+<img src="images/atc-stages-strip.jpg" alt="Three crops of Conflict A at 20:13:50, 20:15:50 and 20:17:50 showing the color shifting from yellow to orange to red and the time ring tightening" loading="lazy"/>
+</figure>
+<figure class="case-figure">
+<span class="fig-num">Emergence · 20:13:50</span>
+<img src="images/atc-annotated-201350.jpg" alt="Annotated 20:13:50 frame showing Conflict A first appearing at stage 1" loading="lazy"/>
+<p class="figure-caption">The warning starts early and faint: the shape is already correct, and only its strength is low.</p>
+</figure>
+<figure class="case-figure narrow">
+<span class="fig-num">Element by element · 20:17:50</span>
+<img src="images/atc-annotated-detail-201750.jpg" alt="Close-up of Conflict A at stage 4 annotated with projection lines, altitude tags, protected circles, time ring and urgency color" loading="lazy"/>
+<p class="figure-caption">Every one of the five variables is traceable within one shape.</p>
+</figure>
+<h3>Conflict B: A Risk That Resolves</h3>
+<p>RPA4581 overtakes NKS140 while descending through its altitude. The predicted vertical gap is only about 200 ft, but the horizontal gap stays about 5.4 NM, just above the standard. The feature stays at stage 1, with dashed circles that never overlap, then fades by 20:16:50 as RPA4581 keeps descending.</p>
+<figure class="case-figure">
+<span class="fig-num">Conflicts A and B together · 20:15:50</span>
+<img src="images/atc-annotated-201550.jpg" alt="Annotated 20:15:50 frame showing Conflict A at stage 3 beside Conflict B at stage 1 with dashed, separate circles" loading="lazy"/>
+<p class="figure-caption">From shape alone, a viewer can tell that Conflict B is closing vertically but not horizontally, while Conflict A is closing in both.</p>
+</figure>
+</div>
+
+<div class="section" id="beyond">
+<div class="section-label">Beyond ERAM</div>
+<h2>Extending What Controllers Already Use</h2>
+<p>The design starts from two ERAM tools, the Conflict Alert and the distance reference indicator (DRI) ring, and goes past both.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th></th><th>ERAM Conflict Alert</th><th>ERAM DRI ring</th><th>This design</th></tr></thead>
+<tbody>
+<tr><td>Trigger</td><td>Automatic, about 2.5 min ahead</td><td>Manual, per aircraft</td><td>Automatic, up to 7 min ahead</td></tr>
+<tr><td>Signal</td><td>Data blocks flash</td><td>Fixed ring</td><td>Builds through four stages</td></tr>
+<tr><td>Shows where</td><td>No</td><td>Current position only</td><td>Predicted meeting point</td></tr>
+<tr><td>Vertical gap</td><td>Read from data blocks</td><td>Not shown</td><td>Altitude tags and outline style</td></tr>
+<tr><td>Shows why</td><td>No</td><td>Horizontal distance only</td><td>Traceable to all five variables</td></tr>
+<tr><td>Resolution</td><td>Alert stops</td><td>Not shown</td><td>Feature visibly fades</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout"><p><strong>What is new:</strong> the shape sits at a place that does not exist yet, the predicted meeting point, and it is graded, so a controller sees a conflict forming rather than a threshold being crossed. The closing ring turns time remaining into a shape.</p></div>
+</div>
+
+<div class="section" id="learned">
+<div class="section-label">What I Learned</div>
+<h2>Limitations &amp; Next Steps</h2>
+<p>The biggest lesson was that a good emergent feature has to mean something in the domain. My first risk zone was visually striking but abstract; redrawing it as the separation standard itself made the shape explain the conflict instead of just flagging it. Building it in Figma also taught me how much structure animation depends on: Smart Animate only works when every layer is named and nested identically across frames.</p>
+<div class="tradeoff">
+<div><h4>Limitations</h4><p>Motion is straight-line between frames 1 to 2 minutes apart. The prediction assumes steady track, speed and vertical rate. Only two conflicts are shown, one with a synthetic aircraft. Tracks are referenced to true north rather than magnetic north.</p></div>
+<div class="gain"><h4>Next steps</h4><p>Test the display with several simultaneous conflicts to check clutter. Build a continuously updating version in code. Run user testing against a flashing data block, measuring detection time and accuracy.</p></div>
+</div>
+</div>
+
+<div class="section" id="references">
+<div class="section-label">References</div>
+<h2>Sources</h2>
+<ul class="ref-list">
+<li>Bennett, K. B., &amp; Flach, J. M. (2011). <em>Display and interface design: Subtle science, exact art</em>. CRC Press.</li>
+<li>Federal Aviation Administration. (n.d.). Section 13. Automation: En route. In <em>Air traffic control</em> (JO 7110.65). <a href="https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap5_section_13.html" target="_blank" rel="noopener">https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap5_section_13.html</a></li>
+<li>Schäfer, M., Strohmeier, M., Lenders, V., Martinovic, I., &amp; Wilhelm, M. (2014). Bringing up OpenSky: A large-scale ADS-B sensor network for research. In <em>Proceedings of the 13th International Symposium on Information Processing in Sensor Networks</em> (pp. 83–94). IEEE. <a href="https://doi.org/10.1109/IPSN.2014.6846743" target="_blank" rel="noopener">https://doi.org/10.1109/IPSN.2014.6846743</a></li>
+<li>The OpenSky Network. (2019). <em>Historical state vector data: States 2019-07-01, 20:00 UTC</em> [Data set]. <a href="https://opensky-network.org" target="_blank" rel="noopener">https://opensky-network.org</a></li>
+<li>vNAS Documentation Team. (n.d.). <em>ERAM</em>. vNAS Documentation. <a href="https://docs.virtualnas.net/crc/eram/" target="_blank" rel="noopener">https://docs.virtualnas.net/crc/eram/</a></li>
+<li>Wickens, C. D., &amp; Carswell, C. M. (1995). The proximity compatibility principle: Its psychological foundation and relevance to display design. <em>Human Factors, 37</em>(3), 473–494. <a href="https://doi.org/10.1518/001872095779049408" target="_blank" rel="noopener">https://doi.org/10.1518/001872095779049408</a></li>
+</ul>
+<p class="figure-caption">Flight data from the OpenSky Network, cited as its license requests. DAL2214 is a synthetic aircraft added for demonstration; all other aircraft are real.</p>
+</div>
+
+</div>
+
+</div>
+<footer>
+<span>Joseph Brazina — Portfolio</span>
+<a href="index.html">Back to Home</a>
+<span>Completed project</span>
+</footer>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.frame-tab'));
+  function select(t,focus){
+    tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;
+      document.getElementById(x.getAttribute('aria-controls')).classList.toggle('active',on);});
+    if(focus)t.focus();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(t)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(d){e.preventDefault();select(tabs[(i+d+tabs.length)%tabs.length],true);}
+    });
+  });
+})();
+</script>
+</body>
+</html>
