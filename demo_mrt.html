@@ -89,7 +89,7 @@ footer{background:#111;color:#a1a1a6;padding:24px 48px;display:flex;justify-cont
 <fieldset class="modes">
 <legend>Choose a condition</legend>
 <label><input type="radio" name="mode" value="tetris"><span class="mode-card"><em>Baseline</em><strong>Tetris alone</strong><span>Just the game. Use it as your reference point.</span></span></label>
-<label><input type="radio" name="mode" value="rotation" checked><span class="mode-card"><em>High visual-spatial overlap</em><strong>Tetris + mental rotation</strong><span>Every 6 seconds, judge whether two 3D figures are the same shape or mirror images.</span></span></label>
+<label><input type="radio" name="mode" value="rotation" checked><span class="mode-card"><em>High visual-spatial overlap</em><strong>Tetris + mental rotation</strong><span>Every 5 seconds, judge whether two 3D figures are the same shape or mirror images.</span></span></label>
 <label><input type="radio" name="mode" value="phonemes"><span class="mode-card"><em>Cross-modal pairing</em><strong>Tetris + phonemes</strong><span>Every 3 seconds, hear two syllables and judge whether they are the same or different.</span></span></label>
 </fieldset>
 
@@ -155,7 +155,7 @@ Next<canvas id="next" width="104" height="104" aria-label="Next piece"></canvas>
 <div class="table-wrap"><table><thead><tr><th>Condition</th><th>Lines cleared</th><th>Pieces placed</th><th>Judgment accuracy</th><th>Mean response time</th></tr></thead><tbody id="compareRows"></tbody></table></div>
 <p class="small" id="compareNote"></p>
 </div>
-<p class="small">One 60-second block is a feel for the task, not a measurement. The real study uses three-minute blocks, practice, counterbalanced order, and workload ratings after each block.</p>
+<p class="small">One 60-second block is a feel for the task, not a measurement. The real study uses 30 seconds of practice per task, three-minute blocks (Tetris alone first, then the two dual-task blocks in counterbalanced order), and workload ratings after each block.</p>
 <div class="start-row"><button class="button" id="again" type="button">Try another condition</button><button class="button button-outline" id="repeat" type="button">Repeat this one</button><a href="casestudy_mrt.html">Back to the case study</a></div>
 </section>
 
@@ -183,12 +183,12 @@ async function resolveStimuli() {
 }
 
 const $ = id => document.getElementById(id);
-const DEMO_MS = 60000, GRAVITY = 650, ROT_MS = 6000, PHONE_MS = 3000, GAP_MS = 500, COUNTDOWN = 3;
+const DEMO_MS = 60000, GRAVITY = 650, ROT_MS = 5000, PHONE_MS = 3000, GAP_MS = 500, COUNTDOWN = 3;
 const MODES = {
   tetris:   {name: 'Tetris alone', secondary: null,
              brief: 'Clear as many lines as you can in 60 seconds. Pieces fall at the same speed as in the study (650 ms per cell).'},
   rotation: {name: 'Tetris + mental rotation', secondary: 'rotation',
-             brief: 'A new pair of figures appears every 6 seconds (10 pairs). Press A if the right figure is the same shape rotated, F if it is a mirror image. Both tasks compete for visual-spatial processing.'},
+             brief: 'A new pair of figures appears every 5 seconds (12 pairs, half same and half different). Press A if the right figure is the same shape rotated, F if it is a mirror image. Both tasks compete for visual-spatial processing.'},
   phonemes: {name: 'Tetris + phonemes', secondary: 'phoneme',
              brief: 'A new pair of syllables plays every 3 seconds (20 pairs) from my /ba/–/ga/ continuum. Press A if they sound the same, F if different. Turn your volume to a comfortable level first.'}
 };
