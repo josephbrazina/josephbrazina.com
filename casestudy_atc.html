@@ -280,10 +280,11 @@ footer>:last-child{justify-self:end}
 <h1>Configural Conflict Display for En-Route Air Traffic Control</h1>
 <p class="hero-sub">An animated radar scope, built in Figma from real flight data, where two converging aircraft form a single shape that grows from a faint yellow hint into a solid red warning as a loss of separation becomes likely.</p>
 <div class="hero-meta">
-<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">Human Factors of Visual Display Systems</div></div>
+<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">ISE 6604: Human Factors of Visual Display Systems</div></div>
+<div class="meta-item"><div class="meta-label">Instructor</div><div class="meta-value">Dr. Joseph Gabbard</div></div>
 <div class="meta-item"><div class="meta-label">My role</div><div class="meta-value">Sole designer</div></div>
-<div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma · Excel · OpenSky Network data</div></div>
-<div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Oct 2026</div></div>
+<div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma Smart Animate · OpenSky Network data · Claude</div></div>
+<div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Nov 2026</div></div>
 </div>
 <div class="tags">
 <span class="tag primary">Configural Display Design</span>
@@ -304,15 +305,20 @@ footer>:last-child{justify-self:end}
 <div class="section" id="overview">
 <div class="section-label">Overview</div>
 <h2>The Problem</h2>
-<p>En-route controllers must keep aircraft at least 5 NM apart horizontally or 1,000 ft apart vertically. Today they judge that by mentally comparing positions, headings and numbers in each aircraft’s data block, and by predicting where two aircraft will be minutes from now. The FAA’s ERAM system adds a Conflict Alert that flashes both data blocks about 2.5 minutes before a predicted loss of separation, but the alert is on or off and does not show where or why the conflict will happen.</p>
+<p>En-route controllers must keep aircraft at least 5 NM apart horizontally or 1,000 ft apart vertically. Today they judge that by mentally comparing positions, headings and numbers in each aircraft’s data block, and by predicting where two aircraft will be minutes from now. The FAA’s ERAM system adds a Conflict Alert that flashes both data blocks about 2.5 minutes before a predicted loss of separation, but the alert is on or off and does not show where or why the conflict will happen. The distance reference indicator (DRI) ring helps, but only if the controller turns it on for each aircraft by hand.</p>
+<figure class="case-figure">
+<span class="fig-num">Figure 1 · How ERAM shows separation and conflicts today</span>
+<img src="images/atc-eram-current-displays.jpg" alt="Three panels: an ERAM situation display showing traffic as glyphs and text data blocks, distance reference indicator rings drawn manually around two aircraft, and a conflict data block that blinks during a conflict" loading="lazy"/>
+<p class="figure-caption">(A) ERAM situation display: traffic as glyphs and text data blocks. (B) Distance reference indicators, turned on manually. (C) Conflict data block, which blinks during a conflict. A from Gallagher (2014), Ars Technica, image courtesy of Lockheed Martin. B and C from vNAS Documentation Team (n.d.).</p>
+</figure>
 <p>I designed a configural display that turns that judgment into something seen rather than calculated. Position, track, ground speed, altitude and vertical rate for two aircraft combine into one shape that builds gradually as risk increases, while every one of the five variables stays traceable on screen.</p>
 <figure class="case-figure player">
-<span class="fig-num">Final prototype · 20:09:50 to 20:17:50 UTC, about 60× real time</span>
+<span class="fig-num">Final dynamic prototype · 20:09:50 to 20:17:50 UTC</span>
 <div class="viz-embed figma-embed"><iframe src="https://embed.figma.com/proto/MniTJi7zBoRglnZTWX0uvI/ATC-Configural-Prototype?node-id=89-1822&amp;viewport=104%2C476%2C0.12&amp;t=F3YKDGLBdKExqSdo-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=89%3A1400&amp;page-id=89%3A1388&amp;embed-host=share" title="ATC configural display Figma prototype" loading="lazy" allowfullscreen></iframe></div>
 <a class="viz-link" href="https://www.figma.com/proto/MniTJi7zBoRglnZTWX0uvI/ATC-Configural-Prototype?node-id=89-1822&amp;viewport=104%2C476%2C0.12&amp;t=F3YKDGLBdKExqSdo-1&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;starting-point-node-id=89%3A1400&amp;page-id=89%3A1388" target="_blank" rel="noopener"><span class="live-dot"></span>Open the interactive prototype in Figma →</a>
 <p class="figure-caption">Real OpenSky traffic around IAD and DCA. Conflict A (UAL1484 and synthetic DAL2214) builds to a predicted loss of separation; Conflict B (NKS140 and RPA4581) appears and then resolves.</p>
 </figure>
-<div class="callout"><p><strong>My role:</strong> individual project. I selected and filtered the data, designed every element, built all seven Figma frames and their Smart Animate transitions, and wrote the risk calculation that drives the feature.</p></div>
+<div class="callout"><p><strong>My role:</strong> individual project. I selected and filtered the data, designed every element, built all seven Figma frames and their Smart Animate transitions, and defined the risk calculation that drives the feature. Claude helped convert the flight data into Figma coordinates.</p></div>
 <div class="process">
 <div class="step"><div class="step-num">01</div><div class="step-label">Data selection</div></div>
 <div class="step"><div class="step-num">02</div><div class="step-label">Baseline scope</div></div>
@@ -341,7 +347,7 @@ footer>:last-child{justify-self:end}
 <div class="two-col four">
 <div class="card"><h4>Window</h4><p>20:09:50 to 20:17:50 UTC, the busiest stretch of the hour, in seven frames: 2-minute steps, then 1-minute steps while the conflict builds.</p></div>
 <div class="card"><h4>Filters</h4><p>Above FL180 (en-route traffic), airborne, positions no more than 15 seconds old, within 50 NM of the IAD/DCA midpoint.</p></div>
-<div class="card"><h4>Build</h4><p>A spreadsheet converted every position to Figma coordinates (8 px per NM). Reusable Symbol and Data block components, matched across frames by ICAO code, glide between frames with Smart Animate.</p></div>
+<div class="card"><h4>Build</h4><p>An 800 × 800 px Figma scope at 8 px per NM, with range rings every 10 NM. Every position was converted to Figma coordinates with Claude’s help. Reusable aircraft-symbol and data-block components, named by ICAO code so they match across frames, glide between frames with Smart Animate.</p></div>
 <div class="card"><h4>Synthetic aircraft</h4><p>No real pair lost separation, because real traffic is controlled. One synthetic aircraft, DAL2214, creates a full conflict with real UAL1484. It looks identical to real traffic, so it does not give the conflict away.</p></div>
 </div>
 <h3>How the Five Variables Become One Risk Score</h3>
@@ -355,49 +361,54 @@ footer>:last-child{justify-self:end}
 <tr><td>Time to closest approach</td><td>7 minutes</td><td>1 minute</td></tr>
 </tbody>
 </table>
-<p>Stages begin at risk 0.2, 0.4, 0.6 and 0.8. Stage 4 also requires a predicted loss of separation: under 5 NM and under 1,000 ft.</p>
+<p>Stages begin at risk 0.2, 0.4, 0.6 and 0.8. Stage 4 also requires a predicted loss of separation: under 5 NM and under 1,000 ft. Only converging pairs are scored, so pairs already moving apart carry zero risk.</p>
+</div>
+<h3>Every Variable Has a Visible Element</h3>
+<p>Each calculated value is drawn as its own element, so a controller can see both the overall risk and why it is high or low.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Display element</th><th>Calculated value</th><th>Flight variables used</th></tr></thead>
+<tbody>
+<tr><td><strong>Projection lines</strong></td><td>Predicted path to closest approach</td><td>Position, track, ground speed</td></tr>
+<tr><td><strong>Altitude tags</strong></td><td>Predicted flight level at closest approach</td><td>Altitude, vertical rate</td></tr>
+<tr><td><strong>Protected circles</strong></td><td>Predicted horizontal gap (overlap = under 5 NM)</td><td>Position, track, ground speed</td></tr>
+<tr><td><strong>Circle outline</strong></td><td>Whether one gap (dashed) or both gaps (solid) are below standard</td><td>All five</td></tr>
+<tr><td><strong>Time ring</strong></td><td>Time until closest approach</td><td>Position, track, ground speed</td></tr>
+<tr><td><strong>Stage color and opacity</strong></td><td>Overall risk score (stages 1 to 4)</td><td>All five</td></tr>
+</tbody>
+</table>
+<p>Table 1 from the final paper. Values are predicted for the moment of closest approach. Separation standards from FAA (2014a, 2014b).</p>
 </div>
 </div>
 
 <div class="section" id="concepts">
 <div class="section-label">Design Concepts</div>
 <h2>Concepts Applied</h2>
-<p>Five concepts from Bennett and Flach (2011) and course lectures shape every element. Each maps to specific parts of the display.</p>
+<p>Six concepts from Bennett and Flach (2011) and the course lectures (Gabbard, 2026) shape every element. Each maps to specific parts of the display.</p>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Concept</th><th>Applied as</th></tr></thead>
 <tbody>
 <tr><td><strong>Emergent features</strong>, at three levels</td><td><strong>Global:</strong> parallel track lines form traffic streams. <strong>Intermediate:</strong> projection lines close into a “V”, circles overlap, tags converge and the ring tightens. <strong>Local:</strong> dot, line, size and color form one aircraft glyph.</td></tr>
-<tr><td><strong>Semantic mapping</strong> (domain, display, agent)</td><td>Each protected circle has a 2.5 NM radius, so two circles touch at exactly 5 NM. The outline turns solid only when both gaps fall below the standards, mirroring the rule that both must be lost for a loss of separation.</td></tr>
-<tr><td><strong>Proximity compatibility principle</strong></td><td>Judging a conflict means integrating ten values (five variables × two aircraft), so every conflict element shares one place, one color and a physical connection. Details used for single-aircraft checks stay in separate data blocks.</td></tr>
+<tr><td><strong>Semantic mapping</strong> (domain, display, agent)</td><td><strong>Domain:</strong> the FAA standards (5 NM, 1,000 ft) set what must be shown. <strong>Agent:</strong> controllers under time pressure, so the answer is a shape rather than a number. <strong>Display:</strong> each protected circle has a 2.5 NM radius, so two circles touch at exactly 5 NM, and the outline turns solid only when both gaps fall below the standards.</td></tr>
+<tr><td><strong>Proximity compatibility principle</strong></td><td>Judging a conflict means integrating ten values (five variables × two aircraft), so every conflict element shares one place and one color, and each projection line starts on its own aircraft’s dot and meets the other inside the circles. Warm colors for the conflict and cool colors for aircraft keep the two apart, and single-aircraft details stay in separate data blocks.</td></tr>
 <tr><td><strong>Analogical format</strong></td><td>The scope is a scaled map (8 px per NM, rings every 10 NM). Projection length is distance flown, circle overlap is the horizontal gap and ring size is time remaining. Data blocks stay propositional for exact values.</td></tr>
-<tr><td><strong>Redundant coding and salience</strong></td><td>Altitude is coded by color and dot size. Urgency is coded by color (yellow to red), opacity and ring size, so salience rises only as risk rises.</td></tr>
+<tr><td><strong>Redundant coding</strong></td><td>Altitude is coded by color (teal, blue, violet) and by symbol size, as if looking down on the aircraft. Urgency is coded by color, opacity (30% to 100%) and ring size, so the display still reads for viewers with color vision deficiencies.</td></tr>
+<tr><td><strong>Salience</strong></td><td>Yellow to red and faint to opaque, so the most urgent conflict draws the eye first and salience rises only as risk rises.</td></tr>
 </tbody>
 </table>
 </div>
-<figure class="case-figure">
-<span class="fig-num">Annotated final design · 20:17:50 UTC</span>
-<img src="images/atc-annotated-full-201750.jpg" alt="Final display at 20:17:50 annotated with six callouts: global traffic streams, the intermediate conflict shape, the local glyph, the analogical scale, the propositional data block, and the legend" loading="lazy"/>
-<p class="figure-caption">All three levels of emergent features are visible at once: where traffic is, where risk is, and the details of each aircraft.</p>
-</figure>
 </div>
 
 <div class="section" id="journey">
 <div class="section-label">Design Journey</div>
 <h2>From Traffic Picture to Conflict Shape</h2>
 <p>The design went through four iterations over eight days. I first built a baseline scope with no emergent feature, both as the comparison case and as the global and local levels of the final design. The first emergent version then added projection lines, a connector, predicted-altitude tags and a risk zone whose size encoded risk, all in one amber color.</p>
-<div class="fig-pair">
 <figure class="case-figure">
-<span class="fig-num">Baseline · no emergent feature, 20:17:50</span>
-<div class="scope-frame"><img src="images/atc-baseline-201750.jpg" alt="Baseline radar scope at 20:17:50 showing the same traffic with no conflict feature" loading="lazy"/></div>
-<p class="figure-caption">The same moment as the final design. UAL1484 and DAL2214 are about to lose separation, but nothing on screen says so.</p>
+<span class="fig-num">Figure 2 · Design iterations, from empty scope to final design</span>
+<img src="images/atc-design-iterations.jpg" alt="Four radar scopes in sequence: an empty scope with rings, airports and clock; the baseline with real traffic as glyphs only; the first emergent version with an amber connector and size-coded zone; and the final design with protected circles, time ring and color stages" loading="lazy"/></div>
+<p class="figure-caption">(A) Empty scope: rings, airports, clock. (B) Baseline: real traffic, glyphs only, so UAL1484 and DAL2214 are about to lose separation with nothing on screen saying so. (C) First emergent version: one amber connector and size-coded zone. (D) Final design: circles, time ring and color stages. Traffic data from The OpenSky Network (2019).</p>
 </figure>
-<figure class="case-figure">
-<span class="fig-num">Iteration 1 · amber size-coded zone, 20:16:50</span>
-<div class="scope-frame"><img src="images/atc-iter1-201650.jpg" alt="First emergent iteration at 20:16:50 with a single large amber risk zone around the predicted meeting point" loading="lazy"/></div>
-<p class="figure-caption">One amber color at every stage, with the zone’s size standing for risk level.</p>
-</figure>
-</div>
 <h3>Key Pivots</h3>
 <div class="table-wrap">
 <table>
@@ -408,6 +419,7 @@ footer>:last-child{justify-self:end}
 <tr><td>Dashed or solid outline instead of a separate vertical side view</td><td>A side view would add an eighth element and duplicate the tags. The outline shows whether one gap or both are below standard.</td></tr>
 <tr><td>Altitude by line thickness, not line length</td><td>On ERAM, vector length conventionally means speed, so longer lines for higher aircraft would send contradictory cues.</td></tr>
 <tr><td>Invisible copies for fly-ins and fly-outs</td><td>Aircraft were appearing and vanishing in place. A 0% copy at each aircraft’s real position in the neighboring frame lets it glide in or out at the scope edge.</td></tr>
+<tr><td>A 320 px legend beside the scope</td><td>Sections for Aircraft, Conflict risk and Map explain every encoding, so first-time viewers can read the display. The scope stays clipped at 800 × 800 px so aircraft disappear at its edge rather than fading over the legend.</td></tr>
 </tbody>
 </table>
 </div>
@@ -422,9 +434,10 @@ footer>:last-child{justify-self:end}
 </table>
 <p>Both suggestions added a second cue to an existing variable rather than a new element, which kept the feature from becoming cluttered.</p>
 </div>
-<figure class="case-figure">
-<span class="fig-num">The risk feature at stage 4 · first iteration vs final</span>
+<figure class="case-figure tall">
+<span class="fig-num">Figure 3 · The risk feature at stage 4: first iteration vs final</span>
 <img src="images/atc-feature-before-after.jpg" alt="Side-by-side comparison of the conflict feature at stage 4: an amber size-coded zone in iteration 1, and red overlapping protected circles with a time ring in the final design" loading="lazy"/>
+<p class="figure-caption">The final design replaces the connector and size-coded zone with 40 px (5 NM) protected circles, a solid or dashed outline and a time ring that shrinks from 166 px to 72 px. Traffic data from The OpenSky Network (2019); DAL2214 is synthetic.</p>
 </figure>
 </div>
 
@@ -434,11 +447,39 @@ footer>:last-child{justify-self:end}
 <p>Step through the seven frames to see Conflict A build from nothing to a predicted loss of separation, and Conflict B appear and resolve.</p>
 <div class="switcher">
 <div class="frame-tabs" role="tablist" aria-label="Prototype frames"><button class="frame-tab" role="tab" id="ft-200950" aria-controls="fp-200950" aria-selected="false" tabindex="-1"><span class="sw" style="background:#d2d2d7"></span>20:09:50</button><button class="frame-tab" role="tab" id="ft-201150" aria-controls="fp-201150" aria-selected="false" tabindex="-1"><span class="sw" style="background:#d2d2d7"></span>20:11:50</button><button class="frame-tab" role="tab" id="ft-201350" aria-controls="fp-201350" aria-selected="false" tabindex="-1"><span class="sw" style="background:#F5D547"></span>20:13:50</button><button class="frame-tab" role="tab" id="ft-201450" aria-controls="fp-201450" aria-selected="false" tabindex="-1"><span class="sw" style="background:#F2A93B"></span>20:14:50</button><button class="frame-tab" role="tab" id="ft-201550" aria-controls="fp-201550" aria-selected="false" tabindex="-1"><span class="sw" style="background:#EE7A3A"></span>20:15:50</button><button class="frame-tab" role="tab" id="ft-201650" aria-controls="fp-201650" aria-selected="false" tabindex="-1"><span class="sw" style="background:#E5484D"></span>20:16:50</button><button class="frame-tab" role="tab" id="ft-201750" aria-controls="fp-201750" aria-selected="true" tabindex="0"><span class="sw" style="background:#E5484D"></span>20:17:50</button></div>
-<div class="frame-panel" role="tabpanel" id="fp-200950" aria-labelledby="ft-200950"><div class="scope-frame"><img src="images/atc-frame-200950.jpg" alt="Configural display at 20:09:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:09:50 UTC.</strong> Traffic only. Two streams cross the scope (northeast and southwest), and no pair is converging closely enough to show risk.</p></div><div class="frame-panel" role="tabpanel" id="fp-201150" aria-labelledby="ft-201150"><div class="scope-frame"><img src="images/atc-frame-201150.jpg" alt="Configural display at 20:11:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:11:50 UTC.</strong> DAL2214 (synthetic) enters from the top at FL390. Its path will cross UAL1484’s, but it has not started descending, so the predicted vertical gap is too large to count as risk.</p></div><div class="frame-panel" role="tabpanel" id="fp-201350" aria-labelledby="ft-201350"><div class="scope-frame"><img src="images/atc-frame-201350.jpg" alt="Configural display at 20:13:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:13:50 UTC.</strong> Stage 1. DAL2214 has begun descending, so the predicted gaps collapse to about 0.6 NM and 220 ft. The feature appears faintly in yellow, about 4 min 50 s before closest approach.</p></div><div class="frame-panel" role="tabpanel" id="fp-201450" aria-labelledby="ft-201450"><div class="scope-frame"><img src="images/atc-frame-201450.jpg" alt="Configural display at 20:14:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:14:50 UTC.</strong> Conflict A reaches stage 2 (amber). Conflict B appears for NKS140 and RPA4581 at stage 1, with dashed circles that do not overlap.</p></div><div class="frame-panel" role="tabpanel" id="fp-201550" aria-labelledby="ft-201550"><div class="scope-frame"><img src="images/atc-frame-201550.jpg" alt="Configural display at 20:15:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:15:50 UTC.</strong> Conflict A at stage 3 (orange); the time ring has tightened to 118 px. Conflict B holds at stage 1: its vertical gap is closing, its horizontal gap is not.</p></div><div class="frame-panel" role="tabpanel" id="fp-201650" aria-labelledby="ft-201650"><div class="scope-frame"><img src="images/atc-frame-201650.jpg" alt="Configural display at 20:16:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:16:50 UTC.</strong> Conflict A at stage 4: a predicted loss of separation, about 1 min 55 s ahead. Conflict B has faded as RPA4581 keeps descending.</p></div><div class="frame-panel active" role="tabpanel" id="fp-201750" aria-labelledby="ft-201750"><div class="scope-frame"><img src="images/atc-frame-201750.jpg" alt="Configural display at 20:17:50 UTC" decoding="async"/></div><p class="frame-note"><strong>20:17:50 UTC.</strong> Stage 4, 56 seconds before closest approach. The circles overlap with a solid outline, and the ring is nearly closed around them.</p></div>
+<div class="frame-panel" role="tabpanel" id="fp-200950" aria-labelledby="ft-200950"><div class="scope-frame"><img src="images/atc-frame-200950.jpg" alt="Configural display at 20:09:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:09:50 UTC.</strong> Traffic only. Two streams cross the scope (northeast and southwest), and no pair is converging closely enough to show risk.</p></div><div class="frame-panel" role="tabpanel" id="fp-201150" aria-labelledby="ft-201150"><div class="scope-frame"><img src="images/atc-frame-201150.jpg" alt="Configural display at 20:11:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:11:50 UTC.</strong> DAL2214 (synthetic) enters from the top at FL390. Its path will cross UAL1484’s, but it has not started descending, so the predicted vertical gap is too large to count as risk.</p></div><div class="frame-panel" role="tabpanel" id="fp-201350" aria-labelledby="ft-201350"><div class="scope-frame"><img src="images/atc-frame-201350.jpg" alt="Configural display at 20:13:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:13:50 UTC.</strong> Stage 1. DAL2214 has begun descending, so the predicted gaps collapse to about 0.6 NM and 220 ft. The feature appears faintly in yellow, about 4 min 50 s before closest approach.</p></div><div class="frame-panel" role="tabpanel" id="fp-201450" aria-labelledby="ft-201450"><div class="scope-frame"><img src="images/atc-frame-201450.jpg" alt="Configural display at 20:14:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:14:50 UTC.</strong> Conflict A reaches stage 2 (amber). Conflict B appears for NKS140 and RPA4581 at stage 1, with dashed circles that do not overlap.</p></div><div class="frame-panel" role="tabpanel" id="fp-201550" aria-labelledby="ft-201550"><div class="scope-frame"><img src="images/atc-frame-201550.jpg" alt="Configural display at 20:15:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:15:50 UTC.</strong> Conflict A at stage 3 (orange); the time ring has tightened to 118 px. Conflict B holds at stage 1: its vertical gap is closing, its horizontal gap is not.</p></div><div class="frame-panel" role="tabpanel" id="fp-201650" aria-labelledby="ft-201650"><div class="scope-frame"><img src="images/atc-frame-201650.jpg" alt="Configural display at 20:16:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:16:50 UTC.</strong> Conflict A at stage 4: a predicted loss of separation, about 1 min 55 s ahead. Conflict B has faded as RPA4581 keeps descending.</p></div><div class="frame-panel active" role="tabpanel" id="fp-201750" aria-labelledby="ft-201750"><div class="scope-frame"><img src="images/atc-frame-201750.jpg" alt="Configural display at 20:17:50 UTC with radar scope and legend" decoding="async"/></div><p class="frame-note"><strong>20:17:50 UTC.</strong> Stage 4, 56 seconds before closest approach. The circles overlap with a solid outline, and the ring is nearly closed around them.</p></div>
 <div class="stage-key"><span style="--c:#F5D547">1 Hint</span><span style="--c:#F2A93B">2 Forming</span><span style="--c:#EE7A3A">3 High</span><span style="--c:#E5484D">4 Predicted loss of separation</span></div>
 </div>
+<figure class="case-figure">
+<span class="fig-num">Figure 4 · Final design at 20:17:50 UTC: three levels of emergent features</span>
+<img src="images/atc-annotated-full-201750.jpg" alt="Final display at 20:17:50 annotated with six callouts: global traffic streams, the intermediate conflict shape, the local aircraft glyph, the analogical scale, the propositional data block, and the legend" loading="lazy"/>
+<p class="figure-caption">All three levels are visible at once, each with its own job: one shows where the traffic is, one shows where the risk is, and one shows the details. Traffic data from The OpenSky Network (2019); DAL2214 is synthetic.</p>
+</figure>
 <h3>Conflict A: A Conflict That Builds</h3>
 <p>UAL1484 (real) heads northeast at FL350 while DAL2214 (synthetic) heads southeast and descends from FL390. Their predicted paths meet less than 1 NM and a few hundred feet apart.</p>
+<figure class="case-figure">
+<span class="fig-num">Figure 5 · 20:13:50 UTC: Conflict A emerges at stage 1</span>
+<img src="images/atc-annotated-201350.jpg" alt="Annotated 20:13:50 frame showing Conflict A first appearing at stage 1 in faint yellow, with already-overlapping circles, a wide 166 px time ring and long projection lines" loading="lazy"/>
+<p class="figure-caption">The warning starts early and faint: the shape is already correct, and only its strength is low. The wide ring and long projection lines show that closest approach is still minutes away. Traffic data from The OpenSky Network (2019); DAL2214 is synthetic.</p>
+</figure>
+<figure class="case-figure tall">
+<span class="fig-num">Figure 6 · Conflict A at 20:17:50, element by element</span>
+<img src="images/atc-annotated-detail-201750.jpg" alt="Close-up of Conflict A at stage 4 annotated with projection lines, altitude tags, protected circles, time ring and urgency color" loading="lazy"/>
+<p class="figure-caption">The feature at full strength. Every one of the five variables is traceable within one shape. Traffic data from The OpenSky Network (2019); DAL2214 is synthetic.</p>
+</figure>
+<h3>Conflict B: A Risk That Resolves</h3>
+<p>RPA4581 overtakes NKS140 while descending through its altitude. The predicted vertical gap is only about 200 ft, but the horizontal gap stays about 5.4 NM, just above the standard. The feature stays at stage 1, with dashed circles that never overlap, then fades by 20:16:50 as RPA4581 keeps descending. Both aircraft are real: this is a risk the display would flag in genuine traffic.</p>
+<figure class="case-figure">
+<span class="fig-num">Figure 7 · 20:15:50 UTC: a conflict that builds (A) beside one that resolves (B)</span>
+<img src="images/atc-annotated-201550.jpg" alt="Annotated 20:15:50 frame showing Conflict A at stage 3 in orange beside Conflict B at stage 1 with dashed, separate circles and tags reading 288 and 290" loading="lazy"/>
+<p class="figure-caption">From shape alone, a viewer can tell that Conflict B is closing vertically but not horizontally, while Conflict A is closing in both. Each faint line runs back to its own aircraft. Traffic data from The OpenSky Network (2019); DAL2214 is synthetic.</p>
+</figure>
+<h3>Color, Opacity and Ring Size Change Together</h3>
+<figure class="case-figure">
+<span class="fig-num">Figure 8 · Conflict A builds: stages 1, 3 and 4</span>
+<img src="images/atc-stages-strip.jpg" alt="Three crops of Conflict A at 20:13:50, 20:15:50 and 20:17:50 showing the color shifting from yellow to orange to red, opacity and line thickness increasing, and the time ring tightening" loading="lazy"/>
+<p class="figure-caption">The circles stay in the same place because the predicted meeting point does not move; only the strength of the shape changes, and the time ring shrinks from 166 px to 118 px to 72 px. Traffic data from The OpenSky Network (2019); DAL2214 is synthetic.</p>
+</figure>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Frame (UTC)</th><th>Stage</th><th>Time to closest approach</th><th>Predicted gaps</th></tr></thead>
@@ -450,29 +491,8 @@ footer>:last-child{justify-self:end}
 <tr><td>20:17:50</td><td>4 · predicted loss</td><td>56 s</td><td>0.8 NM, 150 ft</td></tr>
 </tbody>
 </table>
-<p>Stage 4 arrives about as early as ERAM’s 2.5-minute Conflict Alert would. Stages 1 to 3 add about three minutes of earlier, gradual warning.</p>
+<p>Stage 4 arrives about 2 minutes ahead, close to when ERAM’s Conflict Alert would appear (about 2.5 minutes). Stages 1 to 3 add about three minutes of earlier, gradual warning.</p>
 </div>
-<figure class="case-figure">
-<span class="fig-num">Stages 1, 3 and 4 side by side</span>
-<img src="images/atc-stages-strip.jpg" alt="Three crops of Conflict A at 20:13:50, 20:15:50 and 20:17:50 showing the color shifting from yellow to orange to red and the time ring tightening" loading="lazy"/>
-</figure>
-<figure class="case-figure">
-<span class="fig-num">Emergence · 20:13:50</span>
-<img src="images/atc-annotated-201350.jpg" alt="Annotated 20:13:50 frame showing Conflict A first appearing at stage 1" loading="lazy"/>
-<p class="figure-caption">The warning starts early and faint: the shape is already correct, and only its strength is low.</p>
-</figure>
-<figure class="case-figure narrow">
-<span class="fig-num">Element by element · 20:17:50</span>
-<img src="images/atc-annotated-detail-201750.jpg" alt="Close-up of Conflict A at stage 4 annotated with projection lines, altitude tags, protected circles, time ring and urgency color" loading="lazy"/>
-<p class="figure-caption">Every one of the five variables is traceable within one shape.</p>
-</figure>
-<h3>Conflict B: A Risk That Resolves</h3>
-<p>RPA4581 overtakes NKS140 while descending through its altitude. The predicted vertical gap is only about 200 ft, but the horizontal gap stays about 5.4 NM, just above the standard. The feature stays at stage 1, with dashed circles that never overlap, then fades by 20:16:50 as RPA4581 keeps descending.</p>
-<figure class="case-figure">
-<span class="fig-num">Conflicts A and B together · 20:15:50</span>
-<img src="images/atc-annotated-201550.jpg" alt="Annotated 20:15:50 frame showing Conflict A at stage 3 beside Conflict B at stage 1 with dashed, separate circles" loading="lazy"/>
-<p class="figure-caption">From shape alone, a viewer can tell that Conflict B is closing vertically but not horizontally, while Conflict A is closing in both.</p>
-</figure>
 </div>
 
 <div class="section" id="beyond">
@@ -501,7 +521,7 @@ footer>:last-child{justify-self:end}
 <p>The biggest lesson was that a good emergent feature has to mean something in the domain. My first risk zone was visually striking but abstract; redrawing it as the separation standard itself made the shape explain the conflict instead of just flagging it. Building it in Figma also taught me how much structure animation depends on: Smart Animate only works when every layer is named and nested identically across frames.</p>
 <div class="tradeoff">
 <div><h4>Limitations</h4><p>Motion is straight-line between frames 1 to 2 minutes apart. The prediction assumes steady track, speed and vertical rate. Only two conflicts are shown, one with a synthetic aircraft. Tracks are referenced to true north rather than magnetic north.</p></div>
-<div class="gain"><h4>Next steps</h4><p>Test the display with several simultaneous conflicts to check clutter. Build a continuously updating version in code. Run user testing against a flashing data block, measuring detection time and accuracy.</p></div>
+<div class="gain"><h4>Next steps</h4><p>Test the display against the Conflict Alert on current ERAM displays, measuring detection time and accuracy. Check clutter with several simultaneous conflicts. Build a continuously updating version in code.</p></div>
 </div>
 </div>
 
@@ -509,12 +529,15 @@ footer>:last-child{justify-self:end}
 <div class="section-label">References</div>
 <h2>Sources</h2>
 <ul class="ref-list">
+<li>Anthropic. (2026). <em>Claude</em> (Opus 5.5 version) [Large language model]. <a href="https://claude.ai" target="_blank" rel="noopener">https://claude.ai</a></li>
 <li>Bennett, K. B., &amp; Flach, J. M. (2011). <em>Display and interface design: Subtle science, exact art</em>. CRC Press.</li>
-<li>Federal Aviation Administration. (n.d.). Section 13. Automation: En route. In <em>Air traffic control</em> (JO 7110.65). <a href="https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap5_section_13.html" target="_blank" rel="noopener">https://www.faa.gov/air_traffic/publications/atpubs/atc_html/chap5_section_13.html</a></li>
+<li>Federal Aviation Administration. (2014a). Section 5. Altitude assignment and verification. In <em>Air traffic control</em> (FAA Order JO 7110.65V). U.S. Department of Transportation. <a href="https://www.faa.gov/air_traffic/publications/atpubs/atc/atc0405.html" target="_blank" rel="noopener">https://www.faa.gov/air_traffic/publications/atpubs/atc/atc0405.html</a></li>
+<li>Federal Aviation Administration. (2014b). Section 5. Radar separation. In <em>Air traffic control</em> (FAA Order JO 7110.65V). U.S. Department of Transportation. <a href="https://www.faa.gov/air_traffic/publications/atpubs/atc/atc0505.html" target="_blank" rel="noopener">https://www.faa.gov/air_traffic/publications/atpubs/atc/atc0505.html</a></li>
+<li>Gabbard, J. (2026, October 13). <em>Design approach 2: Visual attention &amp; perceptual form</em> [Lecture]. Grado Department of Industrial &amp; Systems Engineering, Virginia Tech.</li>
+<li>Gallagher, S. (2014, May 12). U-2’s flight plan was like malware to FAA computer system. <em>Ars Technica</em>. <a href="https://arstechnica.com/information-technology/2014/05/u-2s-flight-plan-was-like-malware-to-faa-computer-system/" target="_blank" rel="noopener">https://arstechnica.com/information-technology/2014/05/u-2s-flight-plan-was-like-malware-to-faa-computer-system/</a></li>
 <li>Schäfer, M., Strohmeier, M., Lenders, V., Martinovic, I., &amp; Wilhelm, M. (2014). Bringing up OpenSky: A large-scale ADS-B sensor network for research. In <em>Proceedings of the 13th International Symposium on Information Processing in Sensor Networks</em> (pp. 83–94). IEEE. <a href="https://doi.org/10.1109/IPSN.2014.6846743" target="_blank" rel="noopener">https://doi.org/10.1109/IPSN.2014.6846743</a></li>
 <li>The OpenSky Network. (2019). <em>Historical state vector data: States 2019-07-01, 20:00 UTC</em> [Data set]. <a href="https://opensky-network.org" target="_blank" rel="noopener">https://opensky-network.org</a></li>
-<li>vNAS Documentation Team. (n.d.). <em>ERAM</em>. vNAS Documentation. <a href="https://docs.virtualnas.net/crc/eram/" target="_blank" rel="noopener">https://docs.virtualnas.net/crc/eram/</a></li>
-<li>Wickens, C. D., &amp; Carswell, C. M. (1995). The proximity compatibility principle: Its psychological foundation and relevance to display design. <em>Human Factors, 37</em>(3), 473–494. <a href="https://doi.org/10.1518/001872095779049408" target="_blank" rel="noopener">https://doi.org/10.1518/001872095779049408</a></li>
+<li>vNAS Documentation Team. (n.d.). <em>ERAM</em>. vNAS Documentation. Retrieved October 26, 2026, from <a href="https://docs.virtualnas.net/crc/eram/" target="_blank" rel="noopener">https://docs.virtualnas.net/crc/eram/</a></li>
 </ul>
 <p class="figure-caption">Flight data from the OpenSky Network, cited as its license requests. DAL2214 is a synthetic aircraft added for demonstration; all other aircraft are real.</p>
 </div>
