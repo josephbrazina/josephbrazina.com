@@ -1,600 +1,505 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Nintendo Switch 2 Home Screen Redesign | Joseph Brazina</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Nintendo Switch 2 Home Screen Redesign: Joseph Brazina</title>
+<meta name="description" content="Case study: a wireframe and lo-fi and hi-fi Figma prototypes of the Nintendo Switch 2 HOME Menu, grounded in usability testing and human factors engineering principles."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap"/>
 <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #E4E2DD; --bg-2: #D8D6D1; --bg-3: #CCCAC5; --surface: #ECEAE6;
-      --ink: #111111; --ink-2: #444444; --ink-3: #777777;
-      --border: 1px solid #BEBCB7; --border-heavy: 2px solid #111111;
-      --mono: 'Space Mono', monospace; --sans: 'Space Grotesk', sans-serif; --radius: 2px;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--sans); font-size: 16px; line-height: 1.5; color: var(--ink); background: var(--bg); }
-    a { color: var(--ink); text-decoration: none; }
-    /* NAV */
-    nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: var(--border-heavy); }
-    .nav-inner { padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; }
-    .nav-links { display: flex; }
-    .nav-links a { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px; height: 56px; display: flex; align-items: center; border-left: var(--border); transition: background .12s, color .12s; }
-    .nav-links a:hover { background: var(--ink); color: var(--bg); }
-    /* HERO */
-    .case-hero { background: var(--surface); border-bottom: var(--border-heavy); padding: 56px 48px 48px; }
-    .label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 20px; }
-    .case-hero h1 { font-family: var(--sans); font-size: 2.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; text-transform: uppercase; color: var(--ink); max-width: 860px; margin-bottom: 32px; }
-    .hero-meta { display: flex; flex-wrap: wrap; border-top: var(--border-heavy); border-bottom: var(--border-heavy); margin-bottom: 28px; }
-    .meta-item { padding: 14px 28px; border-right: var(--border); font-family: var(--mono); }
-    .meta-item:first-child { padding-left: 0; }
-    .meta-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
-    .meta-value { font-size: 0.78rem; color: var(--ink); }
-    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius); border: 1px solid var(--ink-3); color: var(--ink-2); background: transparent; }
-    .tag.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-    /* CONTENT */
-    .content-grid { display: grid; grid-template-columns: 200px 1fr; }
-    .sidebar { border-right: var(--border-heavy); padding: 40px 24px; position: sticky; top: 56px; height: fit-content; }
-    .sidebar-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); margin-bottom: 14px; }
-    .sidebar-nav a { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); padding: 9px 0; border-bottom: var(--border); transition: color .12s; }
-    .sidebar-nav a:hover { color: var(--ink); }
-    .main-content { padding: 48px 48px 96px; }
-    /* SECTIONS */
-    .section { margin-bottom: 60px; padding-bottom: 60px; border-bottom: var(--border); }
-    .section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .section-label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 16px; }
-    h2 { font-family: var(--sans); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink); margin-bottom: 20px; }
-    h3 { font-family: var(--sans); font-size: 0.96rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); margin: 28px 0 10px; border-bottom: var(--border); padding-bottom: 6px; }
-    p { font-size: 0.92rem; color: var(--ink-2); margin-bottom: 14px; line-height: 1.75; }
-    p:last-child { margin-bottom: 0; }
-    ul, ol { padding-left: 18px; margin-bottom: 14px; }
-    li { font-size: 0.92rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 4px; }
-    strong { color: var(--ink); }
-    /* CALLOUT */
-    .callout { background: var(--surface); border-left: 2px solid var(--ink); padding: 18px 22px; margin: 24px 0; }
-    .callout p { margin: 0; font-size: 0.88rem; }
-    /* TWO COL */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; border: var(--border-heavy); margin: 20px 0; }
-    .card { padding: 20px 22px; border-right: var(--border); border-bottom: var(--border); }
-    .card:nth-child(even) { border-right: none; }
-    .card:nth-child(3), .card:nth-child(4) { border-bottom: none; }
-    .card h4 { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
-    .card p { font-size: 0.86rem; margin: 0; }
-    /* TABLE */
-    .table-wrap { border: var(--border-heavy); margin: 20px 0; overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-    th { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); background: var(--surface); border-bottom: var(--border-heavy); padding: 10px 16px; text-align: left; }
-    td { padding: 12px 16px; border-bottom: var(--border); color: var(--ink-2); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    /* PROCESS STEPS */
-    .process { display: flex; border: var(--border-heavy); margin: 20px 0; }
-    .step { flex: 1; padding: 18px 12px; border-right: var(--border); text-align: center; }
-    .step:last-child { border-right: none; }
-    .step-num { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
-    .step-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--ink); }
-    /* FOOTER */
-    footer { background: var(--ink); border-top: var(--border-heavy); padding: 20px 48px; font-family: var(--mono); font-size: 0.7rem; color: #555; letter-spacing: 0.08em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
-    footer a { color: #777; }
-    footer a:hover { color: var(--bg); }
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .case-hero, .main-content { padding-left: 20px; padding-right: 20px; }
-      .case-hero h1 { font-size: 1.8rem; }
-      .nav-inner { padding: 0 20px; }
-      .two-col { grid-template-columns: 1fr; }
-      .card { border-right: none !important; }
-      .card:nth-child(3) { border-bottom: var(--border); }
-      .process { flex-direction: column; }
-      .step { border-right: none; border-bottom: var(--border); }
-      .step:last-child { border-bottom: none; }
-      footer { padding: 16px 20px; flex-direction: column; gap: 6px; }
-    }
+  /* Same gallery design as index.html: white wall, one gray mat for every image,
+     and the project images are the only color on the page. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .stim-grid { display:grid; grid-template-columns:repeat(3,1fr); border:var(--border-heavy); margin:16px 0; }
-    .stim-card { border-right:var(--border); }
-    .stim-card:last-child { border-right:none; }
-    .stim-meta { padding:12px 14px; }
-    .stim-label { display:block; font-family:var(--mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink); margin-bottom:3px; }
-    .stim-sub { font-family:var(--mono); font-size:0.6rem; color:var(--ink-3); letter-spacing:0.05em; }
-    @media(max-width:900px){ .stim-grid{ grid-template-columns:1fr; } .stim-card{ border-right:none; border-bottom:var(--border); } .stim-card:last-child{ border-bottom:none; } }
-/* ── maroon Apple-style skin ── */
-:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
-html{scroll-padding-top:48px}
-body{-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent-2);color:#fff}
-nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
-.nav-inner{height:48px}
-.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
-.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
-.nav-links a:hover{background:none;color:var(--accent)}
-.sidebar{top:48px}
-.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
-.sidebar-label{font-size:.72rem}
-.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
-.sidebar-nav a:hover{color:var(--accent)}
-.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
-.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
-.case-hero>*,.hero>*{position:relative;z-index:1}
-.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
-.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
-.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
-h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
-h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
-.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
-.tag.primary{background:var(--accent);color:#fff}
-.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
-.meta-value{font-weight:500}
-.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
-@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
-.section{border-bottom:var(--border)}
-.callout{background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
-.two-col,.stim-grid,.process,.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
-.card h4,.step-num,th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
-th{font-family:var(--mono);border-bottom:var(--border)}
-.step{background:var(--surface)}
-.step-label{text-transform:none;font-weight:600;font-size:.9rem}
-.stim-label{text-transform:none;letter-spacing:.01em}
-footer{background:#000;border-top:1px solid #2a2a2c;font-size:.75rem;color:#86868b;text-transform:none;letter-spacing:.01em}
-footer a{color:#a1a1a6}
-footer a:hover{color:var(--accent-2)}
+  :root {
+    --wall: #ffffff;
+    --mat: #ebebeb;
+    --ink: #000000;
+    --ink-2: #3a3a3a;
+    --ink-3: #666666;
+    --rule: #cccccc;
+    --night: #000000;
+    --night-ink: #ffffff;
+    --night-ink-2: #a6a6a6;
+    --sans: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --edge: clamp(20px, 5vw, 64px);
+    --plate-pad: clamp(14px, 3.2vw, 44px);
+    --gap: clamp(8px, 1.2vw, 14px);
+    --measure: 700px;   /* reading column */
+  }
 
-.result-figure{margin:28px 0 22px}
-.results-figure-img{display:block;width:100%;max-width:1200px;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
-.figure-caption{font-size:.78rem!important;color:var(--ink-3)!important;margin-top:10px!important;line-height:1.55!important}
-.result-figure h3{margin-top:0}
-.table-wrap p{padding:12px 16px;margin:0;font-size:.78rem;color:var(--ink-3);line-height:1.55}
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; color: var(--ink-2); background: var(--wall); -webkit-font-smoothing: antialiased; }
+  img, iframe { display: block; max-width: 100%; }
+  a { color: inherit; }
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--ink); }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--edge); }
+  .prose { max-width: var(--measure); }
+  .prose p + p { margin-top: 14px; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .text-link { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .text-link:hover { text-decoration-thickness: 2px; }
 
+  /* NAV (matches index.html) */
+  .site-nav { position: sticky; top: 0; z-index: 10; background: var(--wall); border-bottom: 1px solid var(--rule); }
+  .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 24px; }
+  .site-name { font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: -0.005em; }
+  .site-nav ul { list-style: none; display: flex; gap: clamp(14px, 2.4vw, 32px); }
+  .site-nav ul a { font-size: 0.9375rem; color: var(--ink-3); text-decoration: none; }
+  .site-nav ul a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 
-/* ── infoviz case study additions (same skin) ── */
-.content-grid>*{min-width:0}
-.hero-sub{font-size:1.2rem;color:var(--ink-3);max-width:720px;line-height:1.5;margin:-12px 0 32px}
-.case-figure{margin:24px 0 26px}
-.case-figure img{display:block;width:100%;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
-.case-figure.portrait img{max-width:560px}
-.case-figure .figure-caption{max-width:900px}
-.fig-num{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin-bottom:8px}
-.fig-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0 26px;align-items:start}
-.fig-pair .case-figure{margin:0}
-.case-intro{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 22px}
-.stage{background:var(--surface);border-radius:24px;padding:26px 28px;margin:26px 0}
-.stage>h3:first-child{margin-top:0}
-.stage p:last-child{margin-bottom:0}
-.viz-embed{border:1px solid #d2d2d7;border-radius:16px;overflow:hidden;background:#fff;margin:6px 0 10px}
-.viz-embed iframe{display:block;width:100%;border:0;background:#fff}
-.viz-link{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--accent);margin-top:4px}
-.viz-link:hover{text-decoration:underline}
-.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent-2);margin-right:8px;vertical-align:1px;box-shadow:0 0 0 4px rgba(229,117,31,.18)}
-.anno-list{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;counter-reset:anno}
-.anno-list li{counter-increment:anno;position:relative;padding-left:34px;font-size:.88rem;line-height:1.55;margin:0}
-.anno-list li::before{content:counter(anno);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-size:.7rem;display:flex;align-items:center;justify-content:center}
-.feedback-table td:first-child{width:34%}
-.verdict{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:2px 9px;border-radius:980px;margin-bottom:6px}
-.verdict.yes{background:#e3f3e6;color:#1f6b33}
-.verdict.adapt{background:#fdf0e3;color:#9a4a0b}
-.verdict.no{background:var(--bg-2);color:var(--ink-3)}
-.tradeoff{display:grid;grid-template-columns:1fr 1fr;border:var(--border);border-radius:20px;overflow:hidden;margin:20px 0}
-.tradeoff>div{padding:20px 22px}
-.tradeoff>div:first-child{border-right:var(--border)}
-.tradeoff h4{font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--ink-3);margin-bottom:8px}
-.tradeoff p{font-size:.88rem;margin:0}
-.tradeoff .gain{background:var(--surface)}
-.case-divider{font-family:var(--mono);font-size:.78rem;color:var(--ink-3)}
-.two-col.four .card:nth-child(3),.two-col.four .card:nth-child(4){border-bottom:none}
-.ref-list{list-style:none;padding:0}
-.ref-list li{margin-bottom:12px;padding-left:24px;text-indent:-24px}
-.ref-list a{color:var(--accent);word-break:break-all}
-@media(max-width:900px){
-  .fig-pair,.anno-list,.tradeoff{grid-template-columns:1fr}
-  .tradeoff>div:first-child{border-right:none;border-bottom:var(--border)}
-  .stage{padding:20px 18px}
-  .hero-meta{flex-direction:column}
-  .meta-item{padding-left:0;border-right:none;border-bottom:var(--border)}
-  .meta-item:last-child{border-bottom:none}
-}
+  /* HERO */
+  .hero { padding: clamp(40px, 6vw, 72px) 0 0; }
+  .back { display: inline-block; font-size: 0.9375rem; color: var(--ink-3); margin-bottom: 28px; }
+  .back:hover { color: var(--ink); }
+  .hero h1 { font-size: clamp(1.875rem, 3.6vw, 2.75rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); max-width: 22ch; }
+  .hero .summary { margin-top: 16px; font-size: 1.1875rem; line-height: 1.5; color: var(--ink-2); max-width: 58ch; }
+  .hero .plate { margin-top: clamp(32px, 4vw, 48px); }
 
-/* ── switch case study additions ── */
-.goal-grid{display:grid;grid-template-columns:repeat(4,1fr);border:var(--border);border-radius:20px;overflow:hidden;margin:20px 0}
-.goal{padding:20px 20px 22px;border-right:var(--border);background:var(--surface)}
-.goal:last-child{border-right:none}
-.goal .num{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin-bottom:10px}
-.goal h4{font-size:.98rem;font-weight:600;letter-spacing:-.01em;margin-bottom:6px;color:var(--ink)}
-.goal p{font-size:.84rem;margin:0;line-height:1.6}
-.case-figure.tall img{max-width:760px}
-.badge-progress{display:inline-block;font-family:var(--mono);font-size:.7rem;background:var(--accent-2);color:#fff;padding:3px 10px;border-radius:980px;margin-left:10px;vertical-align:middle}
-/* theme switcher */
-.switcher{background:var(--surface);border-radius:28px;padding:22px;margin:24px 0}
-.theme-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-.theme-tab{font-family:var(--sans);font-size:.88rem;color:var(--ink-2);background:#fff;border:1px solid #d2d2d7;border-radius:980px;padding:6px 14px 6px 6px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:border-color .15s,color .15s,box-shadow .15s}
-.theme-tab img{width:34px;height:22px;object-fit:cover;object-position:center;border-radius:980px;display:block;border:1px solid rgba(0,0,0,.08)}
-.theme-tab:hover{border-color:var(--ink-3);color:var(--ink)}
-.theme-tab[aria-selected="true"]{border-color:var(--accent);color:var(--ink);box-shadow:0 0 0 3px rgba(134,31,65,.14)}
-.theme-tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
-.theme-panel{display:none}
-.theme-panel.active{display:block;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:.3}to{opacity:1}}
-.theme-panel .screen-label{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);display:block;margin:0 0 8px}
-.theme-panel img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid #d2d2d7;background:#fff}
-.theme-panel .picker-wrap{max-width:640px;margin-top:20px}
-.theme-panel p.theme-note{font-size:.86rem;margin:14px 0 0}
-@media(max-width:900px){
-  .goal-grid{grid-template-columns:1fr 1fr}
-  .goal:nth-child(2){border-right:none}
-  .goal:nth-child(-n+2){border-bottom:var(--border)}
-  .switcher{padding:14px;border-radius:20px}
-}
-.bg-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0 28px}
-.bg-card{margin:0}
-.bg-card img{display:block;width:100%;aspect-ratio:290/158;object-fit:cover;border-radius:14px;border:1px solid #d2d2d7}
-.bg-card figcaption{margin-top:8px;font-size:.86rem;color:var(--ink-2)}
-.bg-card figcaption strong{display:block;color:var(--ink);font-weight:600}
-.bg-card figcaption span{font-family:var(--mono);font-size:.7rem;color:var(--ink-3)}
-@media(max-width:900px){.bg-gallery{grid-template-columns:1fr 1fr}}
-footer{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px 24px;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;text-transform:none}
-footer>:first-child{justify-self:start}
-footer>:last-child{justify-self:end}
-@media(max-width:700px){footer{grid-template-columns:1fr;justify-items:center;text-align:center;padding:16px 20px}footer>*{justify-self:center!important}}
+  .facts { display: grid; grid-template-columns: repeat(5, minmax(0, auto)); justify-content: start; column-gap: clamp(24px, 4vw, 56px); row-gap: 16px; margin-top: 24px; font-size: 0.9375rem; }
+  .facts dt { color: var(--ink-3); }
+  .facts dd { color: var(--ink); margin-top: 2px; }
+  .role { margin-top: 24px; max-width: var(--measure); }
+
+  /* PLATES (same mat as the home page) */
+  .plate { background: var(--mat); padding: var(--plate-pad); }
+  .plate img { margin: 0 auto; width: 100%; height: auto; }
+  .plate .narrow { max-width: min(100%, 720px); }
+  .plate .portrait { max-width: min(100%, 520px); }
+  figure > figcaption, .plate + .caption { margin-top: 12px; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); max-width: var(--measure); }
+  .credit { font-size: 0.8125rem; color: var(--ink-3); margin-top: 6px; max-width: var(--measure); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .pair figcaption { margin-top: 8px; font-size: 0.8125rem; color: var(--ink-3); }
+
+  /* SECTIONS */
+  .room { border-top: 1px solid var(--rule); padding: clamp(56px, 8vw, 96px) 0; margin-top: clamp(56px, 8vw, 96px); }
+  .room + .room { margin-top: 0; }
+  .room h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: var(--ink); margin-bottom: 20px; }
+  .room .prose + .plate, .room .prose + figure, .room .prose + .table-wrap, .room figure + .prose, .room .table-wrap + .prose { margin-top: 32px; }
+
+  /* What the original does well */
+  .strengths-lead { margin-top: 40px; max-width: var(--measure); }
+  .strengths { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; margin-top: 20px; max-width: 820px; }
+  .strengths li { border-top: 1px solid var(--rule); padding-top: 12px; }
+  .strengths strong { display: block; }
+
+  /* TABLES */
+  .table-wrap { max-width: 980px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9688rem; line-height: 1.5; }
+  th { text-align: left; font-weight: 500; font-size: 0.875rem; color: var(--ink-3); padding: 0 20px 10px 0; border-bottom: 1px solid var(--ink); vertical-align: bottom; }
+  td { padding: 16px 20px 16px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td:first-child { color: var(--ink); font-weight: 500; }
+  th:last-child, td:last-child { padding-right: 0; }
+  .table-note { font-size: 0.8125rem; color: var(--ink-3); margin-top: 12px; max-width: var(--measure); }
+  .col-30 { width: 30%; } .col-28 { width: 28%; } .col-50 { width: 50%; }
+
+  /* PROCESS: a real sequence, so the steps are numbered */
+  .steps { list-style: none; counter-reset: step; }
+  .step { counter-increment: step; }
+  .step + .step { margin-top: clamp(64px, 8vw, 104px); }
+  .step h3 { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 12px; display: flex; gap: 14px; align-items: baseline; }
+  .step h3::before { content: counter(step); font-weight: 500; color: var(--ink-3); min-width: 1ch; }
+  .step .prose { padding-left: 0; }
+  .step figure, .step .switcher, .step .try { margin-top: 32px; }
+
+  /* Theme switcher */
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-bottom: 18px; }
+  .tab { font: inherit; font-size: 1rem; background: none; border: 0; padding: 6px 0; color: var(--ink-3); cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .panel[hidden] { display: none; }
+  .panel .pair img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; outline: 1px solid rgba(0, 0, 0, 0.14); outline-offset: -1px; }
+  .panel-note { margin-top: 14px; font-size: 0.9375rem; color: var(--ink-2); max-width: var(--measure); }
+
+  /* Figma embed */
+  .embed { background: var(--mat); padding: var(--plate-pad); }
+  .embed iframe { width: 100%; aspect-ratio: 16 / 10; min-height: 300px; border: 0; background: #fff; }
+  .try p { max-width: var(--measure); margin-bottom: 16px; }
+  .try .text-link { display: inline-block; margin-top: 12px; font-size: 0.9375rem; }
+
+  .next { margin-top: 32px; max-width: var(--measure); padding-left: 18px; border-left: 2px solid var(--ink); }
+
+  /* SOURCES */
+  details summary { cursor: pointer; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); list-style: none; display: flex; align-items: baseline; gap: 14px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary span { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: var(--ink-3); text-decoration: underline; text-underline-offset: 4px; }
+  details[open] summary span .closed, details:not([open]) summary span .open { display: none; }
+  .refs { list-style: none; margin-top: 28px; max-width: 820px; font-size: 0.875rem; line-height: 1.55; }
+  .refs li { padding-left: 2em; text-indent: -2em; margin-bottom: 10px; overflow-wrap: anywhere; }
+  .refs a { color: var(--ink-3); }
+  .legal { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); max-width: 820px; }
+
+  /* FOOTER (matches index.html) */
+  .end { background: var(--night); color: var(--night-ink-2); padding: clamp(48px, 7vw, 80px) 0; }
+  .end a.big { font-size: clamp(1.25rem, 2.6vw, 1.75rem); font-weight: 500; color: var(--night-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .end a.big:hover { text-decoration-thickness: 2px; }
+  .end p { margin-top: 12px; }
+  .end :focus-visible { outline-color: var(--night-ink); }
+  footer { background: var(--night); color: var(--night-ink-2); border-top: 1px solid #333333; font-size: 0.8125rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; padding-bottom: 22px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .strengths { grid-template-columns: 1fr; }
+    .pair { grid-template-columns: 1fr; }
+    .site-nav ul { gap: 12px; }
+    .site-nav ul a { font-size: 0.8125rem; }
+    .site-nav .site-name { font-size: 0.9375rem; }
+    /* tables become stacked blocks so nothing scrolls sideways */
+    table.stack thead { display: none; }
+    table.stack tr { display: block; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+    table.stack td { display: block; padding: 3px 0; border: 0; }
+    table.stack td::before { content: attr(data-label); display: block; font-size: 0.8125rem; font-weight: 400; color: var(--ink-3); }
+  }
+  @media (max-width: 400px) {
+    .site-nav li.optional { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
-<nav>
-<div class="nav-inner">
-<span class="nav-logo">JOSEPH BRAZINA</span>
-<div class="nav-links">
-<a href="index.html">Home</a>
-<a href="index.html#projects">Work</a>
-<a href="index.html#research">Research</a>
-<a href="index.html#contact">Contact</a>
-</div>
-</div>
+
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="site-name" href="index.html">Joseph Brazina</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li class="optional"><a href="index.html#research">Research</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="Joseph_Brazina_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    </ul>
+  </div>
 </nav>
-<div class="case-hero">
-<div class="label">Case Study · HF System Design</div>
-<h1>Nintendo Switch 2 Home Screen Redesign</h1>
-<p class="hero-sub">I designed a wireframe and low- and high-fidelity interactive Figma prototypes of the Switch 2 HOME Menu. Each design decision came from usability-test pain points and is grounded in human factors engineering principles.</p>
-<div class="hero-meta">
-<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">ISE 5654: Human Factors System Design</div></div>
-<div class="meta-item"><div class="meta-label">Instructor</div><div class="meta-value">Dr. Deborah Dickerson</div></div>
-<div class="meta-item"><div class="meta-label">My role</div><div class="meta-value">Wireframe &amp; prototype designer</div></div>
-<div class="meta-item"><div class="meta-label">Team</div><div class="meta-value">Joseph Brazina, Arsalan Ashraf &amp; Jyotshna Bali</div></div>
-<div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">Oct 2026</div></div>
-</div>
-<div class="tags">
-<span class="tag primary">Wireframing</span>
-<span class="tag primary">Figma Prototyping</span>
-<span class="tag">Human Factors Engineering</span>
-<span class="tag">Usability Testing</span>
-<span class="tag">UI Redesign</span>
-<span class="tag">Coursework</span>
-</div>
-</div>
-<div class="content-grid">
-<div class="sidebar">
-<div class="sidebar-label">Contents</div>
-<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#findings">Pain Points → Design</a><a href="#wireframe">Wireframe</a><a href="#lofi">Lo-Fi Prototype</a><a href="#hifi">Hi-Fi Prototype</a><a href="#hfe">HFE Principles</a><a href="#learned">What I Learned</a><a href="#suggestions">Redesign Suggestions</a><a href="#references">Sources</a></div>
-</div>
-<div class="main-content">
 
-<div class="section" id="overview">
-<div class="section-label">Overview</div>
-<h2>The Problem</h2>
-<p>The Switch 2 HOME Menu is the hub players return to between games, and it has to stay legible and predictable whether the console is held in the hands, propped on a table, or docked to a TV. Our three-person team evaluated it with two methods: task-based usability testing, then prototyping. The usability test surfaced pain points, and I turned those findings into a redesign. I designed a wireframe and low- and high-fidelity interactive prototypes in Figma, and justified each design decision with human factors engineering (HFE) principles.</p>
-<div class="callout"><p><strong>My role:</strong> I designed the wireframe and both interactive prototypes from start to finish. I also wrote the prototyping, HFE principles, prototyping findings, and redesign suggestions sections of the team report. My teammates, Arsalan Ashraf and Jyotshna Bali, led the design description and the usability testing.</p></div>
-<div class="process">
-<div class="step"><div class="step-num">01</div><div class="step-label">Usability test (team)</div></div>
-<div class="step"><div class="step-num">02</div><div class="step-label">Wireframe</div></div>
-<div class="step"><div class="step-num">03</div><div class="step-label">Lo-fi prototype</div></div>
-<div class="step"><div class="step-num">04</div><div class="step-label">Hi-fi prototype</div></div>
-<div class="step"><div class="step-num">05</div><div class="step-label">HFE rationale</div></div>
-</div>
-<div class="fig-pair">
-<figure class="case-figure">
-<span class="fig-num">Original · Switch 2 in handheld mode</span>
-<img alt="Nintendo Switch 2 console held in handheld mode" src="images/switch2-29-console-handheld-mode.jpg" loading="lazy"/>
-<p class="figure-caption"><em>Note.</em> Image from Nintendo of America (n.d.). © Nintendo.</p>
-</figure>
-<figure class="case-figure">
-<span class="fig-num">Original · HOME Menu (light and dark)</span>
-<img alt="Original Nintendo Switch 2 HOME Menu in light and dark themes, with small square game icons and a row of unlabeled system icons" src="images/switch2-28-original-home-menu-light-dark.jpg" loading="lazy"/>
-<p class="figure-caption"><em>Note.</em> From Iggy (2025). Image as reported by Nintendo Soup; may not reflect the official interface. Nintendo Switch 2 © Nintendo.</p>
-</figure>
-</div>
-</div>
+<main>
 
-<div class="section" id="findings">
-<div class="section-label">From Pain Points to Prototypes</div>
-<h2>Designing From Test Results</h2>
-<p>The team's usability test had two participants, a novice and an expert. Each completed five tasks in handheld mode while thinking aloud, then filled out the System Usability Scale (SUS). Both scored 75, but their feedback differed. The novice struggled to tell what the unlabeled icons did, while the expert wanted faster access to common controls and more personalization. I used these findings as the starting point for every prototype decision.</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>What the usability test found</th><th>How I addressed it in the prototypes</th></tr></thead>
-<tbody>
-<tr><td>The expert wanted game icons that look more like the artwork on physical game cases, and larger icons.</td><td><strong>Full portrait cover-art game cards</strong> replace the small square icons.</td></tr>
-<tr><td>The expert found the game title shown above each icon redundant.</td><td>The cover art carries the title, so the cards have <strong>no separate title label</strong>.</td></tr>
-<tr><td>The expert suggested a brightness control on the home screen, next to Wi-Fi, battery, and time.</td><td>A <strong>brightness slider</strong> is grouped with the status indicators in the top-right corner.</td></tr>
-<tr><td>The novice couldn't tell what several unlabeled icons did, and the expert asked for larger bottom icons.</td><td>A <strong>wider, full-width navigation bar</strong> on the bottom edge, with larger buttons closer to the thumbs. The lo-fi prototype labels each button.</td></tr>
-<tr><td>The expert wanted to customize the home screen theme around favorite games.</td><td><strong>Four Nintendo-themed home screens</strong> (Mario, Zelda, Kirby, Donkey Kong) alongside Light and Dark.</td></tr>
-</tbody>
-<tfoot></tfoot>
-</table>
-<p><em>Note.</em> Both participants were team members, so these findings are preliminary rather than generalizable.</p>
-</div>
-</div>
+<!-- 1. WHAT THIS IS -->
+<header class="hero">
+  <div class="wrap">
+    <a class="back" href="index.html#work">All work</a>
+    <h1>Nintendo Switch 2 Home Screen Redesign</h1>
+    <p class="summary">A wireframe and low- and high-fidelity Figma prototypes of the Switch 2 HOME Menu, with every change drawn from usability-test findings and grounded in human factors engineering (HFE) principles.</p>
 
-<div class="section" id="wireframe">
-<div class="section-label">Wireframe</div>
-<h2>The Blueprint</h2>
-<p>I started with a static, grayscale wireframe to lay out the redesign before adding interactivity. I built it on a 1920 × 1080 frame in Inter. Portrait rectangles with X's hold the place of game covers in a horizontal row. A black frame marks the selected game, and progress bars sit beneath each cover, left off for games without a story mode.</p>
-<p>Ten circular placeholders along the bottom edge form the new navigation bar. Three in the top left hold profile icons. The top right holds a clock, Wi-Fi and battery placeholders, and a new brightness slider. I also designed the theme selector pop-up: a 3 × 2 grid of crossed-box previews, a Ⓑ Back button, and a black frame with a ✓ around the current theme. Arrows connect the screens to show the user flow, and eight annotations explain the changes.</p>
-<figure class="case-figure tall">
-<span class="fig-num">Figure 1 · Annotated wireframe</span>
-<img alt="Annotated low-fidelity wireframe of the Switch 2 home screen, theme picker, and Mario theme applied" src="images/switch2-01-annotated-low-fidelity-wireframe-of-the.png" loading="lazy"/>
-<ol class="anno-list">
-<li>Status bar with time, Wi-Fi, battery, and a new brightness slider</li>
-<li>Full portrait cover art in a row that scrolls sideways</li>
-<li>Story progress from 0 to 100%. No bar means the game has no story mode</li>
-<li>The selected game has an outline</li>
-<li>Nav bar moved to the bottom edge at full width, closer to the thumbs</li>
-<li>Themes button that opens the theme picker</li>
-<li>Light/Dark plus Nintendo themes, with the current theme marked</li>
-<li>Selecting a theme updates the home background (Mario shown)</li>
-</ol>
-</figure>
-</div>
+    <figure>
+      <div class="plate"><img src="images/switch2-19-mario-theme-home-screen.jpg" alt="Hi-fi prototype of the redesigned home screen with the Mario theme, full cover-art game cards, and a full-width bottom navigation bar" width="2000" height="1125"/></div>
+      <figcaption>The hi-fi prototype with the Mario theme. Image credits are listed with the theme previews below.</figcaption>
+    </figure>
 
-<div class="section" id="lofi">
-<div class="section-label">Low-Fidelity Prototype</div>
-<h2>Making the Flow Clickable</h2>
-<p>Next, I turned the wireframe into an interactive lo-fi prototype. I duplicated the light home screen and its theme selector, then gave the copy a red background to represent the Mario theme. Each placeholder got a game title (Donkey Kong Bananza, Mario Kart World, Tears of the Kingdom, and more), and each theme preview got a theme name. Each nav button got a text label.</p>
-<p>In Figma, I wired the screens together. The game row scrolls horizontally. The Themes button opens the theme selector, choosing Light or Mario switches the home screen, and pressing Ⓑ Back or clicking outside the pop-up returns to the current home screen.</p>
-<figure class="case-figure tall">
-<span class="fig-num">Figure 2 · Lo-fi prototype</span>
-<img alt="Low-fidelity prototype screens for the Light and Mario themes: home screen and theme picker, with crossed-box placeholders for game covers and theme thumbnails" src="images/switch2-27-lofi-prototype-light-and-mario.png" loading="lazy" style="max-width:620px"/>
-<p class="figure-caption">Lo-fi prototype screens for the Light and Mario themes, home screen and theme picker.</p>
-</figure>
-<h3><span class="live-dot"></span>Try the Lo-Fi Prototype</h3>
-<div class="viz-embed"><iframe title="Switch 2 home screen low-fidelity interactive prototype (Figma)" src="https://embed.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1&amp;embed-host=share" style="aspect-ratio:16/10;min-height:300px" loading="lazy" allowfullscreen=""></iframe></div>
-<a class="viz-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;viewport=-131%2C166%2C0.25&amp;t=wzCJbuLNxFIy2ONq-1&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1" target="_blank" rel="noopener">Open lo-fi prototype in Figma ↗</a>
-</div>
+    <dl class="facts">
+      <div><dt>Course</dt><dd>ISE 5654: Human Factors System Design</dd></div>
+      <div><dt>Instructor</dt><dd>Dr. Deborah Dickerson</dd></div>
+      <div><dt>My role</dt><dd>Wireframe &amp; prototype designer</dd></div>
+      <div><dt>Team</dt><dd>Joseph Brazina, Arsalan Ashraf &amp; Jyotshna Bali</dd></div>
+      <div><dt>Date</dt><dd>Oct 2026</dd></div>
+    </dl>
+    <p class="role">I designed the wireframe and both interactive prototypes, and wrote the report’s prototyping, HFE principles, findings, and redesign sections. My teammates led the design description and the usability testing.</p>
+  </div>
+</header>
 
-<div class="section" id="hifi">
-<div class="section-label">High-Fidelity Prototype</div>
-<h2>From Gray Boxes to Real Screens</h2>
-<p>I built the hi-fi prototype on top of the lo-fi layout. I edited every game cover to remove console branding and age ratings, so only the cover art remained. I added an "All Software" card with a 3 × 3 grid icon to the end of the game row. The nav icons came from the open-source Iconify plugin and are colored individually. The profile icons are actual Switch 2 profile icons.</p>
-<p>For focus and contrast, I used a single cyan accent for the progress bars, the brightness slider, and the glowing selection frame around the current game. Covers, progress bars, and status items also got subtle drop shadows and glows so they separate cleanly from any background.</p>
-<figure class="case-figure">
-<span class="fig-num">Figure 3 · Lo-fi vs. hi-fi prototype</span>
-<img alt="Side-by-side comparison of low-fidelity and high-fidelity prototype screens for the Light and Mario themes, home and picker" src="images/switch2-02-side-by-side-comparison-of-wireframe.jpg" loading="lazy"/>
-<p class="figure-caption">The Light and Mario themes, home screen and theme picker, shown as low-fidelity prototype screens (left) and high-fidelity prototype screens (right). <em>Note.</em> Cover images adapted from Jerry88pl (n.d.), megasnorlax (n.d.-a, n.d.-b, n.d.-c, n.d.-d), Nutsacc (n.d.), and SirRandall (n.d.); background image from <em>Super Mario World Wallpaper</em> (n.d.); profile icons from Random Talking Bush (2017). Original artwork © Nintendo; <em>Kirby and the Forgotten Land</em> © Nintendo/HAL Laboratory, Inc.; <em>Minecraft</em> © Mojang AB/Microsoft.</p>
-</figure>
-<h3>Tuning Each Theme</h3>
-<p>All six home screens share one layout. Only colors and the background change, so every theme needed its own contrast adjustments.</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Theme</th><th>Background</th><th>Text &amp; status icons</th><th>Nav buttons</th></tr></thead>
-<tbody>
-<tr><td><strong>Light</strong></td><td>Light gray</td><td>Black</td><td>White, with colored icons</td></tr>
-<tr><td><strong>Dark</strong></td><td>Dark gray</td><td>Light gray</td><td>Dark gray, icons keep their colors</td></tr>
-<tr><td><strong>Mario</strong></td><td>Super Mario Galaxy art</td><td>Light gray</td><td>Dark blue, reduced opacity</td></tr>
-<tr><td><strong>Zelda</strong></td><td>Tears of the Kingdom art</td><td>Dark gray</td><td>Dark gray buttons and icons</td></tr>
-<tr><td><strong>Kirby</strong></td><td>Kirby art</td><td>Light gray</td><td>Pink, reduced opacity</td></tr>
-<tr><td><strong>Donkey Kong</strong></td><td>Donkey Kong Bananza art</td><td>Light gray</td><td>Yellow, reduced opacity</td></tr>
-</tbody>
-</table>
-</div>
-<p>Each theme selector also matches its home screen's background. The current theme is marked with a cyan frame and ✓. Preview images get faint shadows on light backgrounds, a white glow on Dark, and subtle white borders on the busier Mario, Zelda, and Donkey Kong backgrounds so their edges stay visible.</p>
-<h3>Background Themes</h3>
-<div class="bg-gallery">
-<figure class="bg-card"><img alt="Light theme background" src="images/switch2-03-light-theme-background.jpg" loading="lazy"/><figcaption><strong>Light</strong><span>System default</span></figcaption></figure>
-<figure class="bg-card"><img alt="Mario theme background" src="images/switch2-04-mario-theme-background.jpg" loading="lazy"/><figcaption><strong>Mario</strong><span>Super Mario Galaxy</span></figcaption></figure>
-<figure class="bg-card"><img alt="Kirby theme background" src="images/switch2-05-kirby-theme-background.jpg" loading="lazy"/><figcaption><strong>Kirby</strong><span>Kirby</span></figcaption></figure>
-<figure class="bg-card"><img alt="Dark theme background" src="images/switch2-06-dark-theme-background.jpg" loading="lazy"/><figcaption><strong>Dark</strong><span>System</span></figcaption></figure>
-<figure class="bg-card"><img alt="Zelda theme background" src="images/switch2-07-zelda-theme-background.jpg" loading="lazy"/><figcaption><strong>Zelda</strong><span>Tears of the Kingdom</span></figcaption></figure>
-<figure class="bg-card"><img alt="Donkey Kong theme background" src="images/switch2-08-donkey-kong-theme-background.jpg" loading="lazy"/><figcaption><strong>Donkey Kong</strong><span>Donkey Kong Bananza</span></figcaption></figure>
-</div>
-<p class="figure-caption"><em>Note.</em> Background images from Dean (2025), <em>Kirby HD Wallpaper</em> (n.d.), Nintendo (n.d.-b), and <em>Super Mario World Wallpaper</em> (n.d.). Original artwork © Nintendo; Kirby artwork © Nintendo/HAL Laboratory, Inc.</p>
-<h3>Themes Applied</h3>
-<p>Pick a theme to see its home screen and theme selector.</p>
-<div class="switcher">
-<div class="theme-tabs" role="tablist" aria-label="Choose a theme to preview">
-<button class="theme-tab" role="tab" id="tab-light" aria-selected="true" aria-controls="panel-light" tabindex="0"><img loading="lazy" decoding="async" alt="" src="images/switch2-09-light-tab-thumb.jpg"/>Light</button>
-<button class="theme-tab" role="tab" id="tab-dark" aria-selected="false" aria-controls="panel-dark" tabindex="-1"><img loading="lazy" decoding="async" alt="" src="images/switch2-10-dark-tab-thumb.jpg"/>Dark</button>
-<button class="theme-tab" role="tab" id="tab-mario" aria-selected="false" aria-controls="panel-mario" tabindex="-1"><img loading="lazy" decoding="async" alt="" src="images/switch2-11-mario-tab-thumb.jpg"/>Mario</button>
-<button class="theme-tab" role="tab" id="tab-kirby" aria-selected="false" aria-controls="panel-kirby" tabindex="-1"><img loading="lazy" decoding="async" alt="" src="images/switch2-12-kirby-tab-thumb.jpg"/>Kirby</button>
-<button class="theme-tab" role="tab" id="tab-zelda" aria-selected="false" aria-controls="panel-zelda" tabindex="-1"><img loading="lazy" decoding="async" alt="" src="images/switch2-13-zelda-tab-thumb.jpg"/>Zelda</button>
-<button class="theme-tab" role="tab" id="tab-dk" aria-selected="false" aria-controls="panel-dk" tabindex="-1"><img loading="lazy" decoding="async" alt="" src="images/switch2-14-donkey-kong-tab-thumb.jpg"/>Donkey Kong</button>
-</div>
-<div class="theme-panel active" role="tabpanel" id="panel-light" aria-labelledby="tab-light">
-<span class="screen-label">Light · Home</span>
-<img alt="Light theme home screen" src="images/switch2-15-light-theme-home-screen.jpg" loading="lazy"/>
-<div class="picker-wrap"><span class="screen-label">Light · Theme picker</span>
-<img alt="Light theme picker with Light selected" src="images/switch2-16-light-theme-picker-with-light-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">The default theme. Nav icons keep their colors on a neutral gray background.</p>
-</div>
-<div class="theme-panel" role="tabpanel" id="panel-dark" aria-labelledby="tab-dark">
-<span class="screen-label">Dark · Home</span>
-<img alt="Dark theme home screen" src="images/switch2-17-dark-theme-home-screen.jpg" loading="lazy"/>
-<div class="picker-wrap"><span class="screen-label">Dark · Theme picker</span>
-<img alt="Dark theme picker with Dark selected" src="images/switch2-18-dark-theme-picker-with-dark-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">A dark version of the default with the same colored icons and cyan focus outline.</p>
-</div>
-<div class="theme-panel" role="tabpanel" id="panel-mario" aria-labelledby="tab-mario">
-<span class="screen-label">Mario · Home</span>
-<img alt="Mario theme home screen" src="images/switch2-19-mario-theme-home-screen.jpg" loading="lazy"/>
-<div class="picker-wrap"><span class="screen-label">Mario · Theme picker</span>
-<img alt="Mario theme picker with Mario selected" src="images/switch2-20-mario-theme-picker-with-mario-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">Super Mario Galaxy art. Nav icons switch to translucent circles so the background shows through.</p>
-</div>
-<div class="theme-panel" role="tabpanel" id="panel-kirby" aria-labelledby="tab-kirby">
-<span class="screen-label">Kirby · Home</span>
-<img alt="Kirby theme home screen" src="images/switch2-21-kirby-theme-home-screen.jpg" loading="lazy"/>
-<div class="picker-wrap"><span class="screen-label">Kirby · Theme picker</span>
-<img alt="Kirby theme picker with Kirby selected" src="images/switch2-22-kirby-theme-picker-with-kirby-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">A flat pink background with Kirby art. Nav icons pick up the theme color.</p>
-</div>
-<div class="theme-panel" role="tabpanel" id="panel-zelda" aria-labelledby="tab-zelda">
-<span class="screen-label">Zelda · Home</span>
-<img alt="Zelda theme home screen" src="images/switch2-23-zelda-theme-home-screen.jpg" loading="lazy"/>
-<div class="picker-wrap"><span class="screen-label">Zelda · Theme picker</span>
-<img alt="Zelda theme picker with Zelda selected" src="images/switch2-24-zelda-theme-picker-with-zelda-selected.jpg" loading="lazy"/></div>
-<p class="theme-note">Tears of the Kingdom art with nav icons tinted to match the sky.</p>
-</div>
-<div class="theme-panel" role="tabpanel" id="panel-dk" aria-labelledby="tab-dk">
-<span class="screen-label">Donkey Kong · Home</span>
-<img alt="Donkey Kong theme home screen" src="images/switch2-25-donkey-kong-theme-home-screen.jpg" loading="lazy"/>
-<div class="picker-wrap"><span class="screen-label">Donkey Kong · Theme picker</span>
-<img alt="Donkey Kong theme picker with Donkey Kong selected" src="images/switch2-26-donkey-kong-theme-picker-with-donkey.jpg" loading="lazy"/></div>
-<p class="theme-note">Donkey Kong Bananza art with warm, gold-tinted nav icons.</p>
-</div>
-</div>
-<p class="figure-caption"><em>Note.</em> Cover images adapted from Jerry88pl (n.d.), megasnorlax (n.d.-a, n.d.-b, n.d.-c, n.d.-d), Nutsacc (n.d.), and SirRandall (n.d.); background images from Dean (2025), <em>Kirby HD Wallpaper</em> (n.d.), Nintendo (n.d.-b), and <em>Super Mario World Wallpaper</em> (n.d.); profile icons from Random Talking Bush (2017). Original artwork © Nintendo; Kirby artwork © Nintendo/HAL Laboratory, Inc.; <em>Minecraft</em> © Mojang AB/Microsoft.</p>
-<h3><span class="live-dot"></span>Try the Hi-Fi Prototype</h3>
-<p>Scroll the game row, open the theme selector from the Themes button (the desktop icon), and switch between all six themes.</p>
-<div class="viz-embed"><iframe title="Switch 2 home screen high-fidelity interactive prototype (Figma)" src="https://embed.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-18662&amp;scaling=contain&amp;content-scaling=fixed&amp;starting-point-node-id=201%3A18662&amp;page-id=201%3A18316&amp;embed-host=share" style="aspect-ratio:16/10;min-height:300px" loading="lazy" allowfullscreen=""></iframe></div>
-<a class="viz-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-18662&amp;viewport=191%2C162%2C0.14&amp;t=bjVbAflBDoP2W2ni-1&amp;scaling=contain&amp;content-scaling=fixed&amp;starting-point-node-id=201%3A18662&amp;page-id=201%3A18316" target="_blank" rel="noopener">Open hi-fi prototype in Figma ↗</a>
-</div>
+<!-- 2. WHERE IT STARTED -->
+<section class="room" id="original" aria-labelledby="original-h">
+  <div class="wrap">
+    <h2 id="original-h">The original HOME Menu</h2>
+    <div class="prose">
+      <p>The HOME Menu is the hub players return to between games, so it has to stay legible whether the console is handheld, on a table, or docked to a TV. It’s already minimal and user-first.</p>
+    </div>
+    <figure>
+      <div class="plate"><img class="portrait" src="images/switch2-28-original-home-menu-light-dark.jpg" alt="Original Nintendo Switch 2 HOME Menu in light and dark themes, with small square game icons and a row of unlabeled system icons" width="1080" height="1214" loading="lazy" decoding="async"/></div>
+      <figcaption>The original HOME Menu in its light and dark themes, with small square game icons and unlabeled system icons.</figcaption>
+      <p class="credit"><em>Note.</em> From Iggy (2025), as reported by Nintendo Soup; may not reflect the official interface. Nintendo Switch 2 © Nintendo.</p>
+    </figure>
+    <p class="strengths-lead">The redesign keeps what the original already does well:</p>
+    <ul class="strengths">
+      <li><strong>Clear cursor location</strong>A cyan frame always shows what’s selected.</li>
+      <li><strong>Button prompts</strong>Cues like “Ⓐ Continue” remind players which button does what.</li>
+      <li><strong>Games come first</strong>Game cards are the most salient element, in the user’s focal vision.</li>
+      <li><strong>Status at a glance</strong>Wi-Fi and battery are always visible in the top right.</li>
+    </ul>
+  </div>
+</section>
 
-<div class="section" id="hfe">
-<div class="section-label">Human Factors Engineering</div>
-<h2>Why Each Design Choice Works</h2>
-<p>I grounded every addition and change in an established HFE principle, so each design decision rests on evidence rather than intuition alone.</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Design choice</th><th>HFE principles</th><th>How it helps the user</th></tr></thead>
-<tbody>
-<tr><td><strong>Full cover-art game cards</strong></td><td>Fitts' law; attentional salience &amp; visual hierarchy; recognition over recall</td><td>Larger targets are faster to select, especially by touch in handheld mode. Familiar box art lets players spot a game instead of reading for it.</td></tr>
-<tr><td><strong>Wider bottom nav bar</strong></td><td>Fitts' law; thumb reach on handheld touchscreens; visual hierarchy</td><td>Bigger buttons sit closer to the thumbs, and the layout separates secondary system functions from the primary game row.</td></tr>
-<tr><td><strong>Home-screen brightness slider</strong></td><td>Minimizing information access cost; functional grouping; compatible mapping</td><td>A frequent adjustment no longer requires System Settings. It sits with the other status indicators, and sliding left dims while sliding right brightens, matching expectations.</td></tr>
-<tr><td><strong>Story progress bars</strong></td><td>Knowledge in the world; proximity compatibility principle; redundancy gain</td><td>Progress is visible without opening the game. The bar sits directly beneath its game, and a percentage backs up the bar.</td></tr>
-<tr><td><strong>Cyan selection frame, glows &amp; shadows</strong></td><td>Attentional salience; discriminability; figure-ground segregation</td><td>The cursor is easy to find, and covers separate cleanly from any background.</td></tr>
-<tr><td><strong>Nintendo-themed home screens</strong></td><td>Personalization; aesthetic-usability effect; consistency &amp; mental models</td><td>Players can personalize their console. Because the layout never changes between themes, spatial memory of where everything sits carries over.</td></tr>
-<tr><td><strong>Nav icon colors per theme</strong></td><td>Figure-ground segregation; luminance contrast</td><td>Buttons stay distinguishable from the background art.</td></tr>
-<tr><td><strong>Image previews in the theme selector</strong></td><td>Recognition over recall</td><td>Players see each theme instead of having to remember what a name looks like.</td></tr>
-<tr><td><strong>Cyan frame + ✓ on the current theme</strong></td><td>Redundancy gain; discriminability</td><td>Two cues mark the selection. Tailored shadows, glows, and borders keep preview edges visible on every background.</td></tr>
-<tr><td><strong>Ⓑ Back or tap outside to close</strong></td><td>User control and freedom</td><td>Two quick ways to return to the home screen.</td></tr>
-<tr><td><strong>"All Software" tile with grid icon</strong></td><td>Signifiers; redundancy gain; visibility of system status</td><td>The grid signals the full library, and its spot at the end of the row shows the row is finite.</td></tr>
-</tbody>
-</table>
-<p><em>Note.</em> Principles drawn from Fitts (1954), MacKenzie (1992), Bergstrom-Lehtovirta and Oulasvirta (2014), Wickens et al. (2022), Wickens and Carswell (1995), Nielsen (1994), Norman (2013), Sanders and McCormick (1993), Blom and Monk (2003), Kurosu and Kashimura (1995), Tractinsky et al. (2000), and Wagemans et al. (2012).</p>
-</div>
-<div class="tradeoff">
-<div class="gain"><h4>Expected benefit</h4><p>Faster game selection, easier thumb reach, fewer trips into System Settings, and a home screen players can make their own.</p></div>
-<div><h4>Trade-off to watch</h4><p>Busy themed backgrounds such as Mario and Donkey Kong may add cognitive load and compete with the game cards for attention (Sweller, 1988). Nav buttons tinted to match a theme may also lose salience.</p></div>
-</div>
-</div>
+<!-- 3. WHAT TESTING FOUND, AND WHAT CHANGED -->
+<section class="room" id="findings" aria-labelledby="findings-h">
+  <div class="wrap">
+    <h2 id="findings-h">What testing found, and what I changed</h2>
+    <div class="prose">
+      <p>The team tested two participants, a novice and an expert. Each did five tasks in handheld mode while thinking aloud, then filled out the System Usability Scale (SUS). Both scored 75, but the novice struggled with unlabeled icons, while the expert wanted faster controls and more personalization.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="stack">
+        <thead><tr><th class="col-50">Test finding</th><th>Prototype change</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Test finding">Game icons should look like physical game cases, and be larger.</td><td data-label="Prototype change">Full portrait cover-art game cards replace the small square icons.</td></tr>
+          <tr><td data-label="Test finding">The title above each icon is redundant.</td><td data-label="Prototype change">The cover art carries the title, so there’s no separate label.</td></tr>
+          <tr><td data-label="Test finding">Brightness should be adjustable from the home screen.</td><td data-label="Prototype change">A brightness slider sits with the Wi-Fi, battery, and time in the top right.</td></tr>
+          <tr><td data-label="Test finding">Unlabeled icons were unclear, and the bottom icons were too small.</td><td data-label="Prototype change">A wider, full-width navigation bar on the bottom edge, with larger buttons closer to the thumbs.</td></tr>
+          <tr><td data-label="Test finding">The home screen should be customizable around favorite games.</td><td data-label="Prototype change">Four Nintendo-themed home screens (Mario, Zelda, Kirby, Donkey Kong) alongside Light and Dark.</td></tr>
+        </tbody>
+      </table>
+      <p class="table-note">Both participants were team members, so these findings are preliminary rather than generalizable.</p>
+    </div>
+  </div>
+</section>
 
-<div class="section" id="learned">
-<div class="section-label">What I Learned</div>
-<h2>Prototyping Findings</h2>
-<p>Prototyping showed me how well-designed the original HOME Menu already is. It's minimalist and puts the user first, presenting only a few essential tasks with almost no visual clutter. That made it hard to find pain points worth redesigning. Building interactive prototypes instead of static mockups helped me understand how each redesigned element would actually behave before implementation, and taught me Figma's prototyping tools in depth.</p>
-<h3>What the Original Gets Right</h3>
-<div class="two-col four">
-<div class="card"><h4>Clear cursor location</h4><p>A cyan frame always shows which element is selected.</p></div>
-<div class="card"><h4>Button prompts</h4><p>Small cues like "Ⓧ Close software" and "Ⓐ Continue" in the bottom right remind players which button does what.</p></div>
-<div class="card"><h4>Games come first</h4><p>Game cards are the most salient element and sit in the user's focal vision, with system areas one tilt or press away.</p></div>
-<div class="card"><h4>Status at a glance</h4><p>Wi-Fi and battery level are always visible in the top-right corner.</p></div>
-</div>
-</div>
+<!-- 4. HOW IT WAS BUILT -->
+<section class="room" id="process" aria-labelledby="process-h">
+  <div class="wrap">
+    <h2 id="process-h">How I built it</h2>
+    <ol class="steps">
 
-<div class="section" id="suggestions">
-<div class="section-label">Redesign Suggestions</div>
-<h2>Strengths, Counterarguments &amp; Next Steps</h2>
-<p>The prototypes bring four improvements suggested by usability testing: larger game cards, a redesigned and larger navigation bar, a home-screen brightness slider, and Nintendo-themed home screens. Each comes with a counterargument worth weighing against Nintendo's minimalist design language.</p>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Redesign</th><th>Counterargument</th><th>Possible fix</th></tr></thead>
-<tbody>
-<tr><td>Nintendo-themed home screens</td><td>Busy backgrounds add visual clutter and cognitive load.</td><td>Use simpler backgrounds, which would also sharpen the edges of game cards and nav buttons and keep the game row the clear focal point.</td></tr>
-<tr><td>Theme-matched nav buttons</td><td>Buttons colored like the background lose salience.</td><td>Use nav button colors that contrast with each background.</td></tr>
-<tr><td>Home-screen brightness slider</td><td>Unnecessary clutter for players who use auto-brightness.</td><td>Add a setting to show or hide the slider.</td></tr>
-<tr><td>Theme selector pop-up</td><td>Only six themes fit at once.</td><td>Use a larger pop-up if more themes are added.</td></tr>
-</tbody>
-</table>
-</div>
-<div class="callout"><p><strong>Next step:</strong> run a usability test on the hi-fi prototype to confirm whether each HFE principle actually improves the experience, and find which changes to keep, adjust, or remove.</p></div>
-</div>
+      <li class="step" id="wireframe">
+        <h3>Wireframe</h3>
+        <div class="prose">
+          <p>I laid out the redesign as a static grayscale wireframe on a 1920 × 1080 frame: the home screen, the theme picker, and the Mario theme applied. Arrows show the flow between screens, and eight numbered notes explain each change.</p>
+        </div>
+        <figure>
+          <div class="plate"><a href="images/switch2-01-annotated-low-fidelity-wireframe-of-the.png" target="_blank" rel="noopener"><img class="narrow" src="images/switch2-01-annotated-low-fidelity-wireframe-of-the.png" alt="Annotated low-fidelity wireframe of the Switch 2 home screen, theme picker, and Mario theme applied, with eight numbered notes" width="1440" height="1958" loading="lazy" decoding="async"/></a></div>
+          <figcaption>The annotated wireframe. <a class="text-link" href="images/switch2-01-annotated-low-fidelity-wireframe-of-the.png" target="_blank" rel="noopener">Open full size</a></figcaption>
+        </figure>
+      </li>
 
-<div class="section" id="references">
-<div class="section-label">References</div>
-<h2>Sources</h2>
-<ul class="ref-list">
-<li>Bergstrom-Lehtovirta, J., &amp; Oulasvirta, A. (2014). Modeling the functional area of the thumb on mobile touchscreen surfaces. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 1991–2000). ACM. <a href="https://doi.org/10.1145/2556288.2557354" target="_blank" rel="noopener">https://doi.org/10.1145/2556288.2557354</a></li>
-<li>Blom, J. O., &amp; Monk, A. F. (2003). Theory of personalization of appearance: Why users personalize their PCs and mobile phones. <em>Human–Computer Interaction, 18</em>(3), 193–228. <a href="https://doi.org/10.1207/S15327051HCI1803_1" target="_blank" rel="noopener">https://doi.org/10.1207/S15327051HCI1803_1</a></li>
-<li>Dean, I. (2025, July 18). <em>Donkey Kong Bananza review: Switch 2 finally has its must-play system seller</em> [Image]. Creative Bloq. <a href="https://www.creativebloq.com/entertainment/gaming/donkey-kong-bananza-review-switch-2-finally-has-its-must-play-system-seller" target="_blank" rel="noopener">https://www.creativebloq.com/entertainment/gaming/donkey-kong-bananza-review-switch-2-finally-has-its-must-play-system-seller</a></li>
-<li>Figma. (n.d.-a). <em>Apply effects to layers</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360041488473-Apply-effects-to-layers" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360041488473-Apply-effects-to-layers</a></li>
-<li>Figma. (n.d.-b). <em>Create overlays in your prototypes</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360039818254-Create-overlays-in-your-prototypes" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360039818254-Create-overlays-in-your-prototypes</a></li>
-<li>Figma. (n.d.-c). <em>Guide to prototyping in Figma</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma</a></li>
-<li>Figma. (n.d.-d). <em>Prototype scroll and overflow behavior</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360039818734-Prototype-scroll-and-overflow-behavior" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360039818734-Prototype-scroll-and-overflow-behavior</a></li>
-<li>Figma. (n.d.-e). <em>What is wireframing?</em> Figma Resource Library. Retrieved October 10, 2026, from <a href="https://www.figma.com/resource-library/what-is-wireframing/" target="_blank" rel="noopener">https://www.figma.com/resource-library/what-is-wireframing/</a></li>
-<li>Fitts, P. M. (1954). The information capacity of the human motor system in controlling the amplitude of movement. <em>Journal of Experimental Psychology, 47</em>(6), 381–391. <a href="https://doi.org/10.1037/h0055392" target="_blank" rel="noopener">https://doi.org/10.1037/h0055392</a></li>
-<li>Iconify. (n.d.). <em>Iconify</em> [Figma plugin]. Figma Community. <a href="https://www.figma.com/community/plugin/735098390272716381/iconify" target="_blank" rel="noopener">https://www.figma.com/community/plugin/735098390272716381/iconify</a></li>
-<li>Iggy. (2025, May 6). <em>Nintendo Switch 2 to launch with two system themes</em> [Image of light and dark home menu themes]. Nintendo Soup. <a href="https://nintendosoup.com/nintendo-switch-2-to-launch-with-two-system-themes/" target="_blank" rel="noopener">https://nintendosoup.com/nintendo-switch-2-to-launch-with-two-system-themes/</a></li>
-<li>Jerry88pl. (n.d.). <em>Super Mario Galaxy + Super Mario Galaxy 2</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=19903" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=19903</a></li>
-<li><em>Kirby HD wallpaper: A starry adventure awaits</em> [Wallpaper]. (n.d.). Wallpaper Abyss. <a href="https://wall.alphacoders.com/big.php?i=317170" target="_blank" rel="noopener">https://wall.alphacoders.com/big.php?i=317170</a></li>
-<li>KirbyFan932. (n.d.). <em>Super Mario Odyssey</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=9843" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=9843</a></li>
-<li>Kortum, P. (2008). <em>HCI beyond the GUI: Design for haptic, speech, olfactory, and other nontraditional interfaces</em>. Morgan Kaufmann.</li>
-<li>Kurosu, M., &amp; Kashimura, K. (1995). Apparent usability vs. inherent usability: Experimental analysis on the determinants of the apparent usability. In <em>Conference Companion on Human Factors in Computing Systems</em> (pp. 292–293). ACM. <a href="https://doi.org/10.1145/223355.223680" target="_blank" rel="noopener">https://doi.org/10.1145/223355.223680</a></li>
-<li>lenoxseer. (n.d.). <em>The Legend of Zelda: Link’s Awakening – Nintendo Switch</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=10120" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=10120</a></li>
-<li>LoganGamer20. (n.d.). <em>Super Mario 3D World + Bowser’s Fury</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14884" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14884</a></li>
-<li>MacKenzie, I. S. (1992). Fitts’ law as a research and design tool in human–computer interaction. <em>Human–Computer Interaction, 7</em>(1), 91–139. <a href="https://doi.org/10.1207/s15327051hci0701_3" target="_blank" rel="noopener">https://doi.org/10.1207/s15327051hci0701_3</a></li>
-<li>Martin, B., &amp; Hanington, B. (2019). <em>Universal methods of design, expanded and revised: 125 ways to research complex problems, develop innovative ideas, and design effective solutions</em>. Rockport Publishers.</li>
-<li>megasnorlax. (n.d.-a). <em>Donkey Kong Bananza</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=30726" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=30726</a></li>
-<li>megasnorlax. (n.d.-b). <em>The Legend of Zelda: Tears of the Kingdom</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=24720" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=24720</a></li>
-<li>megasnorlax. (n.d.-c). <em>Minecraft</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14828" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14828</a></li>
-<li>megasnorlax. (n.d.-d). <em>Super Mario Bros. Wonder</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=18500" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=18500</a></li>
-<li>megasnorlax. (n.d.-e). <em>Super Smash Bros. Ultimate</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14841" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14841</a></li>
-<li>Nielsen, J. (1994). Enhancing the explanatory power of usability heuristics. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 152–158). ACM. <a href="https://doi.org/10.1145/191666.191729" target="_blank" rel="noopener">https://doi.org/10.1145/191666.191729</a></li>
-<li>Nintendo. (n.d.-a). <em>The Legend of Zelda: Ocarina of Time – Nintendo Switch 2</em> [Cover image]. GameStop. <a href="https://www.gamestop.com/video-games/nintendo-switch-2/products/the-legend-of-zelda-ocarina-of-time---nintendo-switch-2/20036066.html" target="_blank" rel="noopener">https://www.gamestop.com/video-games/nintendo-switch-2/products/the-legend-of-zelda-ocarina-of-time---nintendo-switch-2/20036066.html</a></li>
-<li>Nintendo. (n.d.-b). <em>The Legend of Zelda: Tears of the Kingdom</em> [Key art]. <a href="https://zelda.com/assets/img/tears/keyArt_desktop.jpg" target="_blank" rel="noopener">https://zelda.com/assets/img/tears/keyArt_desktop.jpg</a></li>
-<li>Nintendo of America. (n.d.). <em>Nintendo Switch 2 system</em> [Image of the console in handheld mode]. <a href="https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/" target="_blank" rel="noopener">https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/</a></li>
-<li>Nintendo of America. (2025a). <em>Nintendo Switch 2 HOME Menu overview and Accessibility settings</em>. Nintendo Support. <a href="https://en-americas-support.nintendo.com/app/answers/detail/a_id/68181" target="_blank" rel="noopener">https://en-americas-support.nintendo.com/app/answers/detail/a_id/68181</a></li>
-<li>Nintendo of America. (2025b). <em>Nintendo Switch 2 system and technical specifications</em>. <a href="https://www.nintendo.com/us/gaming-systems/switch-2/tech-specs/" target="_blank" rel="noopener">https://www.nintendo.com/us/gaming-systems/switch-2/tech-specs/</a></li>
-<li>Norman, D. A. (2013). <em>The design of everyday things</em> (Rev. and expanded ed.). Basic Books.</li>
-<li>Nutsacc. (n.d.). <em>Kirby and the Forgotten Land</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=15137" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=15137</a></li>
-<li>Random Talking Bush. (2017, July 12). <em>Profile icons</em> [Sprite sheet]. The Spriters Resource. <a href="https://www.spriters-resource.com/nintendo_switch/systembios/asset/93824/" target="_blank" rel="noopener">https://www.spriters-resource.com/nintendo_switch/systembios/asset/93824/</a></li>
-<li>Salvendy, G., &amp; Karwowski, W. (Eds.). (2021). <em>Handbook of human factors and ergonomics</em> (5th ed.). Wiley.</li>
-<li>Sanders, M. S., &amp; McCormick, E. J. (1993). <em>Human factors in engineering and design</em> (7th ed.). McGraw-Hill.</li>
-<li>SirRandall. (n.d.). <em>Mario Kart World</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=30716" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=30716</a></li>
-<li><em>Super Mario World wallpaper</em> [Wallpaper]. (n.d.). GetWallpapers. <a href="https://getwallpapers.com/collection/super-mario-world-wallpaper" target="_blank" rel="noopener">https://getwallpapers.com/collection/super-mario-world-wallpaper</a></li>
-<li>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science, 12</em>(2), 257–285. <a href="https://doi.org/10.1207/s15516709cog1202_4" target="_blank" rel="noopener">https://doi.org/10.1207/s15516709cog1202_4</a></li>
-<li>Ting, C. A. R., Mondragon, J. M., Almirante, J. I. F., Ramolete, G. I. L., Cohen, M. A. P. C., &amp; Custodio, B. P. (2020). Usability and gaming experience assessment of the Nintendo Switch user interface by Filipino users. In T. Ahram &amp; C. Falcão (Eds.), <em>Advances in usability, user experience, wearable and assistive technology</em> (pp. 777–783). Springer. <a href="https://doi.org/10.1007/978-3-030-51828-8_103" target="_blank" rel="noopener">https://doi.org/10.1007/978-3-030-51828-8_103</a></li>
-<li>Tractinsky, N., Katz, A. S., &amp; Ikar, D. (2000). What is beautiful is usable. <em>Interacting with Computers, 13</em>(2), 127–145. <a href="https://doi.org/10.1016/S0953-5438(00)00031-X" target="_blank" rel="noopener">https://doi.org/10.1016/S0953-5438(00)00031-X</a></li>
-<li>UXtweak. (n.d.). <em>System usability scale</em> [Blog post]. <a href="https://blog.uxtweak.com/system-usability-scale/" target="_blank" rel="noopener">https://blog.uxtweak.com/system-usability-scale/</a></li>
-<li>Wagemans, J., Elder, J. H., Kubovy, M., Palmer, S. E., Peterson, M. A., Singh, M., &amp; von der Heydt, R. (2012). A century of Gestalt psychology in visual perception: I. Perceptual grouping and figure–ground organization. <em>Psychological Bulletin, 138</em>(6), 1172–1217. <a href="https://doi.org/10.1037/a0029333" target="_blank" rel="noopener">https://doi.org/10.1037/a0029333</a></li>
-<li>Wickens, C. D., &amp; Carswell, C. M. (1995). The proximity compatibility principle: Its psychological foundation and relevance to display design. <em>Human Factors, 37</em>(3), 473–494. <a href="https://doi.org/10.1518/001872095779049408" target="_blank" rel="noopener">https://doi.org/10.1518/001872095779049408</a></li>
-<li>Wickens, C. D., Helton, W. S., Hollands, J. G., &amp; Banbury, S. (2022). <em>Engineering psychology and human performance</em> (5th ed.). Routledge. <a href="https://doi.org/10.4324/9781003177616" target="_blank" rel="noopener">https://doi.org/10.4324/9781003177616</a></li>
-</ul>
-<p class="figure-caption">All game artwork, characters, and trademarks belong to their respective owners and are used here for non-commercial, educational portfolio purposes only.</p>
-</div>
+      <li class="step" id="lofi">
+        <h3>Lo-fi prototype</h3>
+        <div class="prose">
+          <p>I added a Mario version of the home screen and theme picker, labeled every placeholder, and wired the screens together in Figma. The game row scrolls, Themes opens the picker, choosing a theme switches the home screen, and Ⓑ Back or tapping outside closes it.</p>
+        </div>
+        <figure>
+          <div class="plate"><a href="images/switch2-27-lofi-prototype-light-and-mario.png" target="_blank" rel="noopener"><img class="portrait" src="images/switch2-27-lofi-prototype-light-and-mario.png" alt="Low-fidelity prototype screens for the Light and Mario themes: home screen and theme picker, with labeled placeholders for game covers and theme thumbnails" width="1300" height="2516" loading="lazy" decoding="async"/></a></div>
+          <figcaption>Lo-fi home screens and theme pickers for the Light and Mario themes. <a class="text-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-2317&amp;p=f&amp;viewport=-131%2C166%2C0.25&amp;t=wzCJbuLNxFIy2ONq-1&amp;scaling=contain&amp;content-scaling=fixed&amp;page-id=0%3A1" target="_blank" rel="noopener">Try the lo-fi prototype in Figma</a></figcaption>
+        </figure>
+      </li>
 
-</div>
+      <li class="step" id="hifi">
+        <h3>Hi-fi prototype</h3>
+        <div class="prose">
+          <p>I replaced the placeholders with real cover art (console branding and age ratings removed), Iconify nav icons, and actual Switch 2 profile icons, and added an All Software tile to end the game row. One cyan accent marks the selection frame, progress bars, and brightness slider.</p>
+          <p>All six themes share one layout. Only the colors and background change, so I tuned each theme’s contrast separately.</p>
+        </div>
 
-</div>
+        <div class="switcher">
+          <div class="tabs" role="tablist" aria-label="Choose a theme to preview">
+            <button class="tab" role="tab" id="tab-light" aria-controls="panel-light" aria-selected="true" tabindex="0">Light</button>
+            <button class="tab" role="tab" id="tab-dark" aria-controls="panel-dark" aria-selected="false" tabindex="-1">Dark</button>
+            <button class="tab" role="tab" id="tab-mario" aria-controls="panel-mario" aria-selected="false" tabindex="-1">Mario</button>
+            <button class="tab" role="tab" id="tab-kirby" aria-controls="panel-kirby" aria-selected="false" tabindex="-1">Kirby</button>
+            <button class="tab" role="tab" id="tab-zelda" aria-controls="panel-zelda" aria-selected="false" tabindex="-1">Zelda</button>
+            <button class="tab" role="tab" id="tab-dk" aria-controls="panel-dk" aria-selected="false" tabindex="-1">Donkey Kong</button>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-light" aria-labelledby="tab-light">
+            <div class="plate">
+              <div class="pair">
+                <figure><img src="images/switch2-15-light-theme-home-screen.jpg" alt="Light theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
+                <figure><img src="images/switch2-16-light-theme-picker-with-light-selected.jpg" alt="Light theme picker with Light selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
+              </div>
+            </div>
+            <p class="panel-note">The system default: a light gray background, black text and status icons, and white nav buttons with colored icons.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-dark" aria-labelledby="tab-dark" hidden>
+            <div class="plate">
+              <div class="pair">
+                <figure><img src="images/switch2-17-dark-theme-home-screen.jpg" alt="Dark theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
+                <figure><img src="images/switch2-18-dark-theme-picker-with-dark-selected.jpg" alt="Dark theme picker with Dark selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
+              </div>
+            </div>
+            <p class="panel-note">A dark gray background with light gray text. The nav buttons turn dark gray, and their icons keep their colors.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-mario" aria-labelledby="tab-mario" hidden>
+            <div class="plate">
+              <div class="pair">
+                <figure><img src="images/switch2-19-mario-theme-home-screen.jpg" alt="Mario theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
+                <figure><img src="images/switch2-20-mario-theme-picker-with-mario-selected.jpg" alt="Mario theme picker with Mario selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
+              </div>
+            </div>
+            <p class="panel-note">Super Mario Galaxy art with light gray text and dark blue nav buttons at reduced opacity, so the background shows through.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-kirby" aria-labelledby="tab-kirby" hidden>
+            <div class="plate">
+              <div class="pair">
+                <figure><img src="images/switch2-21-kirby-theme-home-screen.jpg" alt="Kirby theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
+                <figure><img src="images/switch2-22-kirby-theme-picker-with-kirby-selected.jpg" alt="Kirby theme picker with Kirby selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
+              </div>
+            </div>
+            <p class="panel-note">Kirby art with light gray text and pink nav buttons at reduced opacity.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-zelda" aria-labelledby="tab-zelda" hidden>
+            <div class="plate">
+              <div class="pair">
+                <figure><img src="images/switch2-23-zelda-theme-home-screen.jpg" alt="Zelda theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
+                <figure><img src="images/switch2-24-zelda-theme-picker-with-zelda-selected.jpg" alt="Zelda theme picker with Zelda selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
+              </div>
+            </div>
+            <p class="panel-note">Tears of the Kingdom art with dark gray text, buttons, and icons.</p>
+          </div>
+          <div class="panel" role="tabpanel" id="panel-dk" aria-labelledby="tab-dk" hidden>
+            <div class="plate">
+              <div class="pair">
+                <figure><img src="images/switch2-25-donkey-kong-theme-home-screen.jpg" alt="Donkey Kong theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
+                <figure><img src="images/switch2-26-donkey-kong-theme-picker-with-donkey.jpg" alt="Donkey Kong theme picker with Donkey Kong selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
+              </div>
+            </div>
+            <p class="panel-note">Donkey Kong Bananza art with light gray text and yellow nav buttons at reduced opacity.</p>
+          </div>
+          <p class="credit"><em>Note.</em> Cover images adapted from Jerry88pl (n.d.), megasnorlax (n.d.-a, n.d.-b, n.d.-c, n.d.-d), Nutsacc (n.d.), and SirRandall (n.d.); background images from Dean (2025), <em>Kirby HD Wallpaper</em> (n.d.), Nintendo (n.d.-b), and <em>Super Mario World Wallpaper</em> (n.d.); profile icons from Random Talking Bush (2017). Original artwork © Nintendo; Kirby artwork © Nintendo/HAL Laboratory, Inc.; <em>Minecraft</em> © Mojang AB/Microsoft.</p>
+        </div>
+
+        <div class="try" id="try">
+          <p><strong>Try it.</strong> Scroll the game row, open the theme picker with the Themes button (the desktop icon), and switch between all six themes.</p>
+          <div class="embed"><iframe title="Switch 2 home screen high-fidelity interactive prototype (Figma)" src="https://embed.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-18662&amp;scaling=contain&amp;content-scaling=fixed&amp;starting-point-node-id=201%3A18662&amp;page-id=201%3A18316&amp;embed-host=share" loading="lazy" allowfullscreen></iframe></div>
+          <a class="text-link" href="https://www.figma.com/proto/RKSdIApwjO5hHhU9KWitAa/Switch-2-Home-Screen?node-id=201-18662&amp;viewport=191%2C162%2C0.14&amp;t=bjVbAflBDoP2W2ni-1&amp;scaling=contain&amp;content-scaling=fixed&amp;starting-point-node-id=201%3A18662&amp;page-id=201%3A18316" target="_blank" rel="noopener">Open the hi-fi prototype in Figma</a>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5. WHY IT WORKS -->
+<section class="room" id="hfe" aria-labelledby="hfe-h">
+  <div class="wrap">
+    <h2 id="hfe-h">Why each change works</h2>
+    <div class="prose">
+      <p>Every change rests on an established HFE principle. Together they aim for faster game selection, easier thumb reach, fewer trips into System Settings, and a home screen players can make their own.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="stack">
+        <thead><tr><th class="col-28">Design choice</th><th class="col-30">HFE principles</th><th>How it helps</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Design choice">Full cover-art game cards</td><td data-label="HFE principles">Fitts’ law; visual hierarchy; recognition over recall</td><td data-label="How it helps">Larger targets are faster to tap, and familiar box art is spotted rather than read.</td></tr>
+          <tr><td data-label="Design choice">Wider bottom nav bar</td><td data-label="HFE principles">Fitts’ law; thumb reach on handheld touchscreens</td><td data-label="How it helps">Bigger buttons sit closer to the thumbs and apart from the game row.</td></tr>
+          <tr><td data-label="Design choice">Home-screen brightness slider</td><td data-label="HFE principles">Information access cost; functional grouping; compatible mapping</td><td data-label="How it helps">A frequent adjustment no longer needs System Settings, and left dims while right brightens.</td></tr>
+          <tr><td data-label="Design choice">Story progress bars</td><td data-label="HFE principles">Knowledge in the world; proximity compatibility; redundancy gain</td><td data-label="How it helps">Progress shows without opening the game, right beneath it, with a percentage as backup.</td></tr>
+          <tr><td data-label="Design choice">Cyan selection frame, glows, shadows, and per-theme nav colors</td><td data-label="HFE principles">Attentional salience; figure-ground segregation; luminance contrast</td><td data-label="How it helps">The cursor is easy to find, and covers and buttons stay distinct on every background.</td></tr>
+          <tr><td data-label="Design choice">Themed home screens with image previews</td><td data-label="HFE principles">Personalization; aesthetic-usability effect; consistency; recognition over recall</td><td data-label="How it helps">Players personalize their console, the fixed layout keeps spatial memory intact, and previews show each theme.</td></tr>
+          <tr><td data-label="Design choice">Cyan frame and ✓ on the current theme; Ⓑ Back or tap outside</td><td data-label="HFE principles">Redundancy gain; discriminability; user control and freedom</td><td data-label="How it helps">Two cues mark the selection, and there are two quick ways back to the home screen.</td></tr>
+          <tr><td data-label="Design choice">All Software tile</td><td data-label="HFE principles">Signifiers; visibility of system status</td><td data-label="How it helps">The grid icon signals the full library and shows where the row ends.</td></tr>
+        </tbody>
+      </table>
+      <p class="table-note"><em>Note.</em> Principles drawn from Fitts (1954), MacKenzie (1992), Bergstrom-Lehtovirta and Oulasvirta (2014), Wickens et al. (2022), Wickens and Carswell (1995), Nielsen (1994), Norman (2013), Sanders and McCormick (1993), Blom and Monk (2003), Kurosu and Kashimura (1995), Tractinsky et al. (2000), and Wagemans et al. (2012).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. LIMITS AND NEXT STEPS -->
+<section class="room" id="next" aria-labelledby="next-h">
+  <div class="wrap">
+    <h2 id="next-h">Trade-offs and next steps</h2>
+    <div class="prose">
+      <p>Prototyping showed me how well designed the original already is, which made real pain points hard to find. Building interactive prototypes instead of static mockups let me see how each element would behave before implementation. Each change also has a cost worth weighing against Nintendo’s minimalist design language.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="stack">
+        <thead><tr><th class="col-28">Change</th><th class="col-30">Risk</th><th>Possible fix</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Change">Nintendo-themed home screens</td><td data-label="Risk">Busy backgrounds add clutter and cognitive load (Sweller, 1988).</td><td data-label="Possible fix">Simpler backgrounds, which also sharpen the edges of cards and buttons and keep the game row the focal point.</td></tr>
+          <tr><td data-label="Change">Theme-matched nav buttons</td><td data-label="Risk">Buttons colored like the background lose salience.</td><td data-label="Possible fix">Nav colors that contrast with each background.</td></tr>
+          <tr><td data-label="Change">Home-screen brightness slider</td><td data-label="Risk">Clutter for players who use auto-brightness.</td><td data-label="Possible fix">A setting to show or hide the slider.</td></tr>
+          <tr><td data-label="Change">Theme picker pop-up</td><td data-label="Risk">Only six themes fit at once.</td><td data-label="Possible fix">A larger pop-up if more themes are added.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="next"><strong>Next step:</strong> run a usability test on the hi-fi prototype to confirm whether each HFE principle actually improves the experience, and decide which changes to keep, adjust, or remove.</p>
+  </div>
+</section>
+
+<!-- 7. SOURCES (collapsed) -->
+<section class="room" id="sources" aria-label="Sources">
+  <div class="wrap">
+    <details>
+      <summary>Sources <span><span class="closed">Show all 45</span><span class="open">Hide</span></span></summary>
+      <ul class="refs">
+        <li>Bergstrom-Lehtovirta, J., &amp; Oulasvirta, A. (2014). Modeling the functional area of the thumb on mobile touchscreen surfaces. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 1991–2000). ACM. <a href="https://doi.org/10.1145/2556288.2557354" target="_blank" rel="noopener">https://doi.org/10.1145/2556288.2557354</a></li>
+        <li>Blom, J. O., &amp; Monk, A. F. (2003). Theory of personalization of appearance: Why users personalize their PCs and mobile phones. <em>Human–Computer Interaction, 18</em>(3), 193–228. <a href="https://doi.org/10.1207/S15327051HCI1803_1" target="_blank" rel="noopener">https://doi.org/10.1207/S15327051HCI1803_1</a></li>
+        <li>Dean, I. (2025, July 18). <em>Donkey Kong Bananza review: Switch 2 finally has its must-play system seller</em> [Image]. Creative Bloq. <a href="https://www.creativebloq.com/entertainment/gaming/donkey-kong-bananza-review-switch-2-finally-has-its-must-play-system-seller" target="_blank" rel="noopener">https://www.creativebloq.com/entertainment/gaming/donkey-kong-bananza-review-switch-2-finally-has-its-must-play-system-seller</a></li>
+        <li>Figma. (n.d.-a). <em>Apply effects to layers</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360041488473-Apply-effects-to-layers" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360041488473-Apply-effects-to-layers</a></li>
+        <li>Figma. (n.d.-b). <em>Create overlays in your prototypes</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360039818254-Create-overlays-in-your-prototypes" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360039818254-Create-overlays-in-your-prototypes</a></li>
+        <li>Figma. (n.d.-c). <em>Guide to prototyping in Figma</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma</a></li>
+        <li>Figma. (n.d.-d). <em>Prototype scroll and overflow behavior</em>. Figma Learn – Help Center. Retrieved October 3, 2026, from <a href="https://help.figma.com/hc/en-us/articles/360039818734-Prototype-scroll-and-overflow-behavior" target="_blank" rel="noopener">https://help.figma.com/hc/en-us/articles/360039818734-Prototype-scroll-and-overflow-behavior</a></li>
+        <li>Figma. (n.d.-e). <em>What is wireframing?</em> Figma Resource Library. Retrieved October 10, 2026, from <a href="https://www.figma.com/resource-library/what-is-wireframing/" target="_blank" rel="noopener">https://www.figma.com/resource-library/what-is-wireframing/</a></li>
+        <li>Fitts, P. M. (1954). The information capacity of the human motor system in controlling the amplitude of movement. <em>Journal of Experimental Psychology, 47</em>(6), 381–391. <a href="https://doi.org/10.1037/h0055392" target="_blank" rel="noopener">https://doi.org/10.1037/h0055392</a></li>
+        <li>Iconify. (n.d.). <em>Iconify</em> [Figma plugin]. Figma Community. <a href="https://www.figma.com/community/plugin/735098390272716381/iconify" target="_blank" rel="noopener">https://www.figma.com/community/plugin/735098390272716381/iconify</a></li>
+        <li>Iggy. (2025, May 6). <em>Nintendo Switch 2 to launch with two system themes</em> [Image of light and dark home menu themes]. Nintendo Soup. <a href="https://nintendosoup.com/nintendo-switch-2-to-launch-with-two-system-themes/" target="_blank" rel="noopener">https://nintendosoup.com/nintendo-switch-2-to-launch-with-two-system-themes/</a></li>
+        <li>Jerry88pl. (n.d.). <em>Super Mario Galaxy + Super Mario Galaxy 2</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=19903" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=19903</a></li>
+        <li><em>Kirby HD wallpaper: A starry adventure awaits</em> [Wallpaper]. (n.d.). Wallpaper Abyss. <a href="https://wall.alphacoders.com/big.php?i=317170" target="_blank" rel="noopener">https://wall.alphacoders.com/big.php?i=317170</a></li>
+        <li>KirbyFan932. (n.d.). <em>Super Mario Odyssey</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=9843" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=9843</a></li>
+        <li>Kortum, P. (2008). <em>HCI beyond the GUI: Design for haptic, speech, olfactory, and other nontraditional interfaces</em>. Morgan Kaufmann.</li>
+        <li>Kurosu, M., &amp; Kashimura, K. (1995). Apparent usability vs. inherent usability: Experimental analysis on the determinants of the apparent usability. In <em>Conference Companion on Human Factors in Computing Systems</em> (pp. 292–293). ACM. <a href="https://doi.org/10.1145/223355.223680" target="_blank" rel="noopener">https://doi.org/10.1145/223355.223680</a></li>
+        <li>lenoxseer. (n.d.). <em>The Legend of Zelda: Link’s Awakening – Nintendo Switch</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=10120" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=10120</a></li>
+        <li>LoganGamer20. (n.d.). <em>Super Mario 3D World + Bowser’s Fury</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14884" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14884</a></li>
+        <li>MacKenzie, I. S. (1992). Fitts’ law as a research and design tool in human–computer interaction. <em>Human–Computer Interaction, 7</em>(1), 91–139. <a href="https://doi.org/10.1207/s15327051hci0701_3" target="_blank" rel="noopener">https://doi.org/10.1207/s15327051hci0701_3</a></li>
+        <li>Martin, B., &amp; Hanington, B. (2019). <em>Universal methods of design, expanded and revised: 125 ways to research complex problems, develop innovative ideas, and design effective solutions</em>. Rockport Publishers.</li>
+        <li>megasnorlax. (n.d.-a). <em>Donkey Kong Bananza</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=30726" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=30726</a></li>
+        <li>megasnorlax. (n.d.-b). <em>The Legend of Zelda: Tears of the Kingdom</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=24720" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=24720</a></li>
+        <li>megasnorlax. (n.d.-c). <em>Minecraft</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14828" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14828</a></li>
+        <li>megasnorlax. (n.d.-d). <em>Super Mario Bros. Wonder</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=18500" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=18500</a></li>
+        <li>megasnorlax. (n.d.-e). <em>Super Smash Bros. Ultimate</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=14841" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=14841</a></li>
+        <li>Nielsen, J. (1994). Enhancing the explanatory power of usability heuristics. In <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em> (pp. 152–158). ACM. <a href="https://doi.org/10.1145/191666.191729" target="_blank" rel="noopener">https://doi.org/10.1145/191666.191729</a></li>
+        <li>Nintendo. (n.d.-a). <em>The Legend of Zelda: Ocarina of Time – Nintendo Switch 2</em> [Cover image]. GameStop. <a href="https://www.gamestop.com/video-games/nintendo-switch-2/products/the-legend-of-zelda-ocarina-of-time---nintendo-switch-2/20036066.html" target="_blank" rel="noopener">https://www.gamestop.com/video-games/nintendo-switch-2/products/the-legend-of-zelda-ocarina-of-time---nintendo-switch-2/20036066.html</a></li>
+        <li>Nintendo. (n.d.-b). <em>The Legend of Zelda: Tears of the Kingdom</em> [Key art]. <a href="https://zelda.com/assets/img/tears/keyArt_desktop.jpg" target="_blank" rel="noopener">https://zelda.com/assets/img/tears/keyArt_desktop.jpg</a></li>
+        <li>Nintendo of America. (n.d.). <em>Nintendo Switch 2 system</em> [Image of the console in handheld mode]. <a href="https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/" target="_blank" rel="noopener">https://www.nintendo.com/us/store/products/nintendo-switch-2-system-123669/</a></li>
+        <li>Nintendo of America. (2025a). <em>Nintendo Switch 2 HOME Menu overview and Accessibility settings</em>. Nintendo Support. <a href="https://en-americas-support.nintendo.com/app/answers/detail/a_id/68181" target="_blank" rel="noopener">https://en-americas-support.nintendo.com/app/answers/detail/a_id/68181</a></li>
+        <li>Nintendo of America. (2025b). <em>Nintendo Switch 2 system and technical specifications</em>. <a href="https://www.nintendo.com/us/gaming-systems/switch-2/tech-specs/" target="_blank" rel="noopener">https://www.nintendo.com/us/gaming-systems/switch-2/tech-specs/</a></li>
+        <li>Norman, D. A. (2013). <em>The design of everyday things</em> (Rev. and expanded ed.). Basic Books.</li>
+        <li>Nutsacc. (n.d.). <em>Kirby and the Forgotten Land</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?game_id=15137" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?game_id=15137</a></li>
+        <li>Random Talking Bush. (2017, July 12). <em>Profile icons</em> [Sprite sheet]. The Spriters Resource. <a href="https://www.spriters-resource.com/nintendo_switch/systembios/asset/93824/" target="_blank" rel="noopener">https://www.spriters-resource.com/nintendo_switch/systembios/asset/93824/</a></li>
+        <li>Salvendy, G., &amp; Karwowski, W. (Eds.). (2021). <em>Handbook of human factors and ergonomics</em> (5th ed.). Wiley.</li>
+        <li>Sanders, M. S., &amp; McCormick, E. J. (1993). <em>Human factors in engineering and design</em> (7th ed.). McGraw-Hill.</li>
+        <li>SirRandall. (n.d.). <em>Mario Kart World</em> [Cover image]. The Cover Project. <a href="https://www.thecoverproject.net/view.php?cover_id=30716" target="_blank" rel="noopener">https://www.thecoverproject.net/view.php?cover_id=30716</a></li>
+        <li><em>Super Mario World wallpaper</em> [Wallpaper]. (n.d.). GetWallpapers. <a href="https://getwallpapers.com/collection/super-mario-world-wallpaper" target="_blank" rel="noopener">https://getwallpapers.com/collection/super-mario-world-wallpaper</a></li>
+        <li>Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. <em>Cognitive Science, 12</em>(2), 257–285. <a href="https://doi.org/10.1207/s15516709cog1202_4" target="_blank" rel="noopener">https://doi.org/10.1207/s15516709cog1202_4</a></li>
+        <li>Ting, C. A. R., Mondragon, J. M., Almirante, J. I. F., Ramolete, G. I. L., Cohen, M. A. P. C., &amp; Custodio, B. P. (2020). Usability and gaming experience assessment of the Nintendo Switch user interface by Filipino users. In T. Ahram &amp; C. Falcão (Eds.), <em>Advances in usability, user experience, wearable and assistive technology</em> (pp. 777–783). Springer. <a href="https://doi.org/10.1007/978-3-030-51828-8_103" target="_blank" rel="noopener">https://doi.org/10.1007/978-3-030-51828-8_103</a></li>
+        <li>Tractinsky, N., Katz, A. S., &amp; Ikar, D. (2000). What is beautiful is usable. <em>Interacting with Computers, 13</em>(2), 127–145. <a href="https://doi.org/10.1016/S0953-5438(00)00031-X" target="_blank" rel="noopener">https://doi.org/10.1016/S0953-5438(00)00031-X</a></li>
+        <li>UXtweak. (n.d.). <em>System usability scale</em> [Blog post]. <a href="https://blog.uxtweak.com/system-usability-scale/" target="_blank" rel="noopener">https://blog.uxtweak.com/system-usability-scale/</a></li>
+        <li>Wagemans, J., Elder, J. H., Kubovy, M., Palmer, S. E., Peterson, M. A., Singh, M., &amp; von der Heydt, R. (2012). A century of Gestalt psychology in visual perception: I. Perceptual grouping and figure–ground organization. <em>Psychological Bulletin, 138</em>(6), 1172–1217. <a href="https://doi.org/10.1037/a0029333" target="_blank" rel="noopener">https://doi.org/10.1037/a0029333</a></li>
+        <li>Wickens, C. D., &amp; Carswell, C. M. (1995). The proximity compatibility principle: Its psychological foundation and relevance to display design. <em>Human Factors, 37</em>(3), 473–494. <a href="https://doi.org/10.1518/001872095779049408" target="_blank" rel="noopener">https://doi.org/10.1518/001872095779049408</a></li>
+        <li>Wickens, C. D., Helton, W. S., Hollands, J. G., &amp; Banbury, S. (2022). <em>Engineering psychology and human performance</em> (5th ed.). Routledge. <a href="https://doi.org/10.4324/9781003177616" target="_blank" rel="noopener">https://doi.org/10.4324/9781003177616</a></li>
+      </ul>
+      <p class="legal">All game artwork, characters, and trademarks belong to their respective owners and are used here for non-commercial, educational portfolio purposes only.</p>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<section class="end" aria-label="More work">
+  <div class="wrap">
+    <a class="big" href="index.html#work">See all projects</a>
+    <p>Questions about this project? <a href="mailto:jbrazina2324@gmail.com" style="color:var(--night-ink)">jbrazina2324@gmail.com</a></p>
+  </div>
+</section>
 <footer>
-<span>Joseph Brazina — Portfolio</span>
-<a href="index.html">Back to Home</a>
-<span>Completed study</span>
+  <div class="wrap">
+    <span>© 2026 Joseph Brazina</span>
+    <span>Completed study</span>
+  </div>
 </footer>
+
 <script>
-(function(){
-  var tabs=[].slice.call(document.querySelectorAll('.theme-tab'));
-  function select(t,focus){
-    tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;
-      document.getElementById(x.getAttribute('aria-controls')).classList.toggle('active',on);});
-    if(focus)t.focus();
-  }
-  tabs.forEach(function(t,i){
-    t.addEventListener('click',function(){select(t)});
-    t.addEventListener('keydown',function(e){
-      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
-      if(d){e.preventDefault();select(tabs[(i+d+tabs.length)%tabs.length],true);}
+  // Theme switcher: click a tab, or use the arrow keys once a tab has focus.
+  (function () {
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    function select(tab, focus) {
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', e => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length], true); }
+      });
     });
-  });
-})();
+  })();
 </script>
 </body>
 </html>
