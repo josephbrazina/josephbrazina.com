@@ -1,373 +1,399 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Traffic Signal Detection Experiment | Joseph Brazina</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Traffic Signal Detection Experiment: Joseph Brazina</title>
+<meta name="description" content="Case study: an experiment on how simulated deutan color vision deficiency and glance time affect traffic-signal detection, analyzed with signal detection theory."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap"/>
 <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #E4E2DD; --bg-2: #D8D6D1; --bg-3: #CCCAC5; --surface: #ECEAE6;
-      --ink: #111111; --ink-2: #444444; --ink-3: #777777;
-      --border: 1px solid #BEBCB7; --border-heavy: 2px solid #111111;
-      --mono: 'Space Mono', monospace; --sans: 'Space Grotesk', sans-serif; --radius: 2px;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--sans); font-size: 16px; line-height: 1.5; color: var(--ink); background: var(--bg); }
-    a { color: var(--ink); text-decoration: none; }
-    /* NAV */
-    nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: var(--border-heavy); }
-    .nav-inner { padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 0.82rem; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; }
-    .nav-links { display: flex; }
-    .nav-links a { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 20px; height: 56px; display: flex; align-items: center; border-left: var(--border); transition: background .12s, color .12s; }
-    .nav-links a:hover { background: var(--ink); color: var(--bg); }
-    /* HERO */
-    .case-hero { background: var(--surface); border-bottom: var(--border-heavy); padding: 56px 48px 48px; }
-    .label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 20px; }
-    .case-hero h1 { font-family: var(--sans); font-size: 2.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.08; text-transform: uppercase; color: var(--ink); max-width: 860px; margin-bottom: 32px; }
-    .hero-meta { display: flex; flex-wrap: wrap; border-top: var(--border-heavy); border-bottom: var(--border-heavy); margin-bottom: 28px; }
-    .meta-item { padding: 14px 28px; border-right: var(--border); font-family: var(--mono); }
-    .meta-item:first-child { padding-left: 0; }
-    .meta-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
-    .meta-value { font-size: 0.78rem; color: var(--ink); }
-    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: var(--radius); border: 1px solid var(--ink-3); color: var(--ink-2); background: transparent; }
-    .tag.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-    /* CONTENT */
-    .content-grid { display: grid; grid-template-columns: 200px 1fr; }
-    .sidebar { border-right: var(--border-heavy); padding: 40px 24px; position: sticky; top: 56px; height: fit-content; }
-    .sidebar-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); margin-bottom: 14px; }
-    .sidebar-nav a { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); padding: 9px 0; border-bottom: var(--border); transition: color .12s; }
-    .sidebar-nav a:hover { color: var(--ink); }
-    .main-content { padding: 48px 48px 96px; }
-    /* SECTIONS */
-    .section { margin-bottom: 60px; padding-bottom: 60px; border-bottom: var(--border); }
-    .section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .section-label { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--bg); display: inline-block; padding: 3px 9px; border-radius: var(--radius); margin-bottom: 16px; }
-    h2 { font-family: var(--sans); font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink); margin-bottom: 20px; }
-    h3 { font-family: var(--sans); font-size: 0.96rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); margin: 28px 0 10px; border-bottom: var(--border); padding-bottom: 6px; }
-    p { font-size: 0.92rem; color: var(--ink-2); margin-bottom: 14px; line-height: 1.75; }
-    p:last-child { margin-bottom: 0; }
-    ul, ol { padding-left: 18px; margin-bottom: 14px; }
-    li { font-size: 0.92rem; color: var(--ink-2); line-height: 1.75; margin-bottom: 4px; }
-    strong { color: var(--ink); }
-    /* CALLOUT */
-    .callout { background: var(--surface); border-left: 2px solid var(--ink); padding: 18px 22px; margin: 24px 0; }
-    .callout p { margin: 0; font-size: 0.88rem; }
-    /* TWO COL */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; border: var(--border-heavy); margin: 20px 0; }
-    .card { padding: 20px 22px; border-right: var(--border); border-bottom: var(--border); }
-    .card:nth-child(even) { border-right: none; }
-    .card:nth-child(3), .card:nth-child(4) { border-bottom: none; }
-    .card h4 { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
-    .card p { font-size: 0.86rem; margin: 0; }
-    /* TABLE */
-    .table-wrap { border: var(--border-heavy); margin: 20px 0; overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-    th { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); background: var(--surface); border-bottom: var(--border-heavy); padding: 10px 16px; text-align: left; }
-    td { padding: 12px 16px; border-bottom: var(--border); color: var(--ink-2); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    /* PROCESS STEPS */
-    .process { display: flex; border: var(--border-heavy); margin: 20px 0; }
-    .step { flex: 1; padding: 18px 12px; border-right: var(--border); text-align: center; }
-    .step:last-child { border-right: none; }
-    .step-num { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
-    .step-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--ink); }
-    /* FOOTER */
-    footer { background: var(--ink); border-top: var(--border-heavy); padding: 20px 48px; font-family: var(--mono); font-size: 0.7rem; color: #555; letter-spacing: 0.08em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
-    footer a { color: #777; }
-    footer a:hover { color: var(--bg); }
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .case-hero, .main-content { padding-left: 20px; padding-right: 20px; }
-      .case-hero h1 { font-size: 1.8rem; }
-      .nav-inner { padding: 0 20px; }
-      .two-col { grid-template-columns: 1fr; }
-      .card { border-right: none !important; }
-      .card:nth-child(3) { border-bottom: var(--border); }
-      .process { flex-direction: column; }
-      .step { border-right: none; border-bottom: var(--border); }
-      .step:last-child { border-bottom: none; }
-      footer { padding: 16px 20px; flex-direction: column; gap: 6px; }
-    }
+  /* Gallery design shared by every case study: white wall, one gray mat for every image,
+     and the project images are the only color on the page. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .stim-grid { display:grid; grid-template-columns:repeat(3,1fr); border:var(--border-heavy); margin:16px 0; }
-    .stim-card { border-right:var(--border); }
-    .stim-card:last-child { border-right:none; }
-    .stim-meta { padding:12px 14px; }
-    .stim-label { display:block; font-family:var(--mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink); margin-bottom:3px; }
-    .stim-sub { font-family:var(--mono); font-size:0.6rem; color:var(--ink-3); letter-spacing:0.05em; }
-    @media(max-width:900px){ .stim-grid{ grid-template-columns:1fr; } .stim-card{ border-right:none; border-bottom:var(--border); } .stim-card:last-child{ border-bottom:none; } }
-/* ── maroon Apple-style skin ── */
-:root{--bg:#fff;--bg-2:#ebebef;--bg-3:#e0e0e5;--surface:#f5f5f7;--ink:#1d1d1f;--ink-2:#424245;--ink-3:#6e6e73;--accent:#861f41;--accent-2:#e5751f;--border:1px solid #d2d2d7;--border-heavy:1px solid #d2d2d7;--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Helvetica,Arial,sans-serif;--mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;--radius:16px}
-html{scroll-padding-top:48px}
-body{-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent-2);color:#fff}
-nav{background:rgba(255,255,255,.8);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
-.nav-inner{height:48px}
-.nav-logo{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:-.01em;text-transform:none}
-.nav-links a{font-family:var(--sans);font-size:.8rem;font-weight:400;text-transform:none;letter-spacing:0;height:48px;padding:0 12px;border-left:none;color:var(--ink-2)}
-.nav-links a:hover{background:none;color:var(--accent)}
-.sidebar{top:48px}
-.sidebar-label,.sidebar-nav a{font-family:var(--mono);text-transform:none;letter-spacing:.01em;font-weight:400}
-.sidebar-label{font-size:.72rem}
-.sidebar-nav a{font-size:.76rem;border-bottom:1px solid #e5e5ea}
-.sidebar-nav a:hover{color:var(--accent)}
-.case-hero,.hero{position:relative;overflow:hidden;background:#fff;border-bottom:none;padding-top:80px}
-.case-hero::before,.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(29,29,31,.16) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
-.case-hero>*,.hero>*{position:relative;z-index:1}
-.case-hero h1,.hero h1{font-size:3.2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;line-height:1.07}
-.label,.section-label{font-family:var(--mono);font-size:.78rem;font-weight:400;letter-spacing:.01em;text-transform:none;background:none;color:var(--ink-3);padding:0;border-radius:0}
-.label::before,.section-label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:2px;margin-right:10px;vertical-align:1px}
-h2,.section h2{font-size:2rem;font-weight:600;text-transform:none;letter-spacing:-.03em;border-bottom:none;padding-bottom:0}
-h3{text-transform:none;font-weight:600;letter-spacing:-.01em}
-.tag{font-family:var(--mono);font-size:.7rem;font-weight:400;letter-spacing:.01em;text-transform:none;padding:3px 10px;border:none;background:var(--surface);color:var(--ink-3);border-radius:980px}
-.tag.primary{background:var(--accent);color:#fff}
-.meta-label{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
-.meta-value{font-weight:500}
-.callout,.finding-text .recommendation,.hta-goal{border-left:3px solid var(--accent)}
-@media(max-width:900px){.case-hero,.hero{padding-top:48px}.case-hero h1,.hero h1{font-size:2.2rem}}
-.section{border-bottom:var(--border)}
-.callout{background:var(--surface);border-radius:0 var(--radius) var(--radius) 0}
-.two-col,.stim-grid,.process,.table-wrap{border:var(--border);border-radius:20px;overflow:hidden}
-.card h4,.step-num,th{font-size:.72rem;letter-spacing:.01em;text-transform:none;font-weight:400}
-th{font-family:var(--mono);border-bottom:var(--border)}
-.step{background:var(--surface)}
-.step-label{text-transform:none;font-weight:600;font-size:.9rem}
-.stim-label{text-transform:none;letter-spacing:.01em}
-footer{background:#000;border-top:1px solid #2a2a2c;font-size:.75rem;color:#86868b;text-transform:none;letter-spacing:.01em}
-footer a{color:#a1a1a6}
-footer a:hover{color:var(--accent-2)}
+  :root {
+    --wall: #ffffff;
+    --mat: #ebebeb;
+    --ink: #000000;
+    --ink-2: #3a3a3a;
+    --ink-3: #666666;
+    --rule: #cccccc;
+    --night: #000000;
+    --night-ink: #ffffff;
+    --night-ink-2: #a6a6a6;
+    --sans: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --edge: clamp(20px, 5vw, 64px);
+    --plate-pad: clamp(14px, 3.2vw, 44px);
+    --gap: clamp(8px, 1.2vw, 14px);
+    --measure: 700px;
+  }
 
-.result-figure{margin:28px 0 22px}
-.results-figure-img{display:block;width:100%;max-width:1200px;height:auto;border:1px solid #d2d2d7;border-radius:16px;background:#fff}
-.figure-caption{font-size:.78rem!important;color:var(--ink-3)!important;margin-top:10px!important;line-height:1.55!important}
-.result-figure h3{margin-top:0}
-.table-wrap p{padding:12px 16px;margin:0;font-size:.78rem;color:var(--ink-3);line-height:1.55}
-.content-grid>*{min-width:0}
-footer{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px 24px;padding:20px 48px;font-family:var(--mono);font-size:.75rem;color:#86868b;letter-spacing:.01em;text-transform:none}
-footer>:first-child{justify-self:start}
-footer>:last-child{justify-self:end}
-@media(max-width:700px){footer{grid-template-columns:1fr;justify-items:center;text-align:center;padding:16px 20px}footer>*{justify-self:center!important}}
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; color: var(--ink-2); background: var(--wall); -webkit-font-smoothing: antialiased; }
+  img, iframe, video, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  strong { font-weight: 600; color: var(--ink); }
+  code { font-size: 0.9em; background: var(--mat); padding: 1px 5px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--edge); }
+  .prose { max-width: var(--measure); }
+  .prose p + p, .prose p + ul, .prose ul + p { margin-top: 14px; }
+  .prose ul { padding-left: 1.2em; }
+  .prose li + li { margin-top: 6px; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .text-link { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .text-link:hover { text-decoration-thickness: 2px; }
+
+  /* NAV */
+  .site-nav { position: sticky; top: 0; z-index: 10; background: var(--wall); border-bottom: 1px solid var(--rule); }
+  .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 24px; }
+  .site-name { font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: -0.005em; }
+  .site-nav ul { list-style: none; display: flex; gap: clamp(14px, 2.4vw, 32px); }
+  .site-nav ul a { font-size: 0.9375rem; color: var(--ink-3); text-decoration: none; }
+  .site-nav ul a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+  /* HERO */
+  .hero { padding: clamp(40px, 6vw, 72px) 0 0; }
+  .back { display: inline-block; font-size: 0.9375rem; color: var(--ink-3); margin-bottom: 28px; }
+  .back:hover { color: var(--ink); }
+  .hero h1 { font-size: clamp(1.875rem, 3.6vw, 2.75rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); max-width: 24ch; }
+  .hero .summary { margin-top: 16px; font-size: 1.1875rem; line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+  .hero figure { margin-top: clamp(32px, 4vw, 48px); }
+  .facts { display: grid; grid-template-columns: repeat(var(--cols, 5), minmax(0, auto)); justify-content: start; column-gap: clamp(24px, 4vw, 56px); row-gap: 16px; margin-top: 24px; font-size: 0.9375rem; }
+  .facts dt { color: var(--ink-3); }
+  .facts dd { color: var(--ink); margin-top: 2px; }
+  .role { margin-top: 24px; max-width: var(--measure); }
+
+  /* PLATES */
+  .plate { background: var(--mat); padding: var(--plate-pad); }
+  .plate > img, .plate > a > img { margin: 0 auto; width: 100%; height: auto; }
+  .plate .narrow { max-width: min(100%, 760px); margin-left: auto; margin-right: auto; }
+  .plate .portrait { max-width: min(100%, 520px); margin-left: auto; margin-right: auto; }
+  .plate .white { background: #fff; padding: clamp(8px, 1.5vw, 20px); }
+  figure > figcaption, .caption { margin-top: 12px; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); max-width: var(--measure); }
+  .credit { font-size: 0.8125rem; color: var(--ink-3); margin-top: 6px; max-width: var(--measure); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .pair img, .trio img, .trio video { width: 100%; height: auto; }
+  .trio video { aspect-ratio: 16 / 9; object-fit: cover; background: #000; }
+  .pair figcaption, .trio figcaption { margin-top: 8px; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+  /* a row of images that share one height: each grows by its aspect ratio (--a) */
+  .hang { display: flex; gap: var(--gap); width: 100%; margin: 0 auto; }
+  .hang > * { flex: var(--a) 1 0%; min-width: 0; }
+  .hang img { width: 100%; height: auto; }
+  .hang figcaption { margin-top: 8px; font-size: 0.8125rem; color: var(--ink-3); }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); max-width: 900px; margin: 0 auto; }
+  .tiles img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #fff; padding: 8%; }
+
+  /* SECTIONS */
+  .room { border-top: 1px solid var(--rule); padding: clamp(56px, 8vw, 96px) 0; margin-top: clamp(56px, 8vw, 96px); }
+  .room + .room { margin-top: 0; }
+  .room h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: var(--ink); margin-bottom: 20px; }
+  .room h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; color: var(--ink); margin: 48px 0 12px; }
+  .room > .wrap > *:not(h2):not(:first-child), .block > *:not(h3):not(:first-child) { margin-top: 28px; }
+  .room > .wrap > h3, .block > h3 { margin-top: 56px; }
+  .room > .wrap > h3 + *, .block > h3 + * { margin-top: 0 !important; }
+
+  /* Lists of short labeled points (2 or 3 across) */
+  .points { list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 20px 40px; max-width: var(--points-max, 900px); }
+  .points li { border-top: 1px solid var(--rule); padding-top: 12px; }
+  .points strong { display: block; margin-bottom: 2px; }
+
+  /* Figure on one side, text on the other */
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+  .split .prose p + p { margin-top: 14px; }
+
+  /* TABLES */
+  .table-wrap { max-width: 980px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9688rem; line-height: 1.5; }
+  th { text-align: left; font-weight: 500; font-size: 0.875rem; color: var(--ink-3); padding: 0 20px 10px 0; border-bottom: 1px solid var(--ink); vertical-align: bottom; }
+  td { padding: 14px 20px 14px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td:first-child { color: var(--ink); font-weight: 500; }
+  th:last-child, td:last-child { padding-right: 0; }
+  .num td, td.num { font-variant-numeric: tabular-nums; }
+  .table-note { font-size: 0.8125rem; color: var(--ink-3); margin-top: 12px; max-width: var(--measure); }
+  .verdict { display: block; font-size: 0.8125rem; color: var(--ink-3); }
+
+  /* Numbered steps, only where the content is a real sequence */
+  .steps { list-style: none; counter-reset: step; }
+  .step { counter-increment: step; }
+  .step + .step { margin-top: clamp(56px, 7vw, 88px); }
+  .step > h3 { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 12px; display: flex; gap: 14px; align-items: baseline; }
+  .step > h3::before { content: counter(step); font-weight: 500; color: var(--ink-3); min-width: 1ch; }
+  .step > * + * { margin-top: 24px; }
+  .step > h3 + * { margin-top: 0; }
+  ol.plan { list-style: none; counter-reset: plan; max-width: var(--measure); }
+  ol.plan li { counter-increment: plan; display: grid; grid-template-columns: 2ch minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); }
+  ol.plan li::before { content: counter(plan); color: var(--ink-3); }
+
+  /* Key for numbered annotations inside an image */
+  ol.key { columns: 2; column-gap: 32px; padding-left: 1.4em; font-size: 0.875rem; color: var(--ink-2); max-width: 820px; margin-top: 14px; }
+  ol.key li { break-inside: avoid; padding: 2px 0; }
+
+  /* Tabs (theme or frame switchers) */
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px 22px; margin-bottom: 18px; }
+  .tab { font: inherit; font-size: 1rem; background: none; border: 0; padding: 6px 0; color: var(--ink-3); cursor: pointer; border-bottom: 2px solid transparent; font-variant-numeric: tabular-nums; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .panel[hidden] { display: none; }
+  .panel-note { margin-top: 14px; font-size: 0.9375rem; color: var(--ink-2); max-width: var(--measure); }
+
+  /* Embeds */
+  .embed { background: var(--mat); padding: var(--plate-pad); }
+  .embed iframe { width: 100%; aspect-ratio: var(--ratio, 16 / 10); min-height: 320px; border: 0; background: #fff; }
+  .embed + .text-link, .embed + p { display: inline-block; margin-top: 12px; font-size: 0.9375rem; }
+
+  /* Callouts and buttons */
+  .note { max-width: var(--measure); padding-left: 18px; border-left: 2px solid var(--ink); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn { display: inline-flex; align-items: center; padding: 11px 20px; font: inherit; font-size: 0.9375rem; font-weight: 500; text-decoration: none; border: 1px solid var(--ink); color: var(--ink); background: none; cursor: pointer; transition: background-color .2s, color .2s; }
+  .btn:hover { background: var(--ink); color: var(--wall); }
+  .btn.solid { background: var(--ink); color: var(--wall); }
+  .btn.solid:hover { background: var(--ink-2); }
+  .fineprint { font-size: 0.8125rem; color: var(--ink-3); max-width: var(--measure); }
+
+  /* Result figures */
+  .stats { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 32px; max-width: 980px; }
+  .stats li { border-top: 1px solid var(--ink); padding-top: 12px; font-size: 0.9375rem; }
+  .stats b { display: block; font-size: 1.5rem; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
+
+  /* Audio samples */
+  .audio { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 24px; max-width: 900px; }
+  .audio li { font-size: 0.9375rem; }
+  .audio audio { width: 100%; margin-top: 8px; }
+
+  /* SOURCES */
+  details summary { cursor: pointer; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); list-style: none; display: flex; align-items: baseline; gap: 14px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary span { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: var(--ink-3); text-decoration: underline; text-underline-offset: 4px; }
+  details[open] summary .closed, details:not([open]) summary .open { display: none; }
+  .refs { list-style: none; margin-top: 28px; max-width: 820px; font-size: 0.875rem; line-height: 1.55; }
+  .refs li { padding-left: 2em; text-indent: -2em; margin-bottom: 10px; overflow-wrap: anywhere; }
+  .refs a { color: var(--ink-3); }
+  .legal { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); max-width: 820px; }
+
+  /* END + FOOTER */
+  .end { background: var(--night); color: var(--night-ink-2); padding: clamp(48px, 7vw, 80px) 0; }
+  .end a.big { font-size: clamp(1.25rem, 2.6vw, 1.75rem); font-weight: 500; color: var(--night-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .end a.big:hover { text-decoration-thickness: 2px; }
+  .end p { margin-top: 12px; }
+  .end p a { color: var(--night-ink); }
+  .end :focus-visible { outline-color: var(--night-ink); }
+  footer { background: var(--night); color: var(--night-ink-2); border-top: 1px solid #333333; font-size: 0.8125rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; padding-bottom: 22px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .split { grid-template-columns: minmax(0, 1fr); }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 520px; }
+  }
+  @media (max-width: 640px) {
+    .points, .audio { grid-template-columns: minmax(0, 1fr); }
+    .pair { grid-template-columns: minmax(0, 1fr); }
+    .pair.keep { grid-template-columns: 1fr 1fr; }
+    .trio { grid-template-columns: 1fr 1fr; }
+    .hang { flex-wrap: wrap; }
+    .hang > * { flex-basis: 40%; }
+    ol.key { columns: 1; }
+    .site-nav ul { gap: 12px; }
+    .site-nav ul a { font-size: 0.8125rem; }
+    .site-nav .site-name { font-size: 0.9375rem; }
+    table.stack thead { display: none; }
+    table.stack tr { display: block; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+    table.stack td { display: block; padding: 3px 0; border: 0; }
+    table.stack td::before { content: attr(data-label); display: block; font-size: 0.8125rem; font-weight: 400; color: var(--ink-3); }
+    table.stack td:empty { display: none; }
+    .scroll-x { overflow-x: auto; }
+    .scroll-x table { min-width: 560px; }
+  }
+  @media (max-width: 400px) { .site-nav li.optional { display: none; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .room > .wrap > h2 + *, .block > h2 + * { margin-top: 0 !important; }
+  .block + .block { margin-top: clamp(64px, 8vw, 104px) !important; }
+  .block > h2 { font-size: 1.5rem; }
 </style>
 </head>
 <body>
-<nav>
-<div class="nav-inner">
-<span class="nav-logo">JOSEPH BRAZINA</span>
-<div class="nav-links">
-<a href="index.html">Home</a>
-<a href="index.html#projects">Work</a>
-<a href="index.html#research">Research</a>
-<a href="index.html#contact">Contact</a>
-</div>
-</div>
+
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="site-name" href="index.html">Joseph Brazina</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li class="optional"><a href="index.html#research">Research</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="Joseph_Brazina_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    </ul>
+  </div>
 </nav>
-<div class="case-hero">
-<div class="label">Case Study · Experimental Results</div>
-<h1>The Effect of Deutan Deficiency and Glance Time on Signal Detection of Traffic Signals</h1>
-<div class="hero-meta">
-<div class="meta-item"><div class="meta-label">Course</div><div class="meta-value">ISE 5604: Human Information Processing</div></div>
-<div class="meta-item"><div class="meta-label">Instructor</div><div class="meta-value">Dr. Charlie Klauer</div></div>
-<div class="meta-item"><div class="meta-label">Team</div><div class="meta-value">Joseph Brazina &amp; Andrew Jones</div></div>
-<div class="meta-item"><div class="meta-label">Term</div><div class="meta-value">Fall 2026</div></div>
-</div>
-<div class="tags">
-<span class="tag primary">Experimental Results</span>
-<span class="tag primary">Signal Detection Theory</span>
-<span class="tag">Color Vision Deficiency</span>
-<span class="tag">Driving Safety</span>
-<span class="tag">Coursework</span>
-</div>
-</div>
-<div class="content-grid">
-<div class="sidebar">
-<div class="sidebar-label">Contents</div>
-<div class="sidebar-nav"><a href="#overview">Overview</a><a href="#rqs">Research Questions</a><a href="#design">Study Design</a><a href="#methods">Methods</a><a href="#stimuli-samples">Stimuli Samples</a><a href="#glance-time-samples">Glance-Time Clips</a><a href="#analysis">Results</a><a href="#discussion">Discussion</a><a href="#framework">SDT Framework</a><a href="#references">References</a></div>
-</div>
-<div class="main-content">
-<div class="section" id="overview">
-<div class="section-label">Overview</div>
-<h2>The Problem</h2>
-<p>Accurately detecting traffic signals is essential to safe driving. Drivers constantly scan for signals such as pedestrians, sirens, and traffic lights, and each one comes down to "signal present" or "signal absent." Two factors can disrupt that process. Color vision deficiency (CVD) is one: deutan CVD weakens or removes the eye's green-sensing cones, so reds look more yellow and greens look more gray. Distracted driving is the other: it shortens on-road glances and makes visual scanning more random, which raises accident risk.</p>
-<p>The effects of distraction may be more severe for drivers with CVD. We designed a non-immersive driving simulation to test whether simulated deutan deficiency severity and shortened glance time reduce how accurately people respond to traffic signals.</p>
-<p>The completed study used two independent experimental conditions. In the glance-time condition, simulated deutan deficiency was held at 50% while signal duration varied from 200 to 516.7 ms. In the deutan-deficiency condition, signal duration was held at 350 ms while simulated severity varied from 24% to 100%.</p>
-<div class="callout">
-<p><strong>Practical application:</strong> Data collected from this experiment can inform machine learning models embedded in automotive systems, enabling better accessibility features for CVD drivers and safety interventions for distracted drivers.</p>
-</div>
-</div>
-<div class="section" id="rqs">
-<div class="section-label">Research Questions &amp; Hypotheses</div>
-<h2>What We Set Out to Answer</h2>
-<h3>RQ1 — Deutan Deficiency</h3>
-<p>Does increasing simulated deutan deficiency severity reduce the proportion of correct traffic-signal responses?</p>
-<h3>RQ2 — Glance Time</h3>
-<p>Does increasing signal glance time from 200 ms to 516.7 ms improve the proportion of correct traffic-signal responses?</p>
-<div class="two-col">
-<div class="card"><h4>Null Hypothesis (H₀₁)</h4><p>Deutan deficiency severity will not be significantly related to response accuracy.</p></div>
-<div class="card"><h4>Null Hypothesis (H₀₂)</h4><p>Glance time will not be significantly related to response accuracy.</p></div>
-<div class="card"><h4>Alternative Hypothesis (H₁₁)</h4><p>Increasing deutan deficiency severity will reduce response accuracy.</p></div>
-<div class="card"><h4>Alternative Hypothesis (H₁₂)</h4><p>Shorter glance times will reduce response accuracy.</p></div>
-</div>
-</div>
-<div class="section" id="design">
-<div class="section-label">Study Design</div>
-<h2>Two Independent Conditions</h2>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Condition</th><th>Independent Variable</th><th>Held Constant</th><th>Stimuli Per Condition</th></tr></thead>
-<tbody>
-<tr><td><strong>Condition 1</strong></td><td>Glance time (200–516.7 ms)</td><td>50% simulated deutan deficiency</td><td>40 trials: 20 red + 20 green</td></tr>
-<tr><td><strong>Condition 2</strong></td><td>Deutan deficiency severity (24–100%)</td><td>350 ms glance time</td><td>40 trials: 20 red + 20 green</td></tr>
-</tbody>
-</table>
-</div>
-<p>Dependent variable: proportion of participants who responded correctly on each trial. Red signals were classified as signal present (Brake) and green signals as signal absent (Go).</p>
-</div>
-<div class="section" id="methods">
-<div class="section-label">Methods</div>
-<h2>Participants, Stimuli &amp; Procedure</h2>
-<h3>Participants</h3>
-<p>Six participants (2 male, 4 female) aged 18–44 took part: three were 18–24, two were 25–34, and one was 35–44. How often they drove varied from never to daily. Five took part for partial course credit and one volunteered. All had normal or corrected vision and no CVD. Demographics were collected with a Qualtrics survey at the end of the session.</p>
-<h3>Stimuli</h3>
-<p>Earlier studies tested drivers who have CVD. We instead simulated CVD by changing the stimuli. We chose 10 red and 10 green real-world traffic-signal images from Elk Penguin's Traffic Light Dataset (Ultralytics) and used each one twice in both conditions, for 80 stimuli in total. All images were processed with the RGBlind Color Blindness Simulator.</p>
-<ul>
-<li><strong>Condition 1 (glance time):</strong> every signal was set to 50% deutan severity. Duration ranged from 200 ms (12 frames) to 516.7 ms (31 frames) in twenty one-frame (16.7 ms) steps to mimic glances shortened by distractions like texting or rubbernecking.</li>
-<li><strong>Condition 2 (deutan severity):</strong> every signal was shown for 350 ms (21 frames). Deutan severity ranged from 24% to 100% in twenty 4% steps.</li>
-</ul>
-<p>To control glance time precisely, each image was rendered as its own MP4 clip in DaVinci Resolve at 60 fps and 1920 × 1080. At that frame rate, each added frame lengthens a clip by exactly 16.7 ms. Stimulus order was randomized in both conditions. Four extra images from the same dataset were used for practice trials lasting 200–500 ms.</p>
-<figure class="result-figure"><img alt="Three sample stimuli: a red signal at 88% deutan deficiency, a green signal at 52%, and a green signal at 28%" class="results-figure-img" src="images/sdt-01-three-sample-stimuli-a-red-signal.jpg" loading="lazy"/><p class="figure-caption">Sample stimuli: (a) red signal at 88% deutan deficiency, (b) green signal at 52%, and (c) green signal at 28%.</p></figure>
-<h3>Procedure</h3>
-<div class="process">
-<div class="step"><div class="step-num">01</div><div class="step-label">4 practice trials</div></div>
-<div class="step"><div class="step-num">02</div><div class="step-label">Randomized stimuli</div></div>
-<div class="step"><div class="step-num">03</div><div class="step-label">Record Go / Brake</div></div>
-<div class="step"><div class="step-num">04</div><div class="step-label">Demographic survey</div></div>
-</div>
-<p>The self-paced session took about 10 minutes in an artificially lit classroom. One participant completed it in a dark room. Stimuli were shown in PowerPoint Presenter View on a 2020 M1 MacBook Air at full brightness, and the order of the two conditions was counterbalanced. Participants pressed the right arrow key to start each trial. The signal appeared for its set duration, then cut to black, and participants wrote “G” for Go or “B” for Brake on a response sheet. A break screen separated the two conditions.</p>
-</div>
-<div class="section" id="stimuli-samples">
-<div class="section-label">Condition 2 Stimulus Samples</div>
-<h2>Deutan Deficiency Condition — Sample Clips</h2>
-<p>All 40 trials in the deutan-deficiency condition used a constant glance time of 350 ms. The clips below illustrate representative signal images at different levels of simulated deutan deficiency. Participants responded G (Go) or B (Brake).</p>
-<h3>Green Signal Stimuli</h3>
-<div class="stim-grid">
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-02-green-mild-deuteranomaly.mp4" type="video/mp4"/>
-</video>
-<div class="stim-meta">
-<span class="stim-label">Green — Mild Deuteranomaly</span>
-<span class="stim-sub">24% severity · 350ms · 21 frames</span>
-</div>
-</div>
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-03-green-moderate-deuteranomaly.mp4" type="video/mp4"/>
-</video>
-<div class="stim-meta">
-<span class="stim-label">Green — Moderate Deuteranomaly</span>
-<span class="stim-sub">68% severity · 350ms · 21 frames</span>
-</div>
-</div>
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-04-green-deuteranopia.mp4" type="video/mp4"/>
-</video>
-<div class="stim-meta">
-<span class="stim-label">Green — Deuteranopia</span>
-<span class="stim-sub">100% severity · 350ms · 21 frames</span>
-</div>
-</div>
-</div>
-<h3>Red Signal Stimuli</h3>
-<div class="stim-grid">
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-05-red-mild-deuteranomaly.mp4" type="video/mp4"/>
-</video>
-<div class="stim-meta">
-<span class="stim-label">Red — Mild Deuteranomaly</span>
-<span class="stim-sub">28% severity · 350ms · 21 frames</span>
-</div>
-</div>
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-06-red-moderate-deuteranomaly.mp4" type="video/mp4"/>
-</video>
-<div class="stim-meta">
-<span class="stim-label">Red — Moderate Deuteranomaly</span>
-<span class="stim-sub">56% severity · 350ms · 21 frames</span>
-</div>
-</div>
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-07-red-deuteranopia.mp4" type="video/mp4"/>
-</video>
-<div class="stim-meta">
-<span class="stim-label">Red — Deuteranopia</span>
-<span class="stim-sub">100% severity · 350ms · 21 frames</span>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="glance-time-samples">
-<div class="section-label">Condition 1 Stimulus Samples</div>
-<h2>Glance Time Condition — Sample Clips</h2>
-<p>These samples hold simulated deutan deficiency constant at 50% while varying glance time. The experimental range was 200 to 516.7 ms (12–31 frames at 60 fps). Participants responded G (Go) or B (Brake).</p>
-<h3>Glance Time Stimuli</h3>
-<div class="stim-grid">
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-08-green-250ms-glance.mp4" type="video/mp4">
-</source></video>
-<div class="stim-meta">
-<span class="stim-label">Green — 250ms Glance</span>
-<span class="stim-sub">50% deuteranomaly · 250ms · 15 frames</span>
-</div>
-</div>
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-09-green-350ms-glance.mp4" type="video/mp4">
-</source></video>
-<div class="stim-meta">
-<span class="stim-label">Green — 350ms Glance</span>
-<span class="stim-sub">50% deuteranomaly · 350ms · 21 frames</span>
-</div>
-</div>
-<div class="stim-card">
-<video autoplay="" loop="" muted="" playsinline="" style="width:100%;display:block;border-bottom:var(--border)">
-<source src="videos/sdt-10-red-500ms-glance.mp4" type="video/mp4">
-</source></video>
-<div class="stim-meta">
-<span class="stim-label">Red — 500ms Glance</span>
-<span class="stim-sub">50% deuteranomaly · 500ms · 30 frames</span>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="analysis"><div class="section-label">Results</div><h2>Experimental Results</h2><p>Alternative hypotheses were partially supported. For each trial, the dependent variable was the proportion of participants who responded correctly. Spearman rank-order correlations, run in JASP, tested the relationship between each predictor and response accuracy.</p><div class="two-col"><div class="card"><h4>Glance time — all participants</h4><p><strong>ρ(38) = −.07, p = .651</strong> — No significant relationship; accuracy did not improve as glance time increased from 200 to 516.7 ms.</p></div><div class="card"><h4>Glance time — excluding Participant 5b</h4><p><strong>ρ(38) = −.13, p = .419</strong> — The relationship remained non-significant after excluding Participant 5b.</p></div><div class="card"><h4>Deutan deficiency — all participants</h4><p><strong>ρ(38) = −.55, p &lt; .001</strong> — Greater simulated deutan deficiency severity was associated with lower response accuracy.</p></div><div class="card"><h4>Deutan deficiency — excluding Participant 5b</h4><p><strong>ρ(38) = −.24, p = .134</strong> — The relationship was no longer significant after excluding Participant 5b, who accounted for 18 of 19 Condition 2 misses.</p></div></div><div class="result-figure"><h3>Participant Accuracy by Condition</h3><img alt="Overall response accuracy for each participant under the glance time and deutan deficiency conditions, with mean and 95% confidence interval" class="results-figure-img" src="images/sdt-11-overall-response-accuracy-for-each-participant.png"/><p class="figure-caption">Figure 1. Overall response accuracy for each participant in Condition 1 (shorter glance time) and Condition 2 (greater deutan deficiency). Open circles are individual participants, with lines connecting the same participant across conditions. Black points and error bars are the mean ± 95% CI. This is a descriptive comparison only; the two predictors are not levels of one common factor.</p></div><div class="table-wrap"><table><thead><tr><th>Condition</th><th>Predictor</th><th>Trials (<em>n</em>)</th><th>Participants</th><th>Spearman <em>r</em><sub>s</sub></th><th><em>p</em></th></tr></thead><tbody><tr><td>1</td><td>Glance time (ms)</td><td>40</td><td>All 6</td><td>−.07</td><td>.651</td></tr><tr><td>1</td><td>Glance time (ms)</td><td>40</td><td>Excluding 5b</td><td>−.13</td><td>.419</td></tr><tr><td>2</td><td>Deutan deficiency (%)</td><td>40</td><td>All 6</td><td>−.55</td><td>&lt; .001</td></tr><tr><td>2</td><td>Deutan deficiency (%)</td><td>40</td><td>Excluding 5b</td><td>−.24</td><td>.134</td></tr></tbody></table><p><em>Note.</em> The plot summarizes participant-level overall accuracy. Correlations use 40 stimuli/trials within each condition and relate predictor values to proportion correct. Spearman rank-order coefficients are reported. The plot and table summarize complementary analyses.</p></div></div>
-<div class="section" id="discussion"><div class="section-label">Discussion</div><h2>Interpretation, Limitations &amp; Implications</h2><h3>What the Results Suggest</h3><p>Glance time had no effect on response accuracy, so the glance-time hypothesis was not supported. The negative correlation between deutan severity and accuracy suggests that more severe deutan deficiency makes red and green signals harder to tell apart. That partially supports the second hypothesis. However, Participant 5b accounted for all but one miss across trials, so this result has to be read alongside that limitation.</p><div class="two-col"><div class="card"><h4>Overall hit rate</h4><p><strong>91%</strong>: most red signals were correctly identified as “Brake.”</p></div><div class="card"><h4>Sensitivity (d′)</h4><p><strong>2.37–4.50</strong>: three participants reached the ceiling of 4.5.</p></div><div class="card"><h4>False-alarm rate</h4><p><strong>1.2%–23%</strong>: decision criteria varied widely from person to person.</p></div><div class="card"><h4>Influential observation</h4><p><strong>18 of 19</strong> Condition 2 misses came from Participant 5b.</p></div></div><h3>Limitations &amp; Future Directions</h3><ul><li><strong>Ceiling effects.</strong> A 91% hit rate and three participants at d′ = 4.5 suggest the task was too easy to reveal differences.</li><li><strong>Non-immersive setup.</strong> Results may not carry over to naturalistic driving. Future studies should use a medium- or high-fidelity driving simulator.</li><li><strong>Narrow ranges.</strong> Future work should use wider ranges of glance time and deutan severity with larger steps between levels.</li><li><strong>Single influential participant.</strong> Removing Participant 5b removes the main correlation, so more data is needed before drawing conclusions.</li></ul><h3>Implications</h3><p>Our results only faintly suggest that deutan deficiency affects driving as severity approaches deuteranopia, and more data is needed to draw a conclusion. They also don't replicate earlier findings that deuteranomaly and glance time affect response accuracy. Given that prior research, though, neither factor should be dismissed. The wide spread in sensitivity across participants supports designing roadways, traffic signals and signs, and automotive safety software around individual variability in color vision and distracted driving. Ignoring that variability hurts both driver safety and how inclusive transportation is.</p></div><div class="section" id="framework">
-<div class="section-label">Theoretical Framework</div>
-<h2>Why Signal Detection Theory Matters</h2>
-<p>Signal Detection Theory (SDT) provides the analytical framework for distinguishing perceptual sensitivity from response tendencies. In this task, red traffic signals were defined as signal-present events and green signals as signal-absent events; participant responses could therefore be classified as hits, misses, false alarms, or correct rejections.</p>
-<p>The completed experiment also demonstrated individual differences in SDT measures. The report identified false-alarm rates ranging from 1.2% to 23% and d′ values from 2.37 to 4.50, showing that participants varied in sensitivity and decision criteria even within the same task.</p>
-</div>
-<div class="section" id="references">
-<div class="section-label">References</div>
-<h2>Sources</h2>
-<ul style="list-style:none;padding:0;"><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Atchison, D. A., Pedersen, C. A., Dain, S. J., &amp; Wood, J. M. (2003). Traffic signal color recognition is a problem for both protan and deutan color-vision deficients. <em>Human Factors, 45</em>(3), 495–503. <a href="https://doi.org/10.1518/hfes.45.3.495.27247" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://doi.org/10.1518/hfes.45.3.495.27247</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Bitkina, O. V., Park, J., &amp; Ryu, D. H. (2025). Color vision deficiency recognition based on eye-tracking metrics using machine learning approaches. <em>International Journal of Human–Computer Interaction, 41</em>(14), 8928–8942. <a href="https://doi.org/10.1080/10447318.2024.2415764" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://doi.org/10.1080/10447318.2024.2415764</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Colour Blind Awareness. (2022). <em>Types of colour blindness</em>. <a href="https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Fitch, G. M., Soccolich, S. A., Guo, F., McClafferty, J., Fang, Y., Olson, R. L., Perez, M. A., Hanowski, R. J., Hankey, J. M., &amp; Dingus, T. A. (2013). <em>The impact of hand-held and hands-free cell phone use on driving performance and safety-critical event risk</em> (Report No. DOT HS 811 757). National Highway Traffic Safety Administration. <a href="https://www.govinfo.gov/app/details/GOVPUB-TD8-PURL-gpo55914" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://www.govinfo.gov/app/details/GOVPUB-TD8-PURL-gpo55914</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">O'Brien, K. A., Cole, B. L., Maddocks, J. D., &amp; Forbes, A. B. (2002). Color and defective color vision as factors in the conspicuity of signs and signals. <em>Human Factors, 44</em>(4), 665–675. <a href="https://doi.org/10.1518/0018720024496953" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://doi.org/10.1518/0018720024496953</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">RGBlind. (n.d.). <em>Color blindness simulator</em>. Retrieved September 20, 2026, from <a href="https://rgblind.com/color-blindness-simulator" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://rgblind.com/color-blindness-simulator</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Thorslund, B., &amp; Strand, N. (2016). Vision measurability and its impact on safe driving: A literature review. <em>Scandinavian Journal of Optometry and Visual Science, 9</em>(1), 1–9. <a href="https://doi.org/10.5384/SJOVS.vol9i1p1" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://doi.org/10.5384/SJOVS.vol9i1p1</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Ultralytics. (n.d.). <em>Traffic lights dataset</em> [Data set]. Retrieved September 19, 2026, from <a href="https://platform.ultralytics.com/elk-penguin/datasets/traffic-lights-dataset" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://platform.ultralytics.com/elk-penguin/datasets/traffic-lights-dataset</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Wang, Y., Bao, S., Du, W., Ye, Z., &amp; Sayer, J. R. (2017). Examining drivers' eye glance patterns during distracted driving: Insights from scanning randomness and glance transition matrix. <em>Journal of Safety Research, 63</em>, 149–155. <a href="https://doi.org/10.1016/j.jsr.2017.10.006" target="_blank" rel="noopener" style="color:var(--accent);word-break:break-all">https://doi.org/10.1016/j.jsr.2017.10.006</a></li><li style="margin-bottom:12px;padding-left:24px;text-indent:-24px;">Wickens, C. D., Helton, W. S., Hollands, J. G., &amp; Banbury, S. (2022). <em>Engineering psychology and human performance</em> (5th ed.). Routledge.</li></ul>
-</div>
-</div>
-</div>
+
+<main>
+<header class="hero">
+  <div class="wrap">
+    <a class="back" href="index.html#work">All work</a>
+    <h1>Traffic Signal Detection Experiment</h1>
+    <p class="summary">How simulated deutan color vision deficiency and shortened glance time affect a driver’s ability to tell a red signal from a green one, analyzed with signal detection theory.</p>
+    <figure>
+      <div class="plate"><img src="images/sdt-01-three-sample-stimuli-a-red-signal.jpg" alt="Three sample traffic signal stimuli with simulated deutan deficiency" width="1776" height="592"/></div>
+      <figcaption>Sample stimuli: (a) a red signal at 88% simulated deutan deficiency, (b) a green signal at 52%, and (c) a green signal at 28%.</figcaption>
+    </figure>
+    <dl class="facts" style="--cols:4"><div><dt>Course</dt><dd>ISE 5604: Human Information Processing</dd></div><div><dt>Instructor</dt><dd>Dr. Charlie Klauer</dd></div><div><dt>Team</dt><dd>Joseph Brazina &amp; Andrew Jones</dd></div><div><dt>Term</dt><dd>Fall 2026</dd></div></dl>
+    <p class="role">I built the 80 stimuli and led the experimental design for the go/brake detection task.</p>
+  </div>
+</header>
+
+<section class="room" id="problem" aria-labelledby="pr-h">
+  <div class="wrap">
+    <h2 id="pr-h">The problem</h2>
+    <div class="prose">
+      <p>Safe driving depends on detecting signals: each traffic light comes down to “signal present” or “signal absent.” Two factors can disrupt that. Deutan color vision deficiency (CVD) weakens or removes the eye’s green-sensing cones, so reds look more yellow and greens look more gray. Distraction shortens on-road glances and makes scanning more random.</p>
+      <p>The two may compound for drivers with CVD. We built a non-immersive driving simulation to test whether simulated deutan severity and shortened glance time reduce how accurately people respond to traffic signals.</p>
+    </div>
+    <p class="note"><strong>Why it matters:</strong> data like this can inform machine learning models in automotive systems, supporting accessibility features for drivers with CVD and safety interventions for distracted drivers.</p>
+  </div>
+</section>
+
+<section class="room" id="questions" aria-labelledby="q-h">
+  <div class="wrap">
+    <h2 id="q-h">Questions and hypotheses</h2>
+    <div class="table-wrap"><table class="stack"><thead><tr><th style="width:4%"></th><th style="width:52%">Research question</th><th>Alternative hypothesis</th></tr></thead><tbody>
+<tr><td data-label="">1</td><td data-label="Research question">Does more severe simulated deutan deficiency reduce correct responses?</td><td data-label="Alternative hypothesis">More severe deficiency reduces accuracy.</td></tr>
+<tr><td data-label="">2</td><td data-label="Research question">Does a longer glance, from 200 to 516.7 ms, improve correct responses?</td><td data-label="Alternative hypothesis">Shorter glances reduce accuracy.</td></tr>
+</tbody></table>
+<p class="table-note">The null hypotheses: neither factor is significantly related to response accuracy.</p></div>
+  </div>
+</section>
+
+<section class="room" id="method" aria-labelledby="m-h">
+  <div class="wrap">
+    <h2 id="m-h">Method</h2>
+    <div class="prose"><p>Two independent conditions each varied one factor and held the other constant. Red signals counted as signal present (Brake) and green as signal absent (Go), so every response is a hit, miss, false alarm, or correct rejection.</p></div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th style="width:16%"></th><th style="width:30%">Varies</th><th style="width:30%">Held constant</th><th>Trials</th></tr></thead><tbody>
+<tr><td data-label="">Condition 1</td><td data-label="Varies">Glance time, 200 to 516.7 ms</td><td data-label="Held constant">50% simulated deutan deficiency</td><td data-label="Trials">40: 20 red, 20 green</td></tr>
+<tr><td data-label="">Condition 2</td><td data-label="Varies">Deutan severity, 24% to 100%</td><td data-label="Held constant">350 ms glance time</td><td data-label="Trials">40: 20 red, 20 green</td></tr>
+</tbody></table>
+<p class="table-note">Dependent variable: the proportion of participants who responded correctly on each trial.</p></div>
+    <ul class="points" style="--cols:3">
+      <li><strong>Participants</strong>Six adults aged 18 to 44, two male and four female, all with normal or corrected vision and no CVD. Five took part for course credit and one volunteered.</li>
+      <li><strong>Stimuli</strong>Ten red and ten green real traffic-light images (Ultralytics), each used twice per condition for 80 clips, processed with the RGBlind simulator. Each clip was rendered in DaVinci Resolve at 60 fps, so one frame adds exactly 16.7 ms.</li>
+      <li><strong>Procedure</strong>About 10 minutes, self-paced, in PowerPoint on a MacBook Air. After four practice trials, randomized signals flashed then cut to black, and participants wrote G for Go or B for Brake. Condition order was counterbalanced.</li>
+    </ul>
+
+    <h3>Sample clips</h3>
+    <div class="prose"><p>Condition 2 held glance time at 350 ms while severity varied:</p></div>
+    <div class="plate">
+      <div class="trio">
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Green, 24% severity"><source src="videos/sdt-02-green-mild-deuteranomaly.mp4" type="video/mp4"/></video><figcaption>Green, 24% severity</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Green, 68% severity"><source src="videos/sdt-03-green-moderate-deuteranomaly.mp4" type="video/mp4"/></video><figcaption>Green, 68% severity</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Green, 100% severity (deuteranopia)"><source src="videos/sdt-04-green-deuteranopia.mp4" type="video/mp4"/></video><figcaption>Green, 100% severity (deuteranopia)</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Red, 28% severity"><source src="videos/sdt-05-red-mild-deuteranomaly.mp4" type="video/mp4"/></video><figcaption>Red, 28% severity</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Red, 56% severity"><source src="videos/sdt-06-red-moderate-deuteranomaly.mp4" type="video/mp4"/></video><figcaption>Red, 56% severity</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Red, 100% severity (deuteranopia)"><source src="videos/sdt-07-red-deuteranopia.mp4" type="video/mp4"/></video><figcaption>Red, 100% severity (deuteranopia)</figcaption></figure>
+      </div>
+    </div>
+    <div class="prose"><p>Condition 1 held severity at 50% while glance time varied:</p></div>
+    <div class="plate">
+      <div class="trio">
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Green, 250 ms glance (15 frames)"><source src="videos/sdt-08-green-250ms-glance.mp4" type="video/mp4"/></video><figcaption>Green, 250 ms glance (15 frames)</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Green, 350 ms glance (21 frames)"><source src="videos/sdt-09-green-350ms-glance.mp4" type="video/mp4"/></video><figcaption>Green, 350 ms glance (21 frames)</figcaption></figure>
+        <figure><video autoplay loop muted playsinline preload="metadata" aria-label="Red, 500 ms glance (30 frames)"><source src="videos/sdt-10-red-500ms-glance.mp4" type="video/mp4"/></video><figcaption>Red, 500 ms glance (30 frames)</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="room" id="results" aria-labelledby="r-h">
+  <div class="wrap">
+    <h2 id="r-h">Results</h2>
+    <div class="prose"><p>The hypotheses were partly supported. Spearman rank-order correlations, run in JASP, related each predictor to the proportion of correct responses across the 40 trials in its condition.</p></div>
+    <div class="scroll-x"><div class="table-wrap"><table class="num"><thead><tr><th style="width:14%">Condition</th><th style="width:26%">Predictor</th><th style="width:24%">Participants</th><th style="width:20%">Spearman r<sub>s</sub></th><th>p</th></tr></thead><tbody>
+<tr><td data-label="Condition">1</td><td data-label="Predictor">Glance time</td><td data-label="Participants">All 6</td><td data-label="Spearman r&lt;sub&gt;s&lt;/sub&gt;">−.07</td><td data-label="p">.651</td></tr>
+<tr><td data-label="Condition">1</td><td data-label="Predictor">Glance time</td><td data-label="Participants">Excluding 5b</td><td data-label="Spearman r&lt;sub&gt;s&lt;/sub&gt;">−.13</td><td data-label="p">.419</td></tr>
+<tr><td data-label="Condition">2</td><td data-label="Predictor">Deutan severity</td><td data-label="Participants">All 6</td><td data-label="Spearman r&lt;sub&gt;s&lt;/sub&gt;">−.55</td><td data-label="p">&lt; .001</td></tr>
+<tr><td data-label="Condition">2</td><td data-label="Predictor">Deutan severity</td><td data-label="Participants">Excluding 5b</td><td data-label="Spearman r&lt;sub&gt;s&lt;/sub&gt;">−.24</td><td data-label="p">.134</td></tr>
+</tbody></table></div></div>
+    <div class="split">
+      <figure>
+        <div class="plate"><img src="images/sdt-11-overall-response-accuracy-for-each-participant.png" alt="Plot of each participant’s overall accuracy in Condition 1 and Condition 2, with means and 95% confidence intervals" width="1184" height="880" loading="lazy" decoding="async"/></div>
+        <figcaption>Each participant’s overall accuracy in both conditions (open circles joined by lines), with the mean ± 95% CI in black. A descriptive comparison only.</figcaption>
+      </figure>
+      <div class="prose">
+        <p><strong>Glance time had no significant effect.</strong> Accuracy didn’t improve as glances lengthened from 200 to 516.7 ms, with or without Participant 5b.</p>
+        <p><strong>Deutan severity did, with a caveat.</strong> More severe simulated deficiency was linked to lower accuracy, suggesting red and green become harder to tell apart. But Participant 5b made 18 of the 19 misses in Condition 2, and without that participant the relationship was no longer significant.</p>
+      </div>
+    </div>
+    <ul class="stats">
+      <li><b>91%</b>Overall hit rate: most red signals were correctly called “Brake.”</li>
+      <li><b>2.37–4.50</b>Sensitivity (d′), with three participants at the 4.5 ceiling.</li>
+      <li><b>1.2%–23%</b>False-alarm rate, so decision criteria varied widely.</li>
+      <li><b>18 of 19</b>Condition 2 misses came from one participant.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="room" id="discussion" aria-labelledby="dis-h">
+  <div class="wrap">
+    <h2 id="dis-h">Limitations and implications</h2>
+    <ul class="points">
+      <li><strong>Ceiling effects</strong>A 91% hit rate and three participants at d′ = 4.5 suggest the task was too easy to reveal differences.</li>
+      <li><strong>One influential participant</strong>Removing Participant 5b removes the main correlation, so more data is needed before drawing conclusions.</li>
+      <li><strong>Narrow ranges</strong>Future work should use wider ranges of glance time and severity, with larger steps between levels.</li>
+      <li><strong>Non-immersive setup</strong>Results may not carry over to real driving; a medium- or high-fidelity simulator would help.</li>
+    </ul>
+    <div class="prose"><p>The results only faintly suggest that deutan deficiency affects signal detection as it approaches deuteranopia, and they don’t replicate earlier findings on glance time. Given that prior research, neither factor should be dismissed. The wide spread in sensitivity across participants supports designing signals, signs, and automotive safety software around individual differences in color vision and distraction.</p></div>
+  </div>
+</section>
+
+<section class="room" id="sources" aria-label="Sources">
+  <div class="wrap">
+    <details>
+      <summary>Sources <span><span class="closed">Show all 10</span><span class="open">Hide</span></span></summary>
+      <ul class="refs">
+        <li>Atchison, D. A., Pedersen, C. A., Dain, S. J., &amp; Wood, J. M. (2003). Traffic signal color recognition is a problem for both protan and deutan color-vision deficients. <em>Human Factors, 45</em>(3), 495–503. <a href="https://doi.org/10.1518/hfes.45.3.495.27247" target="_blank" rel="noopener">https://doi.org/10.1518/hfes.45.3.495.27247</a></li>
+        <li>Bitkina, O. V., Park, J., &amp; Ryu, D. H. (2025). Color vision deficiency recognition based on eye-tracking metrics using machine learning approaches. <em>International Journal of Human–Computer Interaction, 41</em>(14), 8928–8942. <a href="https://doi.org/10.1080/10447318.2024.2415764" target="_blank" rel="noopener">https://doi.org/10.1080/10447318.2024.2415764</a></li>
+        <li>Colour Blind Awareness. (2022). <em>Types of colour blindness</em>. <a href="https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/" target="_blank" rel="noopener">https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/</a></li>
+        <li>Fitch, G. M., Soccolich, S. A., Guo, F., McClafferty, J., Fang, Y., Olson, R. L., Perez, M. A., Hanowski, R. J., Hankey, J. M., &amp; Dingus, T. A. (2013). <em>The impact of hand-held and hands-free cell phone use on driving performance and safety-critical event risk</em> (Report No. DOT HS 811 757). National Highway Traffic Safety Administration. <a href="https://www.govinfo.gov/app/details/GOVPUB-TD8-PURL-gpo55914" target="_blank" rel="noopener">https://www.govinfo.gov/app/details/GOVPUB-TD8-PURL-gpo55914</a></li>
+        <li>O'Brien, K. A., Cole, B. L., Maddocks, J. D., &amp; Forbes, A. B. (2002). Color and defective color vision as factors in the conspicuity of signs and signals. <em>Human Factors, 44</em>(4), 665–675. <a href="https://doi.org/10.1518/0018720024496953" target="_blank" rel="noopener">https://doi.org/10.1518/0018720024496953</a></li>
+        <li>RGBlind. (n.d.). <em>Color blindness simulator</em>. Retrieved September 20, 2026, from <a href="https://rgblind.com/color-blindness-simulator" target="_blank" rel="noopener">https://rgblind.com/color-blindness-simulator</a></li>
+        <li>Thorslund, B., &amp; Strand, N. (2016). Vision measurability and its impact on safe driving: A literature review. <em>Scandinavian Journal of Optometry and Visual Science, 9</em>(1), 1–9. <a href="https://doi.org/10.5384/SJOVS.vol9i1p1" target="_blank" rel="noopener">https://doi.org/10.5384/SJOVS.vol9i1p1</a></li>
+        <li>Ultralytics. (n.d.). <em>Traffic lights dataset</em> [Data set]. Retrieved September 19, 2026, from <a href="https://platform.ultralytics.com/elk-penguin/datasets/traffic-lights-dataset" target="_blank" rel="noopener">https://platform.ultralytics.com/elk-penguin/datasets/traffic-lights-dataset</a></li>
+        <li>Wang, Y., Bao, S., Du, W., Ye, Z., &amp; Sayer, J. R. (2017). Examining drivers' eye glance patterns during distracted driving: Insights from scanning randomness and glance transition matrix. <em>Journal of Safety Research, 63</em>, 149–155. <a href="https://doi.org/10.1016/j.jsr.2017.10.006" target="_blank" rel="noopener">https://doi.org/10.1016/j.jsr.2017.10.006</a></li>
+        <li>Wickens, C. D., Helton, W. S., Hollands, J. G., &amp; Banbury, S. (2022). <em>Engineering psychology and human performance</em> (5th ed.). Routledge.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+</main>
+
+<section class="end" aria-label="More work">
+  <div class="wrap">
+    <a class="big" href="index.html#work">See all projects</a>
+    <p>Questions about this project? <a href="mailto:jbrazina2324@gmail.com">jbrazina2324@gmail.com</a></p>
+  </div>
+</section>
 <footer>
-<span>Joseph Brazina — Portfolio</span>
-<a href="index.html">Back to Home</a>
-<span>Completed study</span>
+  <div class="wrap">
+    <span>© 2026 Joseph Brazina</span>
+    <span>Completed study</span>
+  </div>
 </footer>
+<script>
+  // Looping stimulus clips: keep them playing, but leave them still for reduced motion.
+  (function () {
+    const videos = document.querySelectorAll('video[autoplay]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const play = v => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    videos.forEach(v => {
+      v.muted = true;
+      if (reduce.matches) { v.removeAttribute('autoplay'); v.controls = true; v.pause(); return; }
+      v.addEventListener('loadeddata', () => play(v));
+      play(v);
+    });
+  })();
+</script>
 </body>
 </html>
