@@ -1,507 +1,430 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Joseph Brazina   Human Factors &amp; UX Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Joseph Brazina: Human Factors &amp; UX Portfolio</title>
+<meta name="description" content="Human factors and UX portfolio of Joseph Brazina, M.Eng. student in Human Factors Engineering at Virginia Tech."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap"/>
 <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Gallery design: the page is a plain white wall, every project hangs on the same
+     gray mat, and the project images are the only color on the page. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #ffffff; --bg-2: #f5f5f7; --bg-3: #e8e8ed; --surface: #ffffff;
-      --ink: #1d1d1f; --ink-2: #424245; --ink-3: #6e6e73;
-      --blue: #0071e3; --link: #0066cc;
-      --border: 1px solid #d2d2d7; --border-heavy: 1px solid #d2d2d7;
-      --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      --mono: var(--sans);
-      --radius: 980px;
-    }
+  :root {
+    --wall: #ffffff;       /* page background */
+    --mat: #ebebeb;        /* the plate every project image sits on */
+    --mat-hover: #e0e0e0;
+    --ink: #000000;        /* headings */
+    --ink-2: #3a3a3a;      /* body text */
+    --ink-3: #666666;      /* captions and credit lines */
+    --rule: #cccccc;       /* hairlines between sections */
+    --night: #000000;      /* contact band */
+    --night-ink: #ffffff;
+    --night-ink-2: #a6a6a6;
+    --sans: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --edge: clamp(20px, 5vw, 64px);   /* page side margin */
+    --plate-pad: clamp(14px, 3.2vw, 44px);
+    --gap: clamp(8px, 1.2vw, 14px);   /* space between images on one plate */
+  }
 
-    html { scroll-behavior: smooth; scroll-padding-top: 48px; }
-    body { font-family: var(--sans); font-size: 17px; line-height: 1.47; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
-    a { color: var(--ink); text-decoration: none; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { font-family: var(--sans); font-size: 1.0625rem; line-height: 1.55; color: var(--ink-2); background: var(--wall); -webkit-font-smoothing: antialiased; }
+  img, video, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--edge); }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-    /* NAV */
-    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.8); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(0,0,0,.08); }
-    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; height: 48px; display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--ink); text-transform: none; }
-    .nav-links { display: flex; gap: 4px; }
-    .nav-links a { font-size: 0.8rem; color: var(--ink-2); padding: 0 12px; height: 48px; display: flex; align-items: center; text-transform: none; letter-spacing: 0; transition: color .2s; }
-    .nav-links a:hover { color: var(--ink); background: none; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
-    /* HERO */
-    #hero { background: var(--bg); }
-    .hero-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; align-items: center; min-height: 600px; }
-    .hero-text { padding: 96px 48px; display: flex; flex-direction: column; justify-content: center; }
-    .label { display: none; }
-    h1 { font-size: 3.5rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.07; color: var(--ink); margin-bottom: 24px; max-width: 700px; }
-    .hero-text > p { font-size: 1.25rem; line-height: 1.5; max-width: 600px; margin-bottom: 40px; color: var(--ink-3); }
-    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 1rem; font-weight: 400; cursor: pointer; border: 1px solid transparent; border-radius: var(--radius); transition: background .2s, color .2s, border-color .2s; }
-    .btn-primary { background: var(--blue); color: #fff; }
-    .btn-primary:hover { background: #0077ed; }
-    .btn-outline { background: transparent; color: var(--link); border-color: var(--link); }
-    .btn-outline:hover { background: var(--link); color: #fff; }
-    .hero-photo { width: 400px; display: flex; align-items: center; justify-content: center; padding: 48px 48px 48px 0; }
-    .avatar { width: 300px; height: 300px; background: var(--bg-2); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 40px; }
-    .avatar svg { opacity: 0.3; }
-    .avatar-hint { font-size: 0.75rem; color: var(--ink-3); text-align: center; }
+  /* NAV */
+  .site-nav { position: sticky; top: 0; z-index: 10; background: var(--wall); border-bottom: 1px solid var(--rule); }
+  .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 24px; }
+  .site-name { font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: -0.005em; }
+  .site-nav ul { list-style: none; display: flex; gap: clamp(14px, 2.4vw, 32px); }
+  .site-nav ul a { font-size: 0.9375rem; color: var(--ink-3); text-decoration: none; }
+  .site-nav ul a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 
-    /* SECTIONS */
-    section { border: none; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .section-header { padding: 104px 48px 0; }
-    .section-label { font-size: 0.85rem; font-weight: 600; color: var(--ink-3); display: inline-block; margin-bottom: 8px; letter-spacing: 0; text-transform: none; }
-    .section-header h2 { font-size: 2.75rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); margin-top: 4px; padding-bottom: 56px; border: none; }
+  /* INTRO: short, so the first project is on screen right away */
+  .intro { padding: clamp(48px, 7vw, 88px) 0 clamp(36px, 5vw, 56px); }
+  .intro h1 { font-size: clamp(1.625rem, 3.1vw, 2.5rem); font-weight: 500; line-height: 1.18; letter-spacing: -0.015em; color: var(--ink); max-width: 30ch; }
+  .intro p { margin-top: 16px; font-size: 1.0625rem; color: var(--ink-3); max-width: 62ch; }
 
-    /* PROJECTS */
-    #projects { background: var(--bg-2); padding-bottom: 104px; }
-    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 48px; }
-    .project-card { background: #fff; border-radius: 28px; overflow: hidden; transition: transform .3s, box-shadow .3s; }
-    .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.08); }
-    .project-thumb { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border: none; }
-    .project-thumb img { background: var(--bg-2) !important; }
-    .pt-1, .pt-2, .pt-3 { background: var(--bg-2); }
-    .thumb-hint { font-size: 0.7rem; color: var(--ink-3); position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
-    .project-body { padding: 28px 28px 32px; }
-    .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-    .tag { font-size: 0.72rem; font-weight: 500; padding: 3px 10px; border-radius: var(--radius); border: none; color: var(--ink-3); background: var(--bg-2); text-transform: none; letter-spacing: 0; }
-    .tag.primary { background: var(--ink); color: #fff; }
-    .tag.secondary { background: var(--bg-2); color: var(--ink-3); }
-    .project-body h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); margin-bottom: 6px; text-transform: none; }
-    .project-context { font-size: 0.85rem; color: var(--ink-3); margin-bottom: 14px; }
-    .project-body p { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
-    .process-steps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
-    .process-step { font-size: 0.72rem; font-weight: 500; text-transform: none; letter-spacing: 0; background: var(--bg-2); color: var(--ink-2); padding: 4px 11px; border-radius: var(--radius); }
-    .project-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 20px; font-size: 1rem; color: var(--link); border: none; text-transform: none; letter-spacing: 0; }
-    .project-link:hover { text-decoration: underline; }
+  /* WORK */
+  .work { padding-bottom: clamp(72px, 10vw, 128px); }
+  .work-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 3.5vw, 48px); row-gap: clamp(64px, 8vw, 112px); }
+  .piece { position: relative; }
+  .piece-wide { grid-column: 1 / -1; }
 
-    /* RESEARCH */
-    #research { background: var(--bg); padding-bottom: 104px; }
-    .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 48px; }
-    .research-card-wide { grid-column: 1 / -1; }
-    .research-card-wide p { max-width: 760px; }
-    .research-card { padding: 36px; background: var(--bg-2); border-radius: 28px; }
-    .role-label { font-size: 0.8rem; font-weight: 500; color: var(--ink-3); margin-bottom: 10px; text-transform: none; letter-spacing: 0; }
-    .research-card h3 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 4px; line-height: 1.2; text-transform: none; }
-    .org { font-size: 0.85rem; color: var(--ink-3); margin-bottom: 16px; border: none; padding-bottom: 0; }
-    .research-card p { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
-    .research-methods { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
-    .method-tag { font-size: 0.72rem; font-weight: 500; padding: 4px 11px; border: none; background: #fff; color: var(--ink-2); text-transform: none; letter-spacing: 0; border-radius: var(--radius); }
+  /* The plate: same mat color for every project, whatever the image */
+  .plate { background: var(--mat); padding: var(--plate-pad); display: flex; align-items: center; justify-content: center; transition: background-color .2s ease; }
+  .piece:not(.piece-wide) .plate { aspect-ratio: 3 / 2; }
+  .piece:hover .plate { background: var(--mat-hover); }
 
-    /* ABOUT */
-    #about { background: var(--bg-2); padding-bottom: 104px; }
-    #about .inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; padding: 0 48px; }
-    .about-left, .about-right { padding: 0; border: none; }
-    .about-left h2 { font-size: 2.75rem; font-weight: 600; letter-spacing: -0.03em; color: var(--ink); margin-top: 4px; text-transform: none; }
-    .about-left p { font-size: 1.15rem; color: var(--ink-2); line-height: 1.55; margin-top: 18px; }
-    .about-right h3 { font-size: 0.85rem; font-weight: 600; letter-spacing: 0; color: var(--ink-3); text-transform: none; margin-top: 36px; margin-bottom: 14px; border-bottom: var(--border); padding-bottom: 10px; }
-    .about-right h3:first-child { margin-top: 0; }
-    .about-right p { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
-    .edu-entry { margin-bottom: 18px; }
-    .edu-entry strong { color: var(--ink); font-size: 1.05rem; font-weight: 600; }
-    .edu-detail { font-size: 0.85rem; color: var(--ink-3); margin-top: 4px; line-height: 1.5; }
-    .tools-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .tool-chip { font-size: 0.8rem; font-weight: 500; padding: 5px 13px; border: none; background: #fff; color: var(--ink-2); text-transform: none; letter-spacing: 0; border-radius: var(--radius); }
-    .honors-list { font-size: 0.92rem; color: var(--ink-2); line-height: 1.9; }
+  /* A row of images that share one height: each item grows by its own aspect ratio */
+  .hang { display: flex; gap: var(--gap); width: 100%; margin: 0 auto; }
+  .hang > * { flex: var(--a) 1 0%; min-width: 0; }
+  .hang .frame { aspect-ratio: var(--a); width: 100%; overflow: hidden; background: #fff; }
+  .hang .frame img, .hang .frame video { width: 100%; height: 100%; object-fit: cover; }
+  .hang figcaption { margin-top: 10px; font-size: 0.8125rem; line-height: 1.35; color: var(--ink-3); }
 
-    /* CONTACT */
-    #contact { background: #000; color: #f5f5f7; }
-    #contact .section-label { color: #86868b; background: none; }
-    #contact .section-header h2 { color: #f5f5f7; border: none; }
-    #contact .inner { padding: 0 48px 112px; }
-    #contact p { color: #a1a1a6; font-size: 1.25rem; max-width: 560px; margin-bottom: 36px; line-height: 1.5; }
-    .contact-links { display: flex; gap: 14px; flex-wrap: wrap; }
-    #contact .btn-primary { background: var(--blue); color: #fff; border-color: transparent; }
-    #contact .btn-primary:hover { background: #0077ed; }
-    #contact .btn-outline { color: #2997ff; border-color: #2997ff; }
-    #contact .btn-outline:hover { background: #2997ff; color: #000; }
+  /* Mental rotation figures: a 2 × 2 set of white tiles */
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); height: 100%; aspect-ratio: 1; }
+  .tiles img { width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 8%; }
 
-    /* FOOTER */
-    footer { background: #000; border-top: 1px solid #2a2a2c; padding: 22px 48px; font-size: 0.75rem; color: #86868b; display: flex; justify-content: space-between; align-items: center; }
+  /* The wall label under each plate */
+  .label { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; margin-top: 20px; }
+  .label h3 { grid-column: 1 / -1; font-size: 1.25rem; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
+  .label h3 a { text-decoration: none; }
+  .label h3 a::after { content: ""; position: absolute; inset: 0; }          /* whole piece is one link */
+  .label h3 a:focus-visible { outline: none; }
+  .label h3 a:focus-visible::after { outline: 2px solid var(--ink); outline-offset: 6px; }
+  .piece:hover h3 a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .label .desc { grid-column: 1 / -1; margin-top: 8px; max-width: 68ch; }
+  .label .credit { margin-top: 12px; font-size: 0.875rem; color: var(--ink-3); }
+  .label .open { margin-top: 12px; font-size: 0.875rem; color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; white-space: nowrap; }
 
-    /* RESPONSIVE */
-    @media (max-width: 900px) {
-      h1 { font-size: 2.5rem; }
-      .section-header h2, .about-left h2 { font-size: 2.1rem; }
-      .hero-grid { grid-template-columns: 1fr; min-height: 0; }
-      .hero-photo { display: none; }
-      .projects-grid, .research-grid { grid-template-columns: 1fr; }
-      #about .inner { grid-template-columns: 1fr; gap: 48px; }
-      .nav-inner, .section-header, .projects-grid, .research-grid, #about .inner { padding-left: 20px; padding-right: 20px; }
-      .hero-text { padding: 64px 20px; }
-      #contact .inner { padding: 0 20px 72px; }
-      footer { padding: 16px 20px; flex-direction: column; gap: 6px; text-align: center; }
-    }
-    @media (max-width: 580px) {
-      h1 { font-size: 2rem; }
-      .nav-links a { padding: 0 8px; font-size: 0.75rem; }
-    }
-  </style>
-<style>
-    /* ── v2: distinctive touch — Hokie maroon + burnt orange, mono labels, grid-paper hero ── */
-    :root {
-      --accent: #861f41; --accent-2: #e5751f; --blue: #861f41; --link: #861f41;
-      --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
-    }
-    ::selection { background: var(--accent-2); color: #fff; }
+  /* SECTIONS after the work */
+  .room { border-top: 1px solid var(--rule); padding: clamp(56px, 8vw, 96px) 0; }
+  .room h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: var(--ink); margin-bottom: clamp(32px, 4vw, 48px); }
 
-    /* grid-paper hero that fades out toward the bottom */
-    #hero { position: relative; overflow: hidden; }
-    #hero::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(29,29,31,.16) 1px, transparent 1px); background-size: 24px 24px; -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%); mask-image: linear-gradient(to bottom, #000 0%, transparent 85%); pointer-events: none; }
-    .hero-grid { position: relative; z-index: 1; }
-    .avatar { outline: 1.5px solid var(--accent); outline-offset: 10px; }
+  /* RESEARCH: a plain list, like an exhibition CV */
+  .cv { list-style: none; }
+  .cv li { display: grid; grid-template-columns: 200px minmax(0, 1fr) minmax(0, 1.6fr); column-gap: clamp(20px, 3vw, 40px); padding: 28px 0; border-top: 1px solid var(--rule); }
+  .cv li:last-child { border-bottom: 1px solid var(--rule); }
+  .cv .when { font-size: 0.9375rem; color: var(--ink-3); }
+  .cv h3 { font-size: 1.125rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+  .cv .where { font-size: 0.9375rem; color: var(--ink-3); margin-top: 4px; }
+  .cv .methods { font-size: 0.875rem; color: var(--ink-3); margin-top: 10px; }
 
-    /* accent color on interactive elements */
-    .btn-primary:hover { background: #a02a52; }
-    .nav-links a:hover { color: var(--accent); }
-    .tag.primary { background: var(--accent); }
-    .project-link { color: var(--accent); }
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: clamp(32px, 6vw, 96px); row-gap: 48px; }
+  .about-intro { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 28px; align-items: start; }
+  .portrait { width: 180px; height: auto; aspect-ratio: 1; object-fit: cover; object-position: center top; background: var(--mat); }
+  .about-intro p + p { margin-top: 14px; }
+  .about-intro .where { color: var(--ink-3); font-size: 0.9375rem; }
+  .facts h3 { font-size: 1rem; font-weight: 600; color: var(--ink); padding-bottom: 10px; border-bottom: 1px solid var(--rule); margin-bottom: 14px; }
+  .facts h3:not(:first-child) { margin-top: 36px; }
+  .facts .degree { color: var(--ink); font-weight: 500; }
+  .facts .detail { font-size: 0.9375rem; color: var(--ink-3); }
+  .facts .degree-block + .degree-block { margin-top: 16px; }
+  .facts ul { list-style: none; }
+  .facts .tools { columns: 2; column-gap: 24px; font-size: 0.9375rem; }
+  .facts .honors { font-size: 0.9375rem; }
+  .facts li { padding: 2px 0; break-inside: avoid; }
 
-    /* small "signal light" marker before each section label */
-    .section-label::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--accent-2); border-radius: 2px; margin-right: 10px; vertical-align: 1px; }
+  /* CONTACT */
+  .contact { background: var(--night); color: var(--night-ink-2); padding: clamp(64px, 9vw, 112px) 0 clamp(56px, 7vw, 88px); }
+  .contact h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; color: var(--night-ink); margin-bottom: 16px; }
+  .contact p { max-width: 56ch; font-size: 1.125rem; }
+  .contact .email { display: inline-block; margin-top: 32px; font-size: clamp(1.25rem, 2.6vw, 1.875rem); font-weight: 500; color: var(--night-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; overflow-wrap: anywhere; }
+  .contact .email:hover { text-decoration-thickness: 2px; }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .btn { display: inline-flex; align-items: center; padding: 11px 20px; font-size: 0.9375rem; font-weight: 500; text-decoration: none; border: 1px solid var(--night-ink); color: var(--night-ink); transition: background-color .2s, color .2s; }
+  .btn:hover { background: var(--night-ink); color: var(--night); }
+  .contact :focus-visible { outline-color: var(--night-ink); }
+  footer { background: var(--night); color: var(--night-ink-2); border-top: 1px solid #333333; font-size: 0.8125rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; padding-bottom: 22px; }
 
-    /* monospace for metadata and labels, human-readable sizes */
-    .section-label, .role-label, .org, .project-context, .edu-detail, .avatar-hint, footer { font-family: var(--mono); letter-spacing: 0.01em; }
-    .section-label { font-size: 0.78rem; }
-    .role-label, .org, .project-context, .edu-detail { font-size: 0.78rem; }
-    .tag, .process-step, .method-tag, .tool-chip { font-family: var(--mono); letter-spacing: 0.01em; }
-    .tag, .process-step, .method-tag { font-size: 0.68rem; }
-    .tool-chip { font-size: 0.75rem; }
-    .about-right h3 { font-family: var(--mono); font-size: 0.78rem; }
-
-    /* card top bar draws in on hover */
-    .project-card { position: relative; }
-    .project-card::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; z-index: 2; }
-    .project-card:hover::after { transform: scaleX(1); }
-
-    /* contact: orange on black for contrast */
-    #contact .btn-primary { background: var(--accent-2); color: #000; }
-    #contact .btn-primary:hover { background: #f08a3c; }
-    #contact .btn-outline { color: var(--accent-2); border-color: var(--accent-2); }
-    #contact .btn-outline:hover { background: var(--accent-2); color: #000; }
-
-    /* Make selected project cards clickable anywhere, while preserving their buttons/links. */
-    .project-card[data-project-url] { cursor: pointer; }
-
-    /* full-width featured card (ATC) */
-    .project-card-wide { grid-column: 1 / -1; }
-    .project-card-wide .project-body > p { max-width: 760px; }
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .work-grid { grid-template-columns: minmax(0, 1fr); }
+    .cv li { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+    .about-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .site-nav .site-name { font-size: 0.9375rem; }
+    .site-nav ul { gap: 12px; }
+    .site-nav ul a { font-size: 0.8125rem; }
+    .about-intro { grid-template-columns: minmax(0, 1fr); }
+    .portrait { width: 140px; }
+    .facts .tools { columns: 1; }
+    .label { grid-template-columns: minmax(0, 1fr); }
+    .label .open { margin-top: 6px; }
+    .hang figcaption { font-size: 0.75rem; }
+  }
+  @media (max-width: 400px) {
+    .site-nav li.optional { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .plate { transition: none; }
+  }
 </style>
 </head>
 <body>
-<!-- NAV -->
-<nav>
-<div class="nav-inner">
-<span class="nav-logo">JOSEPH BRAZINA</span>
-<div class="nav-links">
-<a href="#projects">Work</a>
-<a href="#research">Research</a>
-<a href="#about">About</a>
-<a href="#contact">Contact</a>
-</div>
-</div>
+
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="site-name" href="#top">Joseph Brazina</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li class="optional"><a href="#research">Research</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="Joseph_Brazina_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    </ul>
+  </div>
 </nav>
-<!-- HERO -->
-<section id="hero">
-<div class="hero-grid">
-<div class="hero-text">
-<span class="label">Applying engineering, psychology, and design to improve how people experience technology.</span>
-<h1>Applying engineering, psychology, and design to improve how people experience technology.</h1>
-<p>I'm an M.Eng. in Human Factors Engineering at Virginia Tech with a foundation in human perception and cognition, and experience across experimental design, usability testing, interactive prototyping, and visual display design. I care about designing systems and interfaces rooted in human factors principles, and I'm especially interested in roles across aerospace, automotive, defense, and UX, where interface design directly shapes human performance.</p>
-<div class="hero-ctas">
-<a class="btn btn-primary" href="#projects">See my work</a>
-<a class="btn btn-outline" href="#contact">Get in touch</a>
-</div>
-</div>
-<div class="hero-photo">
-<div class="avatar"><img alt="Joseph Brazina" src="images/home-01-joseph-brazina.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top"/></div>
-</div>
-</div>
-</section>
-<!-- PROJECTS -->
-<section id="projects">
-<div class="container">
-<div class="section-header">
-<span class="section-label">Selected work</span>
-<h2>Projects</h2>
-</div>
-<div class="projects-grid">
-<!-- Project: ATC Configural Conflict Display -->
-<div class="project-card" data-project-url="casestudy_atc.html" role="link" tabindex="0" aria-label="Open Configural Conflict Display for Air Traffic Control case study">
-<div class="project-thumb" style="height:220px;padding:0;overflow:hidden;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#0b141b"><img src="images/home-atc-thumb-201350.jpg" alt="Conflict shape at stage 1, faint yellow" style="width:100%;height:220px;object-fit:cover;object-position:center;background:#13232e !important"/><img loading="lazy" decoding="async" src="images/home-atc-thumb-201550.jpg" alt="Conflict shape at stage 3, orange" style="width:100%;height:220px;object-fit:cover;object-position:center;background:#13232e !important"/><img loading="lazy" decoding="async" src="images/home-atc-thumb-201750.jpg" alt="Conflict shape at stage 4, red" style="width:100%;height:220px;object-fit:cover;object-position:center;background:#13232e !important"/></div>
-<div class="project-body">
-<div class="project-tags">
-<span class="tag primary">Configural Display</span>
-<span class="tag secondary">Figma</span>
-<span class="tag">Coursework</span>
-</div>
-<h3>Configural Conflict Display for Air Traffic Control</h3>
-<p class="project-context">Human Factors of Visual Display Systems · Fall 2026</p>
-<p>Designed an animated en-route radar scope from real OpenSky flight data around Washington, D.C. Two converging aircraft form one shape that grows from a faint yellow hint into a solid red warning as a loss of separation becomes likely. It warns up to 7 minutes ahead, compared with about 2.5 minutes for ERAM’s Conflict Alert, and keeps all five flight variables traceable on screen.</p>
-<div class="process-steps">
-<span class="process-step">Emergent Features</span>
-<span class="process-step">Semantic Mapping</span>
-<span class="process-step">Redundant Coding</span>
-<span class="process-step">Figma Smart Animate</span>
-</div>
-<a class="project-link" href="casestudy_atc.html">View case study →</a>
-</div>
-</div>
-<!-- Project: Multiple Resource Theory Experiment -->
-<div class="project-card" data-project-url="casestudy_mrt.html" role="link" tabindex="0" aria-label="Open Multiple Resource Theory Experiment case study">
-<div class="project-thumb" style="height:220px;padding:0;overflow:hidden;display:grid;grid-template-columns:repeat(4,1fr);background:#fff"><img loading="lazy" decoding="async" src="images/mrt-figure-g0.jpg" alt="Mental rotation figure G0" style="width:100%;height:220px;object-fit:contain;padding:10px;box-sizing:border-box;background:#fff !important;border-right:1px solid #e5e5ea"/><img loading="lazy" decoding="async" src="images/mrt-figure-g0-mirrored.jpg" alt="Mirrored variant of figure G0" style="width:100%;height:220px;object-fit:contain;padding:10px;box-sizing:border-box;background:#fff !important;border-right:1px solid #e5e5ea"/><img loading="lazy" decoding="async" src="images/mrt-figure-8a1.jpg" alt="Mental rotation figure 8A1" style="width:100%;height:220px;object-fit:contain;padding:10px;box-sizing:border-box;background:#fff !important;border-right:1px solid #e5e5ea"/><img loading="lazy" decoding="async" src="images/mrt-figure-8a1-mirrored.jpg" alt="Mirrored variant of figure 8A1" style="width:100%;height:220px;object-fit:contain;padding:10px;box-sizing:border-box;background:#fff !important"/></div>
-<div class="project-body">
-<div class="project-tags">
-<span class="tag primary">Experimental Design</span>
-<span class="tag secondary">Multiple Resource Theory</span>
-<span class="tag">NASA-TLX</span>
-</div>
-<h3>Multiple Resource Theory Dual-Task Experiment</h3>
-<p class="project-context">Human Information Processing · Fall 2026</p>
-<p>Built a browser-based experiment testing whether Tetris suffers more when paired with visual mental rotation than with auditory phoneme discrimination, as multiple resource theory predicts. Participants play Tetris alone first, then two counterbalanced three-minute dual-task blocks. It records game performance, judgment accuracy, and response times, plus NASA-TLX workload after every block. The software is ready for piloting, with data collection next.</p>
-<div class="process-steps">
-<span class="process-step">MRT Framework</span>
-<span class="process-step">Stimulus Integration</span>
-<span class="process-step">Browser Build</span>
-<span class="process-step">Workload Measures</span>
-</div>
-<a class="project-link" href="casestudy_mrt.html">View case study →</a>
-</div>
-</div>
-<!-- Project 0: Information Visualization Redesign -->
-<div class="project-card" data-project-url="casestudy_infoviz.html" role="link" tabindex="0" aria-label="Open Information Visualization Redesign case study">
-<div class="project-thumb pt-1" style="height:220px;padding:0;overflow:hidden;display:grid;grid-template-columns:1.5fr 1fr 1fr;background:#fff"><img src="images/home-02-dumbbell-chart-redesign.jpg" alt="Dumbbell chart redesign" style="width:100%;height:220px;object-fit:cover;object-position:left top;border-right:1px solid #d2d2d7;background:#fff !important"/><img loading="lazy" decoding="async" src="images/home-03-bubble-matrix-redesign.jpg" alt="Bubble matrix redesign" style="width:100%;height:220px;object-fit:cover;object-position:left top;border-right:1px solid #d2d2d7;background:#fff !important"/><img loading="lazy" decoding="async" src="images/home-04-choropleth-map-redesign.jpg" alt="Choropleth map redesign" style="width:100%;height:220px;object-fit:cover;object-position:left top;background:#fff !important"/></div>
-<div class="project-body">
-<div class="project-tags">
-<span class="tag primary">Info Visualization</span>
-<span class="tag secondary">Tableau</span>
-<span class="tag">Coursework</span>
-</div>
-<h3>Information Visualization Redesign</h3>
-<p class="project-context">Human Factors of Visual Display Systems · Fall 2026</p>
-<p>Critiqued and redesigned three published EU data visualizations: a radial chart, a cluttered multi-line chart, and a diverging choropleth map. Each redesign applied Cleveland &amp; McGill's perceptual rankings and Tufte's data-ink ratio, starting as an Excel prototype, going through class feedback, and ending as an interactive Tableau Public dashboard.</p>
-<div class="process-steps">
-<span class="process-step">Design Critique</span>
-<span class="process-step">Prototyping</span>
-<span class="process-step">Class Feedback</span>
-<span class="process-step">Tableau Dashboards</span>
-</div>
-<a class="project-link" href="casestudy_infoviz.html">View case study →</a>
-</div>
-</div>
-<!-- Project 1 -->
-<div class="project-card" data-project-url="casestudy_carfax.html" role="link" tabindex="0" aria-label="Open Mobile App Usability Evaluation case study">
-<div class="project-thumb pt-1" style="height:220px;padding:8px 12px;overflow:hidden;background:#f5f5f7;box-sizing:border-box"><svg viewBox="0 0 960 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Hierarchical task analysis: log a completed oil change" style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg"><defs><filter id="hs" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000" flood-opacity=".10"/></filter></defs><g stroke="#c7c7cc" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M480 76 V98 M96 98 H864"/><path d="M96 98 V116"/><path d="M288 98 V116"/><path d="M480 98 V116"/><path d="M672 98 V116"/><path d="M864 98 V116"/><path d="M96 172 V420.0"/><path d="M288 172 V420.0"/><path d="M480 172 V292.0"/><path d="M672 172 V420.0"/></g><rect x="360" y="20" width="240" height="56" rx="16" fill="#1d1d1f" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#a1a1a6" style="font-family:var(--sans);font-size:11px;font-weight:600"><tspan x="480" y="39.0">OVERALL GOAL</tspan></text><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:16px;font-weight:600"><tspan x="480" y="58.0">Log a completed oil change</tspan></text><rect x="12" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="96" y="144.0">Add Vehicle to App</tspan></text><rect x="20" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="219.9">Open app and</tspan><tspan x="96" y="236.1">tap “add car”</tspan></text><rect x="20" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="283.9">Enter VIN or</tspan><tspan x="96" y="300.1">license plate number</tspan></text><rect x="20" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="356.0">Enter state/province</tspan></text><rect x="20" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="420.0">Tap “search”</tspan></text><rect x="204" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="288" y="134.9">Verify and confirm</tspan><tspan x="288" y="153.1">vehicle details</tspan></text><rect x="212" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="219.9">Select “Yes this</tspan><tspan x="288" y="236.1">is my car”</tspan></text><rect x="212" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="292.0">Verify ZIP code</tspan></text><rect x="212" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="356.0">Verify total mileage</tspan></text><rect x="212" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="420.0">Verify yearly mileage</tspan></text><rect x="396" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="480" y="134.9">Navigate to service</tspan><tspan x="480" y="153.1">category</tspan></text><rect x="404" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="219.9">Navigate to</tspan><tspan x="480" y="236.1">“Oil Change”</tspan></text><rect x="404" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="283.9">Tap “Add</tspan><tspan x="480" y="300.1">Service Record”</tspan></text><rect x="588" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="672" y="134.9">Enter service</tspan><tspan x="672" y="153.1">record details</tspan></text><rect x="596" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="219.9">Select date of</tspan><tspan x="672" y="236.1">oil change</tspan></text><rect x="596" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="283.9">Select oil change</tspan><tspan x="672" y="300.1">location</tspan></text><rect x="596" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="339.8">Enter odometer</tspan><tspan x="672" y="356.0">reading at time</tspan><tspan x="672" y="372.2">of service</tspan></text><rect x="596" y="392" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="403.8">Select any other</tspan><tspan x="672" y="420.0">work done on car,</tspan><tspan x="672" y="436.2">if applicable</tspan></text><rect x="780" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="864" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="864" y="144.0">Save service record</tspan></text></svg></div>
-<div class="project-body">
-<div class="project-tags">
-<span class="tag primary">HF Evaluation</span>
-<span class="tag secondary">Figma</span>
-<span class="tag">Self directed</span>
-</div>
-<h3>Mobile App Usability Evaluation</h3>
-<p class="project-context">Self Directed Project · Fall 2026</p>
-<p>A usability evaluation conducted on a mobile app's task flows. User tasks were mapped and pain points identified through heuristic evaluation, then translated findings into Figma mockups for redesign. A moderated usability test is planned to validate findings and dig deeper into why the pain points occurred.</p>
-<div class="process-steps">
-<span class="process-step">Task Analysis</span>
-<span class="process-step">Heuristic Eval</span>
-<span class="process-step">Figma Mockups</span>
-<span class="process-step">Usability Test</span>
-</div>
-<a class="project-link" href="casestudy_carfax.html">View case study →</a>
-</div>
-</div>
-<!-- Project 2 -->
-<div class="project-card" data-project-url="casestudy_sdt.html" role="link" tabindex="0" aria-label="Open Traffic Signal Detection Experiment project">
-<div class="project-thumb pt-2" style="height:180px;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr"><video autoplay="" loop="" muted="" playsinline="" style="width:100%;height:180px;object-fit:cover;border-right:1px solid #BEBCB7" preload="auto"><source src="videos/home-05-traffic-signal-clip.webm" type="video/webm"/><source src="videos/home-06-traffic-signal-clip.mp4" type="video/mp4"/></video><video autoplay="" loop="" muted="" playsinline="" style="width:100%;height:180px;object-fit:cover" preload="auto"><source src="videos/home-07-traffic-signal-clip.webm" type="video/webm"/><source src="videos/home-08-traffic-signal-clip.mp4" type="video/mp4"/></video></div>
-<div class="project-body">
-<div class="project-tags">
-<span class="tag primary">Experimental Design</span>
-<span class="tag">Signal Detection</span>
-<span class="tag">Coursework</span>
-</div>
-<h3>Traffic Signal Detection Experiment</h3>
-<p class="project-context">Human Information Processing · Fall 2026</p>
-<p>Designed a controlled experiment to understand how color vision deficiency and glance duration affect a driver's ability to detect traffic signals. I built 80 unique stimuli varying across both dimensions and led the experimental design for a go/brake detection task, showcasing a direct application of signal detection theory to a real-world safety problem.</p>
-<div class="process-steps">
-<span class="process-step">SDT Framework</span>
-<span class="process-step">Stimulus Design</span>
-<span class="process-step">80 Conditions</span>
-<span class="process-step">Data Analysis</span>
-</div>
-<a class="project-link" href="casestudy_sdt.html">View project →</a>
-</div>
-</div>
-<!-- Project 3 -->
-<div class="project-card" data-project-url="casestudy_switch2.html" role="link" tabindex="0" aria-label="Open Nintendo Switch 2 Home Screen Redesign case study">
-<img loading="lazy" decoding="async" src="images/home-09-redesigned-nintendo-switch-2-home-screen.jpg" alt="Redesigned Nintendo Switch 2 home screen with the Mario theme" style="width:100%;height:220px;object-fit:cover;object-position:center;display:block;">
-<div class="project-body">
-<div class="project-tags">
-<span class="tag primary">HF System Design</span>
-<span class="tag secondary">Prototyping</span>
-<span class="tag">Coursework</span>
-</div>
 
-          <h3>Nintendo Switch 2 UI Usability Test &amp; Figma Prototypes</h3>
-<p class="project-context">Human Factors System Design · Fall 2026</p>
-<p>Designed the wireframe and lo-fi and hi-fi interactive Figma prototypes for a 3-person usability evaluation of the Nintendo Switch 2 home screen. Every change, including full cover-art game cards, a wider bottom nav bar, a home-screen brightness slider, and Nintendo-themed home screens, came from usability-test pain points and is grounded in human factors engineering principles.</p>
-<div class="process-steps">
-<span class="process-step">Usability Testing</span>
-<span class="process-step">Wireframing</span>
-<span class="process-step">Figma Prototyping</span>
-<span class="process-step">HFE Principles</span>
-</div>
-<a class="project-link" href="casestudy_switch2.html">View case study →</a>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- RESEARCH -->
-<section id="research">
-<div class="container">
-<div class="section-header">
-<span class="section-label">Lab &amp; field experience</span>
-<h2>Research</h2>
-</div>
-<div class="research-grid">
-<div class="research-card research-card-wide">
-<div class="role-label">Research Assistant · Fall 2026 - Present</div>
-<h3>Human IMPaC-T Lab</h3>
-<div class="org">Virginia Tech · Blacksburg, VA</div>
-<p>Support a study on how air- versus bone-conduction 40 Hz audio affects attention during computer tasks, collecting attention and performance data from participants as they complete cognitive tasks.</p>
-<div class="research-methods">
-<span class="method-tag">40 Hz Audio</span>
-<span class="method-tag">Bone Conduction</span>
-<span class="method-tag">Attention</span>
-<span class="method-tag">Data Collection</span>
-</div>
-</div>
-<div class="research-card">
-<div class="role-label">Principal Investigator · Jan 2025 - May 2026</div>
-<h3>Human Development Lab</h3>
-<div class="org">James Madison University · Harrisonburg, VA</div>
-<p>Designed and ran an IRB-approved study with 200+ participants while serving as Principal Investigator. Deployed three Qualtrics instruments and conducted a full statistical analysis in SPSS examining how sleep and mental health jointly predict cognitive performance. Presented findings at both the 2025 and 2026 JMU Psychology Symposium.</p>
-<div class="research-methods">
-<span class="method-tag">IRB Protocol</span>
-<span class="method-tag">Qualtrics</span>
-<span class="method-tag">SPSS</span>
-<span class="method-tag">Regression</span>
-<span class="method-tag">Symposium Presenter</span>
-</div>
-</div>
-<div class="research-card">
-<div class="role-label">Research Assistant · Aug 2024 - Dec 2024</div>
-<h3>Auditory Perception Lab</h3>
-<div class="org">James Madison University · Harrisonburg, VA</div>
-<p>Contributed to research on categorical perception and working memory under cognitive load. Designed an experiment examining how background music affects backward digit span performance, configured 43 DirectRT trial files, and administered 20+ participant sessions of computer based auditory tasks.</p>
-<div class="research-methods">
-<span class="method-tag">DirectRT</span>
-<span class="method-tag">Cognitive Load</span>
-<span class="method-tag">Working Memory</span>
-<span class="method-tag">Participant Testing</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- ABOUT -->
-<section id="about">
-<div class="container">
-<div class="section-header" style="border-bottom:none;padding-bottom:0">
-<span class="section-label">Background</span>
-</div>
-<div class="inner">
-<div class="about-left">
-<h2>About me</h2>
-<p>I am a Human Factors Engineering M.Eng. student at Virginia Tech with a Cum Laude B.S. in Psychology from JMU. My expertise sits at the intersection of human perception, cognitive science, and systems design, allowing me to leverage human cognition and perception to build intuitive, user-centered technologies. I'm driven to take complex data and systems and design the interfaces and interactions that allow the user to succeed.</p>
-<p style="margin-top:14px"><span style="color:var(--ink)">📍</span> Ashburn, VA (Washington, D.C. Metro Area)  ·  Open to full-time onsite, hybrid, and remote roles</p>
-</div>
-<div class="about-right">
-<h3>Education</h3>
-<div class="edu-entry">
-<strong>M.Eng.   Industrial &amp; Systems Engineering</strong>
-<div class="edu-detail">Human Factors Engineering &amp; Ergonomics<br/>Virginia Tech · Expected May 2028</div>
-</div>
-<div class="edu-entry">
-<strong>B.S.   Psychology, Minor in Sociology</strong>
-<div class="edu-detail">James Madison University · Graduated May 2026<br/>GPA: 3.50 · Major GPA: 3.75 · Cum Laude</div>
-</div>
-<h3>Tools &amp; Methods</h3>
-<div class="tools-list">
-<span class="tool-chip">Figma</span>
-<span class="tool-chip">SPSS</span>
-<span class="tool-chip">Qualtrics</span>
-<span class="tool-chip">DirectRT</span>
-<span class="tool-chip">Heuristic Eval</span>
-<span class="tool-chip">Task Analysis</span>
-<span class="tool-chip">Exp. Design</span>
-<span class="tool-chip">ANOVA / Regression</span>
-<span class="tool-chip">Mediation Analysis</span>
-<span class="tool-chip">UI Prototyping</span>
-<span class="tool-chip">Excel</span>
-<span class="tool-chip">Tableau</span>
-</div>
-<h3>Memberships &amp; Honors</h3>
-<div class="honors-list">
-          Human Factors &amp; Ergonomics Society<br/>
-          Institute for Industrial &amp; Systems Engineers<br/>
-          Psi Chi<br/>
-          JMU Psychology Research Symposium '25, '26<br/>
-          Cum Laude Honors
+<main id="top">
+
+<header class="intro">
+  <div class="wrap">
+    <h1>Applying engineering, psychology, and design to improve how people experience technology.</h1>
+    <p>I’m an M.Eng. student in Human Factors Engineering at Virginia Tech, with a background in perception and cognition research. Below are my selected projects in display design, experimental design, and usability.</p>
+  </div>
+</header>
+
+<section class="work" id="work" aria-labelledby="work-heading">
+  <div class="wrap">
+    <h2 id="work-heading" class="visually-hidden">Selected work</h2>
+    <div class="work-grid">
+
+      <!-- ATC: featured, full width. The three frames are a sequence, so each gets its stage. -->
+      <article class="piece piece-wide">
+        <div class="plate">
+          <div class="hang" style="max-width: calc(440px * 2.38 + var(--gap) * 2)">
+            <figure style="--a: 0.793">
+              <div class="frame"><img src="images/home-atc-thumb-201350.jpg" alt="Conflict shape at stage 1, a faint yellow hint" width="536" height="676"/></div>
+              <figcaption>Stage 1: faint yellow hint</figcaption>
+            </figure>
+            <figure style="--a: 0.793">
+              <div class="frame"><img loading="lazy" decoding="async" src="images/home-atc-thumb-201550.jpg" alt="Conflict shape at stage 3, orange" width="536" height="676"/></div>
+              <figcaption>Stage 3: orange caution</figcaption>
+            </figure>
+            <figure style="--a: 0.793">
+              <div class="frame"><img loading="lazy" decoding="async" src="images/home-atc-thumb-201750.jpg" alt="Conflict shape at stage 4, solid red" width="536" height="676"/></div>
+              <figcaption>Stage 4: solid red warning</figcaption>
+            </figure>
+          </div>
         </div>
-</div>
-</div>
-</div>
-</section>
-<!-- CONTACT -->
-<section id="contact">
-<div class="container">
-<div class="section-header">
-<span class="section-label">Let's connect</span>
-<h2>Open to opportunities</h2>
-</div>
-<div class="inner">
-<p>I'm actively looking for UX/UI, human factors, and cognitive engineering internships for Summer 2027. If my background fits what your team is working on, I'd love to talk.</p>
-<div class="contact-links">
-<a class="btn btn-primary" href="mailto:jbrazina2324@gmail.com">✉ jbrazina2324@gmail.com</a>
-<a class="btn btn-outline" href="https://linkedin.com/in/joseph-brazina" target="_blank">LinkedIn</a>
-<a class="btn btn-outline" href="Joseph_Brazina_Resume.pdf" target="_blank">Download résumé</a>
-</div>
-</div>
-</div>
-<script>
-  document.querySelectorAll('.project-card[data-project-url]').forEach(card => {
-    card.addEventListener('click', event => {
-      // Let the existing "View project" / "View case study" links work normally.
-      if (event.target.closest('a')) return;
-      window.location.href = card.dataset.projectUrl;
-    });
+        <div class="label">
+          <h3><a href="casestudy_atc.html">Configural Conflict Display for Air Traffic Control</a></h3>
+          <p class="desc">An animated en-route radar scope built from real flight data around Washington, D.C. Two converging aircraft form one shape that grows from yellow to red as a loss of separation becomes likely, warning up to 7 minutes ahead, compared with about 2.5 minutes for ERAM’s Conflict Alert.</p>
+          <p class="credit">Human Factors of Visual Display Systems, Fall 2026</p>
+          <span class="open" aria-hidden="true">View case study</span>
+        </div>
+      </article>
 
-    card.addEventListener('keydown', event => {
-      if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('a')) {
-        event.preventDefault();
-        window.location.href = card.dataset.projectUrl;
-      }
-    });
-  });
-</script>
-<script>
-  // Keep the looping thumbnail clips playing (some browsers pause or skip autoplay).
-  document.querySelectorAll('video[autoplay]').forEach(v => {
-    v.muted = true;
-    const play = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
-    v.addEventListener('loadeddata', play);
-    v.addEventListener('pause', () => { if (!document.hidden) setTimeout(play, 50); });
-    play();
-  });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) document.querySelectorAll('video[autoplay]').forEach(v => v.play().catch(() => {})); });
-</script>
+      <!-- MRT -->
+      <article class="piece">
+        <div class="plate">
+          <div class="tiles">
+            <img loading="lazy" decoding="async" src="images/mrt-figure-g0.jpg" alt="Mental rotation figure G0"/>
+            <img loading="lazy" decoding="async" src="images/mrt-figure-g0-mirrored.jpg" alt="Mirrored variant of figure G0"/>
+            <img loading="lazy" decoding="async" src="images/mrt-figure-8a1.jpg" alt="Mental rotation figure 8A1"/>
+            <img loading="lazy" decoding="async" src="images/mrt-figure-8a1-mirrored.jpg" alt="Mirrored variant of figure 8A1"/>
+          </div>
+        </div>
+        <div class="label">
+          <h3><a href="casestudy_mrt.html">Multiple Resource Theory Dual-Task Experiment</a></h3>
+          <p class="desc">A browser-based experiment testing whether Tetris suffers more when paired with visual mental rotation than with auditory phoneme discrimination, with NASA-TLX workload after every block.</p>
+          <p class="credit">Human Information Processing, Fall 2026</p>
+          <span class="open" aria-hidden="true">View case study</span>
+        </div>
+      </article>
+
+      <!-- SDT -->
+      <article class="piece">
+        <div class="plate">
+          <div class="hang">
+            <div class="frame" style="--a: 1.779">
+              <video autoplay loop muted playsinline preload="auto" aria-label="Traffic signal stimulus clip">
+                <source src="videos/home-05-traffic-signal-clip.webm" type="video/webm"/>
+                <source src="videos/home-06-traffic-signal-clip.mp4" type="video/mp4"/>
+              </video>
+            </div>
+            <div class="frame" style="--a: 1.779">
+              <video autoplay loop muted playsinline preload="auto" aria-label="Second traffic signal stimulus clip">
+                <source src="videos/home-07-traffic-signal-clip.webm" type="video/webm"/>
+                <source src="videos/home-08-traffic-signal-clip.mp4" type="video/mp4"/>
+              </video>
+            </div>
+          </div>
+        </div>
+        <div class="label">
+          <h3><a href="casestudy_sdt.html">Traffic Signal Detection Experiment</a></h3>
+          <p class="desc">A go/brake detection experiment with 80 unique stimuli, testing how color vision deficiency and glance duration affect a driver’s ability to detect traffic signals through signal detection theory.</p>
+          <p class="credit">Human Information Processing, Fall 2026</p>
+          <span class="open" aria-hidden="true">View project</span>
+        </div>
+      </article>
+
+      <!-- Information visualization: full width so all three redesigns read at a useful size -->
+      <article class="piece piece-wide">
+        <div class="plate">
+          <div class="hang" style="max-width: calc(400px * 3.07 + var(--gap) * 2)">
+            <div class="frame" style="--a: 1.481"><img src="images/home-02-dumbbell-chart-redesign.jpg" alt="Dumbbell chart redesign" width="640" height="432" loading="lazy" decoding="async"/></div>
+            <div class="frame" style="--a: 0.783"><img src="images/home-03-bubble-matrix-redesign.jpg" alt="Bubble matrix redesign" width="407" height="520" loading="lazy" decoding="async"/></div>
+            <div class="frame" style="--a: 0.812"><img src="images/home-04-choropleth-map-redesign.jpg" alt="Choropleth map redesign" width="422" height="520" loading="lazy" decoding="async"/></div>
+          </div>
+        </div>
+        <div class="label">
+          <h3><a href="casestudy_infoviz.html">Information Visualization Redesign</a></h3>
+          <p class="desc">Critiques and redesigns of three published EU data visualizations, applying Cleveland &amp; McGill’s perceptual rankings and Tufte’s data-ink ratio, from Excel prototypes through class feedback to interactive Tableau Public dashboards.</p>
+          <p class="credit">Human Factors of Visual Display Systems, Fall 2026</p>
+          <span class="open" aria-hidden="true">View case study</span>
+        </div>
+      </article>
+
+      <!-- Mobile app evaluation -->
+      <article class="piece">
+        <div class="plate">
+          <div class="hang">
+            <div class="frame" style="--a: 2.043"><svg viewBox="0 0 960 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Hierarchical task analysis: log a completed oil change" style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg"><defs><filter id="hs" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000" flood-opacity=".10"/></filter></defs><g stroke="#c7c7cc" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M480 76 V98 M96 98 H864"/><path d="M96 98 V116"/><path d="M288 98 V116"/><path d="M480 98 V116"/><path d="M672 98 V116"/><path d="M864 98 V116"/><path d="M96 172 V420.0"/><path d="M288 172 V420.0"/><path d="M480 172 V292.0"/><path d="M672 172 V420.0"/></g><rect x="360" y="20" width="240" height="56" rx="16" fill="#1d1d1f" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#a1a1a6" style="font-family:var(--sans);font-size:11px;font-weight:600"><tspan x="480" y="39.0">OVERALL GOAL</tspan></text><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:16px;font-weight:600"><tspan x="480" y="58.0">Log a completed oil change</tspan></text><rect x="12" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="96" y="144.0">Add Vehicle to App</tspan></text><rect x="20" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="219.9">Open app and</tspan><tspan x="96" y="236.1">tap “add car”</tspan></text><rect x="20" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="283.9">Enter VIN or</tspan><tspan x="96" y="300.1">license plate number</tspan></text><rect x="20" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="356.0">Enter state/province</tspan></text><rect x="20" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="96" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="96" y="420.0">Tap “search”</tspan></text><rect x="204" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="288" y="134.9">Verify and confirm</tspan><tspan x="288" y="153.1">vehicle details</tspan></text><rect x="212" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="219.9">Select “Yes this</tspan><tspan x="288" y="236.1">is my car”</tspan></text><rect x="212" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="292.0">Verify ZIP code</tspan></text><rect x="212" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="356.0">Verify total mileage</tspan></text><rect x="212" y="392" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="288" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="288" y="420.0">Verify yearly mileage</tspan></text><rect x="396" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="480" y="134.9">Navigate to service</tspan><tspan x="480" y="153.1">category</tspan></text><rect x="404" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="219.9">Navigate to</tspan><tspan x="480" y="236.1">“Oil Change”</tspan></text><rect x="404" y="264" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="480" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="480" y="283.9">Tap “Add</tspan><tspan x="480" y="300.1">Service Record”</tspan></text><rect x="588" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="672" y="134.9">Enter service</tspan><tspan x="672" y="153.1">record details</tspan></text><rect x="596" y="200" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="219.9">Select date of</tspan><tspan x="672" y="236.1">oil change</tspan></text><rect x="596" y="264" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="283.9">Select oil change</tspan><tspan x="672" y="300.1">location</tspan></text><rect x="596" y="328" width="152" height="56" rx="12" fill="#ffffff" stroke="#d2d2d7" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="339.8">Enter odometer</tspan><tspan x="672" y="356.0">reading at time</tspan><tspan x="672" y="372.2">of service</tspan></text><rect x="596" y="392" width="152" height="56" rx="12" fill="#fff4d1" stroke="#f0c14b" stroke-width="1.2" filter="url(#hs)"/><text x="672" text-anchor="middle" dominant-baseline="central" fill="#1d1d1f" style="font-family:var(--sans);font-size:13px;font-weight:500"><tspan x="672" y="403.8">Select any other</tspan><tspan x="672" y="420.0">work done on car,</tspan><tspan x="672" y="436.2">if applicable</tspan></text><rect x="780" y="116" width="168" height="56" rx="14" fill="#0071e3" filter="url(#hs)"/><text x="864" text-anchor="middle" dominant-baseline="central" fill="#ffffff" style="font-family:var(--sans);font-size:14.5px;font-weight:600"><tspan x="864" y="144.0">Save service record</tspan></text></svg></div>
+          </div>
+        </div>
+        <div class="label">
+          <h3><a href="casestudy_carfax.html">Mobile App Usability Evaluation</a></h3>
+          <p class="desc">A hierarchical task analysis and heuristic evaluation of a mobile app’s task flows, with the pain points translated into Figma redesign mockups and a moderated usability test planned next.</p>
+          <p class="credit">Self-directed project, Fall 2026</p>
+          <span class="open" aria-hidden="true">View case study</span>
+        </div>
+      </article>
+
+      <!-- Switch 2 -->
+      <article class="piece">
+        <div class="plate">
+          <div class="hang">
+            <div class="frame" style="--a: 1.782"><img loading="lazy" decoding="async" src="images/home-09-redesigned-nintendo-switch-2-home-screen.jpg" alt="Redesigned Nintendo Switch 2 home screen with the Mario theme" width="900" height="505"/></div>
+          </div>
+        </div>
+        <div class="label">
+          <h3><a href="casestudy_switch2.html">Nintendo Switch 2 UI Usability Test &amp; Figma Prototypes</a></h3>
+          <p class="desc">The wireframe and lo-fi and hi-fi Figma prototypes for a three-person team’s usability evaluation of the Switch 2 home screen, with every change drawn from a test finding and grounded in HFE principles.</p>
+          <p class="credit">Human Factors System Design, Fall 2026</p>
+          <span class="open" aria-hidden="true">View case study</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
 </section>
+
+<section class="room" id="research" aria-labelledby="research-heading">
+  <div class="wrap">
+    <h2 id="research-heading">Research</h2>
+    <ul class="cv">
+      <li>
+        <p class="when">Fall 2026–present</p>
+        <div>
+          <h3>Human IMPaC-T Lab</h3>
+          <p class="where">Research Assistant<br/>Virginia Tech, Blacksburg, VA</p>
+        </div>
+        <div>
+          <p>Support a study on how air- versus bone-conduction 40 Hz audio affects attention during computer tasks, collecting attention and performance data from participants as they complete cognitive tasks.</p>
+          <p class="methods">40 Hz audio, bone conduction, attention, data collection</p>
+        </div>
+      </li>
+      <li>
+        <p class="when">Jan 2025–May 2026</p>
+        <div>
+          <h3>Human Development Lab</h3>
+          <p class="where">Principal Investigator<br/>James Madison University, Harrisonburg, VA</p>
+        </div>
+        <div>
+          <p>Designed and ran an IRB-approved study with 200+ participants while serving as Principal Investigator. Deployed three Qualtrics instruments and conducted a full statistical analysis in SPSS examining how sleep and mental health jointly predict cognitive performance. Presented findings at both the 2025 and 2026 JMU Psychology Symposium.</p>
+          <p class="methods">IRB protocol, Qualtrics, SPSS, regression, symposium presenter</p>
+        </div>
+      </li>
+      <li>
+        <p class="when">Aug 2024–Dec 2024</p>
+        <div>
+          <h3>Auditory Perception Lab</h3>
+          <p class="where">Research Assistant<br/>James Madison University, Harrisonburg, VA</p>
+        </div>
+        <div>
+          <p>Contributed to research on categorical perception and working memory under cognitive load. Designed an experiment examining how background music affects backward digit span performance, configured 43 DirectRT trial files, and administered 20+ participant sessions of computer-based auditory tasks.</p>
+          <p class="methods">DirectRT, cognitive load, working memory, participant testing</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="room" id="about" aria-labelledby="about-heading">
+  <div class="wrap">
+    <h2 id="about-heading">About me</h2>
+    <div class="about-grid">
+      <div class="about-intro">
+        <img class="portrait" src="images/home-01-joseph-brazina.jpg" alt="Joseph Brazina" loading="lazy" decoding="async" width="1984" height="1981"/>
+        <div>
+          <p>I am a Human Factors Engineering M.Eng. student at Virginia Tech with a Cum Laude B.S. in Psychology from JMU. My expertise sits at the intersection of human perception, cognitive science, and systems design, allowing me to leverage human cognition and perception to build intuitive, user-centered technologies. I’m driven to take complex data and systems and design the interfaces and interactions that allow the user to succeed.</p>
+          <p>I’m especially interested in roles across aerospace, automotive, defense, and UX, where interface design directly shapes human performance.</p>
+          <p class="where">Based in Ashburn, VA, in the Washington, D.C. metro area. Open to full-time onsite, hybrid, and remote roles.</p>
+        </div>
+      </div>
+      <div class="facts">
+        <h3>Education</h3>
+        <div class="degree-block">
+          <p class="degree">M.Eng., Industrial &amp; Systems Engineering</p>
+          <p class="detail">Human Factors Engineering &amp; Ergonomics<br/>Virginia Tech, expected May 2028</p>
+        </div>
+        <div class="degree-block">
+          <p class="degree">B.S., Psychology, Minor in Sociology</p>
+          <p class="detail">James Madison University, graduated May 2026<br/>GPA 3.50, major GPA 3.75, Cum Laude</p>
+        </div>
+        <h3>Tools &amp; methods</h3>
+        <ul class="tools">
+          <li>Figma</li><li>UI prototyping</li><li>Heuristic evaluation</li><li>Task analysis</li>
+          <li>Experimental design</li><li>ANOVA / regression</li><li>Mediation analysis</li><li>SPSS</li>
+          <li>Qualtrics</li><li>DirectRT</li><li>Tableau</li><li>Excel</li>
+        </ul>
+        <h3>Memberships &amp; honors</h3>
+        <ul class="honors">
+          <li>Human Factors &amp; Ergonomics Society</li>
+          <li>Institute for Industrial &amp; Systems Engineers</li>
+          <li>Psi Chi</li>
+          <li>JMU Psychology Research Symposium, 2025 and 2026</li>
+          <li>Cum Laude Honors</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<section class="contact" id="contact" aria-labelledby="contact-heading">
+  <div class="wrap">
+    <h2 id="contact-heading">Open to opportunities</h2>
+    <p>I’m actively looking for UX/UI, human factors, and cognitive engineering internships for Summer 2027. If my background fits what your team is working on, I’d love to talk.</p>
+    <a class="email" href="mailto:jbrazina2324@gmail.com">jbrazina2324@gmail.com</a>
+    <div class="contact-links">
+      <a class="btn" href="https://linkedin.com/in/joseph-brazina" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="Joseph_Brazina_Resume.pdf" target="_blank" rel="noopener">Download résumé</a>
+    </div>
+  </div>
+</section>
+
 <footer>
-<span>© 2026 Joseph Brazina</span>
-<span>Human Factors &amp; UX · Virginia Tech M.Eng.</span>
+  <div class="wrap">
+    <span>© 2026 Joseph Brazina</span>
+    <span>Human Factors &amp; UX, Virginia Tech M.Eng.</span>
+  </div>
 </footer>
+
+<script>
+  // Looping stimulus clips: keep them playing (some browsers pause autoplay),
+  // but leave them still for visitors who ask for reduced motion.
+  (function () {
+    const videos = document.querySelectorAll('video[autoplay]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const play = v => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    videos.forEach(v => {
+      v.muted = true;
+      if (reduce.matches) { v.removeAttribute('autoplay'); v.pause(); return; }
+      v.addEventListener('loadeddata', () => play(v));
+      v.addEventListener('pause', () => { if (!document.hidden && !reduce.matches) setTimeout(() => play(v), 50); });
+      play(v);
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !reduce.matches) videos.forEach(play);
+    });
+  })();
+</script>
 </body>
 </html>
