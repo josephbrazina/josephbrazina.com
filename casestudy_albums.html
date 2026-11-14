@@ -403,6 +403,13 @@
   .viz .vfoot{ max-width:none; padding:1rem clamp(16px, 2.4vw, 32px); }
   .viz p.vh-lede{ margin-bottom:1rem; }
   body.has-bar{ padding-bottom:64px; }
+  /* Overview in the case study: artist name above its three albums, so titles have room to wrap */
+  .viz .matrix:not(.focus) .artist-row{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:.6rem 1.75rem; padding:.9rem 0 1rem; }
+  .viz .matrix:not(.focus) .artist-row h4{ grid-column:1 / -1; display:flex; align-items:baseline; gap:.6rem; margin:0; }
+  .viz .matrix:not(.focus) .artist-row .count{ display:inline; margin:0; }
+  .viz .matrix:not(.focus) .strip{ width:140px; height:140px; }
+  .viz .cell-head .t .open{ -webkit-line-clamp:3; }
+  @media (max-width: 900px){ .viz .matrix:not(.focus) .artist-row{ grid-template-columns:repeat(auto-fill, minmax(min(100%, 260px), 1fr)); } }
   @media (max-width: 640px){
     .viz .ov-head{ flex-direction:column; gap:.9rem; }
     .stage{ padding:8px; }
@@ -671,13 +678,7 @@
 <section class="room" id="next" aria-labelledby="n-h">
   <div class="wrap">
     <h2 id="n-h">Next: class feedback</h2>
-    <div class="prose"><p>The initial design goes to class critique with three questions:</p></div>
-    <ol class="plan">
-      <li><span>Does the circular irisgram make albums easier or harder to compare than the linear strips?</span></li>
-      <li><span>Can you read loudness from the colors without looking at the legend?</span></li>
-      <li><span>Any other thoughts, comments, questions, or suggestions?</span></li>
-    </ol>
-    <p class="note">What comes after: I’ll refine the design from the critique and deliver the final version, then update this page with what changed and why.</p>
+    <p class="note">This initial design goes to class critique next. I’ll refine it from that feedback and deliver the final version, then update this page with what changed and why.</p>
   </div>
 </section>
 
@@ -1387,7 +1388,6 @@
     S.view = v;
     $('vLoading').hidden = v !== 'loading'; $('vPick').hidden = v !== 'pick';
     $('vOverview').hidden = v !== 'overview'; $('vAlbum').hidden = v !== 'album'; $('vSong').hidden = v !== 'song';
-    VMAIN.classList.toggle('fill', v === 'overview');
     $('footer').hidden = v === 'overview' || v === 'loading' || v === 'pick';
     updateBar();
   }
