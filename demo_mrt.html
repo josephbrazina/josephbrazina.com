@@ -62,6 +62,8 @@ kbd{display:inline-flex;align-items:center;justify-content:center;min-width:32px
 .figures{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 16px}
 .figures div{background:#fff;padding:8px}
 .figures img{display:block;width:100%;height:min(260px,34vh);object-fit:contain}
+/* between pairs the figures stay in place but hidden, so no empty frame or alt text shows */
+.figures.waiting img{visibility:hidden}
 .response{min-height:28px;font-weight:600;text-align:center;color:var(--ink)}
 .answer-keys{text-align:center;font-size:.875rem;color:var(--muted);margin:8px 0 0}
 .listen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:240px;background:#fff}
@@ -142,7 +144,7 @@ footer a{color:#fff}
 <div class="countdown hidden" id="countdown" aria-live="assertive"></div>
 <section class="pane hidden" id="rotationPane" aria-label="Mental rotation task">
 <h3>Mental rotation</h3><p class="hint">Is the right figure the same shape as the left, just rotated?</p>
-<div class="figures"><div><img id="imgLeft" alt="Reference figure"></div><div><img id="imgRight" alt="Comparison figure"></div></div>
+<div class="figures waiting" id="figures"><div><img id="imgLeft" alt="Reference figure"></div><div><img id="imgRight" alt="Comparison figure"></div></div>
 <div class="response" id="rotationResponse" aria-live="polite">Press A or F</div>
 <p class="answer-keys"><kbd>A</kbd> same &nbsp; <kbd>F</kbd> different (mirrored)</p>
 </section>
@@ -291,7 +293,15 @@ function presentTrial() {
   const s = run.sec; if (!run.active) return;
   const t = s.trials[Math.floor(Math.random() * s.trials.length)];
   s.trial = t; s.ready = false; s.next = null;
-  if (s.kind === 'rotation') { $('imgLeft').src = encodeURI(t.left); $('imgRight').src = encodeURI(t.right); s.ready = true; s.shownAt = performance.now(); $('rotationResponse').textContent = 'Press A or F'; }
+  if (s.kind === 'rotation') {
+    // Reveal both figures together, only once both are decoded, and start the RT clock then
+    const L = $('imgLeft'), R = $('imgRight');
+    $('figures').classList.add('waiting'); L.src = encodeURI(t.left); R.src = encodeURI(t.right);
+    Promise.all([L, R].map(img => img.decode().catch(() => {}))).then(() => {
+      if (!run?.active || run.sec !== s || s.trial !== t) return;
+      $('figures').classList.remove('waiting'); s.ready = true; s.shownAt = performance.now(); $('rotationResponse').textContent = 'Press A or F';
+    });
+  }
   else { $('phonemeResponse').textContent = 'Listen…'; playPair(t); }
 }
 function onHeard() {
@@ -302,7 +312,7 @@ function respond(key, now) {
   const s = run.sec; if (!s || !s.trial || !s.ready) return;
   s.answered++; s.rtSum += now - s.shownAt; if (key === s.trial.answer) s.correct++;
   s.trial = null; s.ready = false;
-  if (s.kind === 'rotation') { $('imgLeft').removeAttribute('src'); $('imgRight').removeAttribute('src'); }
+  if (s.kind === 'rotation') $('figures').classList.add('waiting');
   $(s.kind === 'rotation' ? 'rotationResponse' : 'phonemeResponse').textContent = key === 'A' ? 'Answered: same' : 'Answered: different';
   s.next = setTimeout(presentTrial, NEXT_MS);
 }
@@ -397,7 +407,7 @@ async function startBlock() {
   $('rotationPane').classList.toggle('hidden', m.secondary !== 'rotation');
   $('phonemePane').classList.toggle('hidden', m.secondary !== 'phoneme');
   $('stage').classList.toggle('solo', !m.secondary);
-  $('clock').textContent = '1:00'; $('imgLeft').removeAttribute('src'); $('imgRight').removeAttribute('src');
+  $('clock').textContent = '1:00'; $('figures').classList.add('waiting'); $('imgLeft').removeAttribute('src'); $('imgRight').removeAttribute('src');
   run = {mode, active: false, counting: true, tetris: tetrisState(), sec: m.secondary ? {kind: m.secondary, trials, trial: null, ready: false, next: null, correct: 0, answered: 0, rtSum: 0} : null};
   paint(run.tetris);
   show('run');

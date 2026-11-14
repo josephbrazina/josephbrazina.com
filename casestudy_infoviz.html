@@ -141,7 +141,12 @@
 
   /* Embeds */
   .embed { background: var(--mat); padding: var(--plate-pad); }
-  .embed iframe { width: 100%; aspect-ratio: var(--ratio, 16 / 10); min-height: 320px; border: 0; background: #fff; }
+  /* Tableau dashboards have a fixed pixel size (--w by --h, including Tableau Public's 27px footer).
+     The iframe is rendered at exactly that size, so it never scrolls, then scaled down (--s, set by the
+     script at the end of the page) to fit both the column width and the screen height. */
+  .embed { overflow: hidden; }
+  .viz { position: relative; margin: 0 auto; width: calc(var(--w) * var(--s, 0.7) * 1px); height: calc(var(--h) * var(--s, 0.7) * 1px); }
+  .viz iframe { position: absolute; top: 0; left: 0; width: calc(var(--w) * 1px); height: calc(var(--h) * 1px); max-width: none; border: 0; background: #fff; transform: scale(var(--s, 0.7)); transform-origin: 0 0; }
   .embed + .text-link, .embed + p { display: inline-block; margin-top: 12px; font-size: 0.9375rem; }
 
   /* Callouts and buttons */
@@ -319,7 +324,7 @@
       <li><strong>Trade-off</strong>The chart is much taller and loses the original’s compact, vibrant look.</li>
     </ul>
     <div class="prose"><p><strong>Explore it.</strong> Hover over any dumbbell to read that country’s exact rates.</p></div>
-    <div class="embed" style="--ratio: 1800/1290"><iframe title="Employment rates of people with disabilities vs the total population in the EU, 2024 (interactive Tableau)" src="https://public.tableau.com/views/EmploymentratesofpeoplewithdisabilitiesvsthetotalpopulationintheEU2024/Dashboard1?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" loading="lazy" allowfullscreen></iframe></div>
+    <div class="embed"><div class="viz" style="--w: 1100; --h: 807"><iframe title="Employment rates of people with disabilities vs the total population in the EU, 2024 (interactive Tableau)" src="https://public.tableau.com/views/EmploymentratesofpeoplewithdisabilitiesvsthetotalpopulationintheEU2024/Dashboard1?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" loading="lazy" allowfullscreen></iframe></div></div>
     <a class="text-link" href="https://public.tableau.com/app/profile/joseph.brazina/viz/EmploymentratesofpeoplewithdisabilitiesvsthetotalpopulationintheEU2024/Dashboard1?publish=yes" target="_blank" rel="noopener">Open in Tableau Public</a>
   </div>
 </section>
@@ -371,7 +376,7 @@
       <li><strong>Trade-off</strong>It uses area rather than the more accurate position; exact labels make up for that.</li>
     </ul>
     <div class="prose"><p><strong>Explore it.</strong> Hover over a bubble for the full survey question and exact share.</p></div>
-    <div class="embed" style="--ratio: 1299/770"><iframe title="Media use, social platforms, and engagement types across age groups (EU, 2025) (interactive Tableau)" src="https://public.tableau.com/views/MediaUseSocialPlatformsandEngagementTypesAcrossAgeGroupsEU2025/Bubbledashboard?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" loading="lazy" allowfullscreen></iframe></div>
+    <div class="embed"><div class="viz" style="--w: 1300; --h: 777"><iframe title="Media use, social platforms, and engagement types across age groups (EU, 2025) (interactive Tableau)" src="https://public.tableau.com/views/MediaUseSocialPlatformsandEngagementTypesAcrossAgeGroupsEU2025/Bubbledashboard?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" loading="lazy" allowfullscreen></iframe></div></div>
     <a class="text-link" href="https://public.tableau.com/app/profile/joseph.brazina/viz/MediaUseSocialPlatformsandEngagementTypesAcrossAgeGroupsEU2025/Bubbledashboard?publish=yes" target="_blank" rel="noopener">Open in Tableau Public</a>
   </div>
 </section>
@@ -419,7 +424,7 @@
       <li><strong>Trade-off</strong>Two linked views take more space and reading time than one map.</li>
     </ul>
     <div class="prose"><p><strong>Explore it.</strong> Hover over a region on the map or the dot plot to highlight it in both views.</p></div>
-    <div class="embed" style="--ratio: 1800/1240"><iframe title="Summer tourism concentration across Europe's NUTS 2 regions, 2023 (interactive Tableau)" src="https://public.tableau.com/views/SummertourismconcentrationacrossEuropesNUTS2regions2023/DashboardMapdotplot?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" loading="lazy" allowfullscreen></iframe></div>
+    <div class="embed"><div class="viz" style="--w: 1400; --h: 977"><iframe title="Summer tourism concentration across Europe's NUTS 2 regions, 2023 (interactive Tableau)" src="https://public.tableau.com/views/SummertourismconcentrationacrossEuropesNUTS2regions2023/DashboardMapdotplot?:showVizHome=no&amp;:embed=true&amp;:toolbar=no&amp;:tabs=no" loading="lazy" allowfullscreen></iframe></div></div>
     <a class="text-link" href="https://public.tableau.com/app/profile/joseph.brazina/viz/SummertourismconcentrationacrossEuropesNUTS2regions2023/DashboardMapdotplot?publish=yes" target="_blank" rel="noopener">Open in Tableau Public</a>
   </div>
 </section>
@@ -473,5 +478,24 @@
     <span>Completed study</span>
   </div>
 </footer>
+<script>
+  // Scale each Tableau embed so the whole dashboard fits the column and the visible screen height
+  (function () {
+    const vizzes = document.querySelectorAll('.viz');
+    function fit() {
+      const navH = document.querySelector('.site-nav').offsetHeight;
+      vizzes.forEach(v => {
+        const box = v.parentElement, cs = getComputedStyle(box);
+        const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight), padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        const w = +getComputedStyle(v).getPropertyValue('--w'), h = +getComputedStyle(v).getPropertyValue('--h');
+        const availW = box.clientWidth - padX, availH = window.innerHeight - navH - padY - 16;
+        v.style.setProperty('--s', Math.max(0.2, Math.min(1, availW / w, availH / h)).toFixed(4));
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) { const ro = new ResizeObserver(fit); vizzes.forEach(v => ro.observe(v.parentElement)); }
+  })();
+</script>
 </body>
 </html>
