@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Albums as Sound: Joseph Brazina</title>
+<meta name="description" content="Case study: an interactive visualization of fifteen albums drawn as circular spectrograms, applying eight of Tufte’s display principles."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap"/>
+<style>
+  /* Gallery design shared by every case study: white wall, one gray mat for every image,
+     and the project images are the only color on the page. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --wall: #ffffff;
+    --mat: #ebebeb;
+    --ink: #000000;
+    --ink-2: #3a3a3a;
+    --ink-3: #666666;
+    --rule: #cccccc;
+    --night: #000000;
+    --night-ink: #ffffff;
+    --night-ink-2: #a6a6a6;
+    --sans: 'Libre Franklin', 'Franklin Gothic Medium', 'Franklin Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --edge: clamp(20px, 5vw, 64px);
+    --plate-pad: clamp(14px, 3.2vw, 44px);
+    --gap: clamp(8px, 1.2vw, 14px);
+    --measure: 700px;
+  }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; color: var(--ink-2); background: var(--wall); -webkit-font-smoothing: antialiased; }
+  img, iframe, video, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  strong { font-weight: 600; color: var(--ink); }
+  code { font-size: 0.9em; background: var(--mat); padding: 1px 5px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--edge); }
+  .prose { max-width: var(--measure); }
+  .prose p + p, .prose p + ul, .prose ul + p { margin-top: 14px; }
+  .prose ul { padding-left: 1.2em; }
+  .prose li + li { margin-top: 6px; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .text-link { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .text-link:hover { text-decoration-thickness: 2px; }
+
+  /* NAV */
+  .site-nav { position: sticky; top: 0; z-index: 10; background: var(--wall); border-bottom: 1px solid var(--rule); }
+  .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 24px; }
+  .site-name { font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: -0.005em; }
+  .site-nav ul { list-style: none; display: flex; gap: clamp(14px, 2.4vw, 32px); }
+  .site-nav ul a { font-size: 0.9375rem; color: var(--ink-3); text-decoration: none; }
+  .site-nav ul a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+
+  /* HERO */
+  .hero { padding: clamp(40px, 6vw, 72px) 0 0; }
+  .back { display: inline-block; font-size: 0.9375rem; color: var(--ink-3); margin-bottom: 28px; }
+  .back:hover { color: var(--ink); }
+  .hero h1 { font-size: clamp(1.875rem, 3.6vw, 2.75rem); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); max-width: 24ch; }
+  .hero .summary { margin-top: 16px; font-size: 1.1875rem; line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+  .hero figure { margin-top: clamp(32px, 4vw, 48px); }
+  .facts { display: grid; grid-template-columns: repeat(var(--cols, 5), minmax(0, auto)); justify-content: start; column-gap: clamp(24px, 4vw, 56px); row-gap: 16px; margin-top: 24px; font-size: 0.9375rem; }
+  .facts dt { color: var(--ink-3); }
+  .facts dd { color: var(--ink); margin-top: 2px; }
+  .role { margin-top: 24px; max-width: var(--measure); }
+
+  /* PLATES */
+  .plate { background: var(--mat); padding: var(--plate-pad); }
+  .plate > img, .plate > a > img { margin: 0 auto; width: 100%; height: auto; }
+  .plate .narrow { max-width: min(100%, 760px); margin-left: auto; margin-right: auto; }
+  .plate .portrait { max-width: min(100%, 520px); margin-left: auto; margin-right: auto; }
+  .plate .white { background: #fff; padding: clamp(8px, 1.5vw, 20px); }
+  figure > figcaption, .caption { margin-top: 12px; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); max-width: var(--measure); }
+  .credit { font-size: 0.8125rem; color: var(--ink-3); margin-top: 6px; max-width: var(--measure); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .pair img, .trio img, .trio video { width: 100%; height: auto; }
+  .trio video { aspect-ratio: 16 / 9; object-fit: cover; background: #000; }
+  .pair figcaption, .trio figcaption { margin-top: 8px; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+  /* a row of images that share one height: each grows by its aspect ratio (--a) */
+  .hang { display: flex; gap: var(--gap); width: 100%; margin: 0 auto; }
+  .hang > * { flex: var(--a) 1 0%; min-width: 0; }
+  .hang img { width: 100%; height: auto; }
+  .hang figcaption { margin-top: 8px; font-size: 0.8125rem; color: var(--ink-3); }
+  .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); max-width: 900px; margin: 0 auto; }
+  .tiles img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #fff; padding: 8%; }
+
+  /* SECTIONS */
+  .room { border-top: 1px solid var(--rule); padding: clamp(56px, 8vw, 96px) 0; margin-top: clamp(56px, 8vw, 96px); }
+  .room + .room { margin-top: 0; }
+  .room h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: var(--ink); margin-bottom: 20px; }
+  .room h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; color: var(--ink); margin: 48px 0 12px; }
+  .room > .wrap > *:not(h2):not(:first-child), .block > *:not(h3):not(:first-child) { margin-top: 28px; }
+  .room > .wrap > h3, .block > h3 { margin-top: 56px; }
+  .room > .wrap > h3 + *, .block > h3 + * { margin-top: 0 !important; }
+
+  /* Lists of short labeled points (2 or 3 across) */
+  .points { list-style: none; display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 20px 40px; max-width: var(--points-max, 900px); }
+  .points li { border-top: 1px solid var(--rule); padding-top: 12px; }
+  .points strong { display: block; margin-bottom: 2px; }
+
+  /* Figure on one side, text on the other */
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+  .split .prose p + p { margin-top: 14px; }
+
+  /* TABLES */
+  .table-wrap { max-width: 980px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9688rem; line-height: 1.5; }
+  th { text-align: left; font-weight: 500; font-size: 0.875rem; color: var(--ink-3); padding: 0 20px 10px 0; border-bottom: 1px solid var(--ink); vertical-align: bottom; }
+  td { padding: 14px 20px 14px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td:first-child { color: var(--ink); font-weight: 500; }
+  th:last-child, td:last-child { padding-right: 0; }
+  .num td, td.num { font-variant-numeric: tabular-nums; }
+  .table-note { font-size: 0.8125rem; color: var(--ink-3); margin-top: 12px; max-width: var(--measure); }
+  .verdict { display: block; font-size: 0.8125rem; color: var(--ink-3); }
+
+  /* Numbered steps, only where the content is a real sequence */
+  .steps { list-style: none; counter-reset: step; }
+  .step { counter-increment: step; }
+  .step + .step { margin-top: clamp(56px, 7vw, 88px); }
+  .step > h3 { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 12px; display: flex; gap: 14px; align-items: baseline; }
+  .step > h3::before { content: counter(step); font-weight: 500; color: var(--ink-3); min-width: 1ch; }
+  .step > * + * { margin-top: 24px; }
+  .step > h3 + * { margin-top: 0; }
+  ol.plan { list-style: none; counter-reset: plan; max-width: var(--measure); }
+  ol.plan li { counter-increment: plan; display: grid; grid-template-columns: 2ch minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); }
+  ol.plan li::before { content: counter(plan); color: var(--ink-3); }
+
+  /* Key for numbered annotations inside an image */
+  ol.key { columns: 2; column-gap: 32px; padding-left: 1.4em; font-size: 0.875rem; color: var(--ink-2); max-width: 820px; margin-top: 14px; }
+  ol.key li { break-inside: avoid; padding: 2px 0; }
+
+  /* Tabs (theme or frame switchers) */
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px 22px; margin-bottom: 18px; }
+  .tab { font: inherit; font-size: 1rem; background: none; border: 0; padding: 6px 0; color: var(--ink-3); cursor: pointer; border-bottom: 2px solid transparent; font-variant-numeric: tabular-nums; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .panel[hidden] { display: none; }
+  .panel-note { margin-top: 14px; font-size: 0.9375rem; color: var(--ink-2); max-width: var(--measure); }
+
+  /* Embeds */
+  .embed { background: var(--mat); padding: var(--plate-pad); }
+  .embed iframe { width: 100%; aspect-ratio: var(--ratio, 16 / 10); min-height: 320px; border: 0; background: #fff; }
+  .embed + .text-link, .embed + p { display: inline-block; margin-top: 12px; font-size: 0.9375rem; }
+
+  /* Callouts and buttons */
+  .note { max-width: var(--measure); padding-left: 18px; border-left: 2px solid var(--ink); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn { display: inline-flex; align-items: center; padding: 11px 20px; font: inherit; font-size: 0.9375rem; font-weight: 500; text-decoration: none; border: 1px solid var(--ink); color: var(--ink); background: none; cursor: pointer; transition: background-color .2s, color .2s; }
+  .btn:hover { background: var(--ink); color: var(--wall); }
+  .btn.solid { background: var(--ink); color: var(--wall); }
+  .btn.solid:hover { background: var(--ink-2); }
+  .fineprint { font-size: 0.8125rem; color: var(--ink-3); max-width: var(--measure); }
+
+  /* Result figures */
+  .stats { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 32px; max-width: 980px; }
+  .stats li { border-top: 1px solid var(--ink); padding-top: 12px; font-size: 0.9375rem; }
+  .stats b { display: block; font-size: 1.5rem; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; margin-bottom: 4px; }
+
+  /* Audio samples */
+  .audio { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 24px; max-width: 900px; }
+  .audio li { font-size: 0.9375rem; }
+  .audio audio { width: 100%; margin-top: 8px; }
+
+  /* SOURCES */
+  details summary { cursor: pointer; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); list-style: none; display: flex; align-items: baseline; gap: 14px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary span { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: var(--ink-3); text-decoration: underline; text-underline-offset: 4px; }
+  details[open] summary .closed, details:not([open]) summary .open { display: none; }
+  .refs { list-style: none; margin-top: 28px; max-width: 820px; font-size: 0.875rem; line-height: 1.55; }
+  .refs li { padding-left: 2em; text-indent: -2em; margin-bottom: 10px; overflow-wrap: anywhere; }
+  .refs a { color: var(--ink-3); }
+  .legal { margin-top: 20px; font-size: 0.8125rem; color: var(--ink-3); max-width: 820px; }
+
+  /* END + FOOTER */
+  .end { background: var(--night); color: var(--night-ink-2); padding: clamp(48px, 7vw, 80px) 0; }
+  .end a.big { font-size: clamp(1.25rem, 2.6vw, 1.75rem); font-weight: 500; color: var(--night-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .end a.big:hover { text-decoration-thickness: 2px; }
+  .end p { margin-top: 12px; }
+  .end p a { color: var(--night-ink); }
+  .end :focus-visible { outline-color: var(--night-ink); }
+  footer { background: var(--night); color: var(--night-ink-2); border-top: 1px solid #333333; font-size: 0.8125rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; padding-bottom: 22px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .split { grid-template-columns: minmax(0, 1fr); }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 520px; }
+  }
+  @media (max-width: 640px) {
+    .points, .audio { grid-template-columns: minmax(0, 1fr); }
+    .pair { grid-template-columns: minmax(0, 1fr); }
+    .pair.keep { grid-template-columns: 1fr 1fr; }
+    .trio { grid-template-columns: 1fr 1fr; }
+    .hang { flex-wrap: wrap; }
+    .hang > * { flex-basis: 40%; }
+    ol.key { columns: 1; }
+    .site-nav ul { gap: 12px; }
+    .site-nav ul a { font-size: 0.8125rem; }
+    .site-nav .site-name { font-size: 0.9375rem; }
+    table.stack thead { display: none; }
+    table.stack tr { display: block; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+    table.stack td { display: block; padding: 3px 0; border: 0; }
+    table.stack td::before { content: attr(data-label); display: block; font-size: 0.8125rem; font-weight: 400; color: var(--ink-3); }
+    table.stack td:empty { display: none; }
+    .scroll-x { overflow-x: auto; }
+    .scroll-x table { min-width: 560px; }
+  }
+  @media (max-width: 400px) { .site-nav li.optional { display: none; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .room > .wrap > h2 + *, .block > h2 + * { margin-top: 0 !important; }
+  .block + .block { margin-top: clamp(64px, 8vw, 104px) !important; }
+  .block > h2 { font-size: 1.5rem; }
+
+  /* Album case study */
+  kbd { font-family: inherit; font-size: 0.85em; border: 1px solid var(--rule); padding: 0 .3em; color: var(--ink-3); }
+  .hang .iris { background: #fff; }
+  .stage { background: var(--mat); padding: var(--plate-pad); }
+  .stage + .fineprint { margin-top: 12px !important; }
+
+  /* The live visualization, scoped so its styles and the portfolio's stay apart */
+
+  .viz{
+    --bg:#ffffff; --ink:#111111; --muted:#6e6e6e; --faint:#a3a3a3; --line:#e4e4e4; --wave:#9c9c9c;
+    color-scheme:light;
+  }
+  .viz [hidden]{ display:none !important; }
+  .viz .vh{
+    font-weight:500; font-size:clamp(1.8rem, 3.6vw, 2.6rem); line-height:1.1;
+    letter-spacing:-0.02em; margin:0 0 .6rem; max-width:28ch; color:var(--ink); overflow-wrap:anywhere;
+  }
+  .viz .lede{ color:var(--muted); margin:0 0 1.5rem; max-width:62ch; font-size:1rem; }
+  .viz .meta{ color:var(--muted); margin:0; font-size:.9rem; font-variant-numeric:tabular-nums; }
+  .viz .hint{ color:var(--faint); font-size:.85rem; margin:.6rem 0 0; max-width:78ch; }
+  .viz kbd{ font-family:inherit; border:1px solid var(--line); border-radius:2px; padding:0 .3em; font-size:.85em; color:var(--muted); }
+  .viz .status{ margin-top:1rem; color:var(--muted); min-height:1.5em; font-size:.9rem; }
+  .viz .status.error{ color:var(--ink); }
+  .viz .status.error::before{ content:"! "; font-weight:600; }
+
+  .viz .vbtn{
+    position:relative; display:inline-block; border:1px solid var(--ink); border-radius:2px;
+    padding:.45rem 1rem; cursor:pointer; font:inherit; font-size:.9rem; font-weight:500; background:transparent; color:var(--ink);
+  }
+  .viz .vbtn:hover{ background:var(--ink); color:var(--bg); }
+  .viz .vbtn.primary{ background:var(--ink); color:var(--bg); }
+  .viz .vbtn.primary:hover{ background:#3a3a3a; border-color:#3a3a3a; }
+  .viz .vbtn.small{ padding:.2rem .65rem; font-size:.8rem; border-color:var(--line); color:var(--muted); }
+  .viz .vbtn.small:hover{ border-color:var(--ink); background:transparent; color:var(--ink); }
+  .viz .vbtn:disabled{ opacity:.5; cursor:default; }
+  .viz .vbtn input{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+  .viz .vbtn:focus-within, .viz .vbtn:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+  .viz .ghost{
+    background:none; border:0; color:var(--muted); padding:0; font:inherit; font-size:.9rem; cursor:pointer;
+  }
+  .viz .ghost:hover{ color:var(--ink); }
+  .viz .linkish{ background:none; border:0; padding:0; font:inherit; color:var(--muted); text-decoration:underline; text-underline-offset:2px; cursor:pointer; }
+  .viz .ghost:focus-visible, .viz .play:focus-visible, .viz .plot:focus-visible, .viz .tplot:focus-visible, .viz .strip:focus-visible, .viz .linkish:focus-visible, .viz .open:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+
+  .viz .drop{
+    display:flex; flex-direction:column; align-items:flex-start; gap:.75rem;
+    border:1px dashed var(--faint); padding:2.25rem 1.75rem;
+  }
+  .viz .drop.over{ border-color:var(--ink); }
+  .viz .drop strong{ font-size:1.05rem; font-weight:500; }
+  .viz .drop span{ color:var(--muted); font-size:.9rem; }
+
+  .viz .head-row{ display:flex; align-items:flex-start; gap:1.25rem; flex-wrap:wrap; }
+  .viz .head-row > div:first-child{ flex:1 1 22rem; }
+  .viz .legend{ display:flex; align-items:center; gap:.5rem; color:var(--faint); font-size:.8rem; margin-top:.8rem; }
+  .viz .legend .ramp{ width:120px; height:8px; }
+  .viz .legend .sw{ display:inline-block; width:10px; height:10px; margin:0 .3rem 0 .6rem; vertical-align:-1px; }
+  .viz .legend .lg-hint{ color:var(--faint); }
+  .viz #albumBands, .viz #songBands{ margin-top:.35rem; color:var(--muted); display:block; }
+
+  .viz .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .viz .ov-head{ display:flex; align-items:flex-start; gap:1.5rem; flex:none; }
+  .viz .ov-head > div{ flex:1; min-width:0; }
+  .viz .ov-text{ margin:0; color:var(--muted); font-size:.85rem; line-height:1.45; max-width:110ch; }
+  .viz .ov-head .hint{ margin-top:.2rem; font-size:.8rem; max-width:110ch; }
+  .viz .ov-head .vbtn{ flex:none; }
+
+  /* Overview: one row per artist, one column per album */
+  .viz .matrix{ margin-top:1rem; display:flex; flex-direction:column; }
+  .viz .artist-row{ display:grid; grid-template-columns:8.5rem repeat(3, minmax(0,1fr)); gap:.5rem 1.75rem; align-items:stretch; padding:.45rem 0; border-top:1px solid var(--line); }
+  .viz .cell{ display:flex; flex-direction:row; align-items:stretch; gap:.9rem; min-width:0; min-height:0; }
+  .viz .strip{ position:relative; flex:none; width:150px; height:150px; }
+  .viz .strip canvas{ position:absolute; inset:0; width:100%; height:100%; }
+  .viz .artist-row h4{ font-size:1rem; font-weight:600; margin:.1rem 0 0; line-height:1.25; overflow-wrap:anywhere; }
+  .viz .artist-row .count{ display:block; font-size:.8rem; font-weight:400; color:var(--faint); margin-top:.15rem; }
+  .viz .cell-head{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:.45rem; min-width:0; flex:1; }
+  .viz .cell-head img{ width:52px; height:52px; object-fit:cover; flex:none; }
+  .viz .cell-head img[hidden]{ display:block !important; visibility:hidden; }  /* keeps strips aligned when an album has no cover */
+  .viz .cell-head .t{ min-width:0; max-width:100%; line-height:1.25; }
+  .viz .cell-head .t .open{ white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .viz .open{ background:none; border:0; padding:0; font:inherit; font-size:1rem; font-weight:600; color:var(--ink); text-align:left; cursor:pointer; display:block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .viz .open:hover{ text-decoration:underline; text-underline-offset:2px; }
+  .viz .cell-head .sub{ display:block; margin-top:.1rem; color:var(--faint); font-size:.8rem; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .viz .strip{ cursor:crosshair; }
+  .viz .strip canvas, .viz .tplot canvas, .viz .plot canvas{ display:block; width:100%; touch-action:manipulation; }
+  /* On a full-size screen the whole matrix fits without scrolling */
+  @media (min-width: 900px) and (min-height: 560px){
+    .viz .vmain.fill{ height:min(calc(100vh - 92px), 940px); height:min(calc(100dvh - 92px), 940px); display:flex; flex-direction:column; }
+    .viz .vmain.fill #vOverview{ flex:1; min-height:0; display:flex; flex-direction:column; }
+    .viz .vmain.fill .status:empty{ display:none; }
+    .viz .vmain.fill .status{ margin:.4rem 0 0; min-height:0; }
+    .viz .vmain.fill .matrix{ flex:1; min-height:0; display:grid; grid-template-rows:repeat(var(--rows, 5), minmax(0, 1fr)); }
+    .viz .vmain.fill .artist-row{ min-height:0; }
+    .viz .vmain.fill .strip{ width:auto; height:100%; aspect-ratio:1 / 1; min-height:60px; max-width:58%; }
+  }
+  @media (max-width: 900px){
+    .viz .artist-row{ grid-template-columns:repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+    .viz .artist-row h4{ grid-column:1 / -1; }
+  }
+
+  /* Artist picker: All artists · each artist */
+  .viz .artists-nav{ display:flex; flex-wrap:wrap; gap:.25rem 1.1rem; margin-top:.7rem; font-size:.85rem; flex:none; }
+  .viz .artists-nav button{ background:none; border:0; padding:.1rem 0; font:inherit; color:var(--muted); cursor:pointer; border-bottom:1.5px solid transparent; }
+  .viz .artists-nav button:hover{ color:var(--ink); }
+  .viz .artists-nav button[aria-pressed="true"]{ color:var(--ink); font-weight:600; border-bottom-color:var(--ink); }
+  .viz .artists-nav button:focus-visible, .viz .artist-name:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+  .viz .artists-nav .sep{ color:var(--line); }
+  .viz .artist-name{ background:none; border:0; padding:0; font:inherit; color:inherit; text-align:left; cursor:pointer; }
+  .viz .artist-name:hover{ text-decoration:underline; text-underline-offset:2px; }
+
+  /* One artist: the same three albums, larger, side by side */
+  .viz .matrix.focus .artist-row{ display:none; }
+  .viz .matrix.focus .artist-row.on{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); grid-template-rows:auto minmax(0,1fr); gap:1rem 2.5rem; border-top:0; padding-top:.25rem; }
+  .viz .matrix.focus .artist-row.on h4{ grid-column:1 / -1; font-size:1.35rem; }
+  .viz .matrix.focus .artist-row.on h4 .count{ display:inline; margin-left:.6rem; font-size:.85rem; }
+  .viz .matrix.focus .cell{ flex-direction:column; align-items:center; gap:.6rem; }
+  .viz .matrix.focus .strip{ width:100%; max-width:none; height:auto; aspect-ratio:1 / 1; }
+  .viz .matrix.focus .cell-head{ flex:none; flex-direction:row; align-items:center; justify-content:center; gap:.7rem; width:100%; }
+  .viz .matrix.focus .cell-head .t{ flex:0 1 auto; }
+  @media (min-width: 900px) and (min-height: 560px){
+    .viz .vmain.fill .matrix.focus{ grid-template-rows:minmax(0,1fr); }
+    .viz .vmain.fill .matrix.focus .cell{ container-type:size; justify-content:flex-start; }
+    .viz .vmain.fill .matrix.focus .strip{ flex:none; aspect-ratio:auto; max-width:none; min-height:0;
+      width:min(100cqw, 100cqh - 4.5rem); height:min(100cqw, 100cqh - 4.5rem); }
+  }
+  @media (max-width: 900px){
+    .viz .matrix.focus .artist-row.on{ grid-template-columns:1fr; }
+    .viz .matrix.focus .strip{ max-width:520px; }
+  }
+
+  /* Album view */
+  .viz .album-cover{ width:88px; height:88px; object-fit:cover; flex:none; }
+  .viz .grid{
+    list-style:none; margin:2rem 0 0; padding:0;
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap:2.25rem 2rem;
+  }
+  .viz .tile h4{ display:flex; gap:.55rem; align-items:baseline; margin:0 0 .4rem; font-size:.9rem; font-weight:500; line-height:1.25; }
+  .viz .tile .no{ color:var(--faint); font-variant-numeric:tabular-nums; min-width:1.4em; }
+  .viz .tile .name{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .viz .tile .dur{ color:var(--faint); font-weight:400; font-variant-numeric:tabular-nums; }
+  .viz .tile.playing .name{ font-weight:600; }
+  .viz .tile.playing .no::before{ content:"▸ "; color:var(--ink); }
+  .viz .tplot{ cursor:crosshair; position:relative; aspect-ratio:1 / 1; max-width:520px; }
+  .viz .tplot canvas{ position:absolute; inset:0; width:100%; height:100%; }
+
+  /* Song view */
+  .viz .crumbs{ display:flex; gap:1.25rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+  .viz .plot{ position:relative; margin-top:1rem; }
+  .viz .plot canvas{ margin:0 auto; cursor:crosshair; }
+  .viz #tip{ position:fixed; z-index:20; pointer-events:none; background:rgba(17,17,17,.9); color:#fff; font-size:11px; font-weight:500; padding:2px 7px; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .viz .micro{ margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--line); }
+  .viz .micro-head{ display:flex; align-items:baseline; gap:1.25rem; flex-wrap:wrap; }
+  .viz .micro-head h4{ font-size:1rem; font-weight:500; margin:0; font-variant-numeric:tabular-nums; }
+  .viz .micro .plot{ margin-top:.75rem; }
+
+  .viz .vrefs{ max-width:44rem; width:calc(100% - 2rem); max-height:calc(100dvh - 3rem); border:1px solid var(--line); border-radius:2px; padding:1.25rem 1.5rem 1.5rem; background:var(--bg); color:var(--ink); box-shadow:0 12px 40px rgba(0,0,0,.18); }
+  .viz .vrefs::backdrop{ background:rgba(17,17,17,.35); }
+  .viz .refs-head{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; }
+  .viz .vrefs h2{ font-size:1.15rem; font-weight:600; margin:0; }
+  .viz .vrefs h3{ font-size:.8rem; font-weight:600; color:var(--faint); margin:1.1rem 0 .3rem; }
+  .viz .vrefs ul{ list-style:none; margin:0; padding:0; font-size:.85rem; line-height:1.4; }
+  .viz .vrefs li{ padding-left:1.5em; text-indent:-1.5em; margin:.3rem 0; overflow-wrap:anywhere; }
+  .viz .vrefs a{ color:var(--muted); }
+  .viz .vfoot{ max-width:1360px; margin:0 auto; padding:2rem 1.5rem; color:var(--faint); font-size:.8rem; border-top:1px solid var(--line); }
+  .viz .vfoot .linkish{ color:var(--faint); }
+
+  .viz .bar{
+    position:fixed; left:0; right:0; bottom:0; z-index:5;
+    display:flex; align-items:center; gap:.9rem;
+    background:rgba(255,255,255,.96); border-top:1px solid var(--line);
+    padding:.6rem 1.5rem calc(.6rem + env(safe-area-inset-bottom,0px));
+  }
+  .viz .play{
+    width:2.25rem; height:2.25rem; border-radius:50%; border:0; cursor:pointer;
+    background:var(--ink); color:var(--bg); display:grid; place-items:center; flex:none;
+  }
+  .viz .play svg{ width:.9rem; height:.9rem; }
+  .viz .bar .now{ display:flex; flex-direction:column; min-width:0; line-height:1.3; font-size:.9rem; }
+  .viz .bar #barTitle{ font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .viz .bar .clock{ color:var(--muted); font-size:.8rem; font-variant-numeric:tabular-nums; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  .viz{ font-family:"Hanken Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height:1.5; color:var(--ink); background:var(--bg); font-size:1rem; }
+  .viz .vmain{ padding:clamp(16px, 2.4vw, 28px) clamp(16px, 2.4vw, 32px) clamp(20px, 2.4vw, 28px); }
+  .viz .vrefs{ margin:auto; }
+  .viz .vrefs ul{ padding:0; }
+  .viz .vfoot{ max-width:none; padding:1rem clamp(16px, 2.4vw, 32px); }
+  .viz p.vh-lede{ margin-bottom:1rem; }
+  body.has-bar{ padding-bottom:64px; }
+  @media (max-width: 640px){
+    .viz .ov-head{ flex-direction:column; gap:.9rem; }
+    .stage{ padding:8px; }
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="site-name" href="index.html">Joseph Brazina</a>
+    <ul>
+      <li><a href="index.html#work">Work</a></li>
+      <li class="optional"><a href="index.html#research">Research</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="Joseph_Brazina_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="wrap">
+    <a class="back" href="index.html#work">All work</a>
+    <h1>Albums as Sound: Visualizing Music with Tufte’s Principles</h1>
+    <p class="summary">An interactive visualization that draws fifteen albums from five of my favorite artists as circular spectrograms, applying eight of Edward Tufte’s display principles so every album can be compared at a glance and explored down to 20 seconds of a single song.</p>
+    <figure>
+      <div class="plate">
+        <div class="hang" style="max-width: calc(380px * 3 + var(--gap) * 2)">
+          <figure style="--a: 1"><img class="iris" src="images/home-albums-iris-1.jpg" alt="Irisgram of Nujabes’ Metaphorical Music in green and rust tones" width="516" height="516"/><figcaption>Metaphorical Music (2003)</figcaption></figure>
+          <figure style="--a: 1"><img class="iris" src="images/home-albums-iris-2.jpg" alt="Irisgram of Nujabes’ Modal Soul in blue and coral tones" width="516" height="516"/><figcaption>Modal Soul (2005)</figcaption></figure>
+          <figure style="--a: 1"><img class="iris" src="images/home-albums-iris-3.jpg" alt="Irisgram of Nujabes’ Luv(sic) Hexalogy in green and peach tones" width="516" height="516"/><figcaption>Luv(sic) Hexalogy (2015)</figcaption></figure>
+        </div>
+      </div>
+      <figcaption>Nujabes’ three albums as irisgrams. Each album runs clockwise from 12 o’clock, and each takes its colors from its own cover.</figcaption>
+    </figure>
+    <div class="actions" style="margin-top:28px"><a class="btn solid" href="#explore">Explore the albums</a><a class="btn" href="https://josephbrazina.github.io/displays_tufte_info_viz_3/" target="_blank" rel="noopener">Open the full-screen site</a><span class="fineprint">Plays music. Headphones recommended.</span></div>
+    <dl class="facts" style="--cols:5"><div><dt>Course</dt><dd>Human Factors of Visual Display Systems</dd></div><div><dt>My role</dt><dd>Design &amp; development</dd></div><div><dt>Data</dt><dd>15 albums, 5 artists</dd></div><div><dt>Built with</dt><dd>HTML, Canvas, Web Audio</dd></div><div><dt>Status</dt><dd>Initial design, class feedback next</dd></div></dl>
+    <p class="role">I chose the albums, designed the irisgram, and built the site as a single HTML page that analyzes every song in the browser. This is the initial design. It goes to class critique next, and that feedback will shape a refined final version.</p>
+  </div>
+</header>
+
+<section class="room" id="explore" aria-labelledby="e-h">
+  <div class="wrap">
+    <h2 id="e-h">Explore the albums</h2>
+    <div class="prose"><p>This is the working visualization, not a recording. Load an album and each song is downloaded and analyzed in your browser, so the first load takes a moment; after that it opens instantly. Click a circle to play from that spot, double-click to zoom in, and press <kbd>Esc</kbd> to zoom back out.</p></div>
+    <div class="stage">
+      <div class="viz" id="viz">
+<div class="vmain" id="vmain">
+  <!-- Finding the music -->
+  <section id="vLoading">
+    <h3 class="vh">Albums as sound</h3>
+    <p class="lede" id="loadingMsg">Loading the album list…</p>
+  </section>
+
+  <section id="vPick" hidden>
+    <h3 class="vh">Albums as sound</h3>
+    <p class="lede">The album list couldn’t be loaded right now. Try the <a href="https://josephbrazina.github.io/displays_tufte_info_viz_3/" target="_blank" rel="noopener">live site</a>, or choose a music folder from your device: one folder per artist, each with one folder per album holding the songs and a cover image. Files are read on your device and never uploaded.</p>
+    <div class="drop" id="drop">
+      <strong>Drop the music folder here</strong>
+      <span>or pick it from your device</span>
+      <label class="vbtn primary"><input type="file" id="dirIn" webkitdirectory directory multiple>Choose music folder</label>
+    </div>
+    <div class="status" id="pickStatus" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- Every artist and album -->
+  <section id="vOverview" hidden>
+    <h3 id="ovTitle" class="sr-only">Albums as sound</h3>
+    <div class="ov-head">
+      <div>
+        <p class="ov-text">Each circle is one album with its songs placed end to end, running clockwise from 12 o’clock. Low frequencies sit on the inner edge of the ring and high frequencies on the outer edge. Inside, the waveform is split into three rings in the album’s own colors: lows such as kicks and bass innermost, then mids such as vocals and instruments, then highs such as hi-hats and cymbals. Each album fills its whole circle, starting at the mark at 12 o’clock, so the circles compare the shape of each album rather than its length (lengths are listed beside each one). Every album shares one loudness scale: lighter color means louder sound. Each album takes its hues from its own cover.</p>
+        <p class="hint">Albums load when you ask for them. Click a circle to play from that spot, double-click it or click the album’s name to open it. Click an artist’s name (or press <kbd>1</kbd>–<kbd>5</kbd>) to see just their three albums, larger; <kbd>0</kbd> or <kbd>Esc</kbd> shows everyone again. <button class="linkish" id="forgetOv">Forget saved analysis</button> · <button class="linkish refs-open">References</button></p>
+      </div>
+      <button class="vbtn primary" id="loadAll">Load every album</button>
+    </div>
+    <nav class="artists-nav" id="artistsNav" aria-label="Show one artist"></nav>
+    <div class="status" id="ovStatus" role="status" aria-live="polite"></div>
+    <div class="matrix" id="matrix"></div>
+  </section>
+
+  <!-- One album -->
+  <section id="vAlbum" hidden>
+    <div class="crumbs"><button class="ghost" id="albumBack">Back to all albums</button><button class="ghost" id="albumArtistBtn"></button></div>
+    <div class="head-row">
+      <img class="album-cover" id="albumCover" alt="" hidden>
+      <div>
+        <p class="meta"><button class="artist-name" id="albumArtist" title="Show this artist’s albums"></button></p>
+        <h3 class="vh" id="albumTitle"></h3>
+        <p class="meta" id="albumMeta"></p>
+        <div class="legend"><span>Ring:</span><span>Quiet</span><span class="ramp" id="albumRamp"></span><span>Loud</span></div>
+        <div class="legend" id="albumBands"></div>
+      </div>
+    </div>
+    <p class="hint">Songs share this album’s time scale, running clockwise from 12 o’clock; ticks mark each minute. Click a song to play from that spot; double-click it to enlarge it.</p>
+    <div class="status" id="albumStatus" role="status" aria-live="polite"></div>
+    <ol class="grid" id="grid"></ol>
+  </section>
+
+  <!-- One song -->
+  <section id="vSong" hidden>
+    <div class="crumbs">
+      <button class="ghost" id="songBack">Back to album</button>
+      <button class="ghost" id="songHome">All albums</button>
+    </div>
+    <p class="meta" id="songMeta"></p>
+    <h3 class="vh" id="songTitle"></h3>
+    <div class="legend" id="songBands"></div>
+    <div class="plot" id="plot" tabindex="0" role="slider" aria-label="Playback position" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00">
+      <canvas id="cv"></canvas>
+    </div>
+    <p class="hint">Click to play from that spot. Double-click anywhere on the circle for a 20-second close-up that follows the song as it plays. <kbd>Space</kbd> plays or pauses, <kbd>←</kbd> <kbd>→</kbd> skip five seconds, <kbd>Esc</kbd> goes back.</p>
+    <section class="micro" id="micro" hidden>
+      <div class="micro-head"><h4 id="microTitle"></h4><button class="ghost" id="closeMicro">Hide close-up</button></div>
+      <div class="plot" id="microPlot"><canvas id="mcv"></canvas></div>
+      <p class="hint">The close-up always shows the 20 seconds around the playhead, which sits at 6 o’clock while the song plays. Click the song’s circle above to jump anywhere; the close-up follows. Click inside the close-up to play from that exact moment.</p>
+    </section>
+  </section>
+</div>
+
+<div class="vfoot" id="footer" hidden>
+  Analysed songs are saved in this browser so they open instantly next time.
+  <button class="linkish" id="forget">Forget saved analysis</button> · <button class="linkish refs-open">References</button>
+</div>
+
+<dialog class="vrefs" id="refs" aria-labelledby="refsTitle">
+  <div class="refs-head"><h2 id="refsTitle">References</h2><button class="ghost" id="refsClose" aria-label="Close references">Close</button></div>
+  <h3>Method</h3>
+  <ul>
+    <li>Tufte, E. R. (1990). <i>Envisioning information</i>. Graphics Press.</li>
+    <li>Tufte, E. R. (2001). <i>The visual display of quantitative information</i> (2nd ed.). Graphics Press.</li>
+    <li>Ottosson, B. (2020). <i>A perceptual color space for image processing</i> [Blog post]. <a href="https://bottosson.github.io/posts/oklab/" target="_blank" rel="noopener">https://bottosson.github.io/posts/oklab/</a></li>
+  </ul>
+  <h3>Albums</h3>
+  <ul>
+      <li>The Beatles. (1965). <i>Rubber soul</i> [Album]. Parlophone.</li>
+      <li>The Beatles. (1966). <i>Revolver</i> [Album]. Parlophone.</li>
+      <li>The Beatles. (1967). <i>Sgt. Pepper’s lonely hearts club band</i> [Album]. Parlophone.</li>
+      <li>Pink Floyd. (1973). <i>The dark side of the moon</i> [Album]. Harvest Records.</li>
+      <li>Pink Floyd. (1975). <i>Wish you were here</i> [Album]. Harvest Records.</li>
+      <li>Pink Floyd. (1977). <i>Animals</i> [Album]. Harvest Records.</li>
+      <li>Nujabes. (2003). <i>Metaphorical music</i> [Album]. Hydeout Productions.</li>
+      <li>Nujabes. (2005). <i>Modal soul</i> [Album]. Hydeout Productions.</li>
+      <li>Nujabes &amp; Shing02. (2015). <i>Luv(sic) hexalogy</i> [Album]. Hydeout Productions.</li>
+      <li>Kanye West. (2004). <i>The college dropout</i> [Album]. Roc-A-Fella Records.</li>
+      <li>Kanye West. (2008). <i>808s &amp; heartbreak</i> [Album]. Roc-A-Fella Records.</li>
+      <li>Kids See Ghosts. (2018). <i>Kids see ghosts</i> [Album]. GOOD Music; Def Jam Recordings.</li>
+      <li>Steve Lacy. (2019). <i>Apollo XXI</i> [Album]. 3qtr.</li>
+      <li>Steve Lacy. (2022). <i>Gemini rights</i> [Album]. L-M Records; RCA Records.</li>
+      <li>Steve Lacy. (2026). <i>Oh yeah?</i> [Album]. RCA Records.</li>
+  </ul>
+</dialog>
+<div id="tip" hidden></div>
+<div class="bar" id="bar" hidden>
+  <button class="play" id="play" aria-label="Play">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path id="icon" d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>
+  </button>
+  <div class="now"><span id="barTitle"></span><span class="clock"><span id="now">0:00</span> of <span id="total">0:00</span><span id="barWhere"></span></span></div>
+</div>
+      </div>
+    </div>
+    <p class="fineprint">Needs a desktop browser for the full layout. Keyboard shortcuts work once you’ve clicked inside the visualization.</p>
+  </div>
+</section>
+
+<section class="room" id="read" aria-labelledby="r-h">
+  <div class="wrap">
+    <h2 id="r-h">How to read an irisgram</h2>
+    <div class="split">
+      <figure>
+        <div class="plate"><img class="portrait white" src="images/albums-00-irisgram-diagram.png" alt="Diagram of an irisgram: a gray outer ring for frequency from 30 Hz at the inner edge to 12 kHz at the outer edge, three inner waveform rings, and a start line at 12 o’clock with time running clockwise" width="760" height="760"/></div>
+      </figure>
+      <ul class="points" style="--cols:1">
+        <li><strong>Time</strong>Runs clockwise from 12 o’clock. One full turn is a whole song, or a whole album on the overview.</li>
+        <li><strong>Frequency</strong>Distance from the center. Bass (30 Hz) sits on the ring’s inner edge, treble (12 kHz) on its outer edge.</li>
+        <li><strong>Loudness</strong>Color, in hues taken from the album cover. Lighter means louder, on one scale shared by every album.</li>
+        <li><strong>Waveforms</strong>Three rings at the center, inside out: lows (kicks, bass), mids (vocals, instruments), and highs (hi-hats, cymbals). A ring is thicker where that band is louder.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="room" id="tufte" aria-labelledby="t-h">
+  <div class="wrap">
+    <h2 id="t-h">Eight of Tufte’s concepts shaped the design</h2>
+    <div class="prose"><p>Each concept from <em>Envisioning Information</em> and <em>The Visual Display of Quantitative Information</em> maps to a specific choice in the interface (Tufte, 1990, 2001).</p></div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th style="width:22%">Concept</th><th style="width:39%">Principle</th><th>In the design</th></tr></thead><tbody>
+<tr><td data-label="Concept">Small multiples</td><td data-label="Principle">The same irisgram repeats for every album on one loudness scale, inviting local comparisons and comparisons of change.</td><td data-label="In the design">A 5 × 3 grid of album irisgrams, one row per artist.</td></tr>
+<tr><td data-label="Concept">Macro and micro readings</td><td data-label="Principle">Four zoom levels move from all fifteen albums down to 20 seconds of one song.</td><td data-label="In the design">Overview, album, song, and a 20-second close-up, each a double-click apart.</td></tr>
+<tr><td data-label="Concept">Layering and separation</td><td data-label="Principle">Frequency fills the outer ring, the waveform sits inside, and color is kept for loudness, raising data density.</td><td data-label="In the design">Spectrogram ring outside, waveform rings inside; color only for loudness.</td></tr>
+<tr><td data-label="Concept">Data-ink ratio</td><td data-label="Principle">A white, monochrome interface leaves color and ink for the data and the album covers.</td><td data-label="In the design">White page, gray text, no frames or gridlines.</td></tr>
+<tr><td data-label="Concept">Dimensionality</td><td data-label="Principle">The design is tailored to the listener and breaks away from a linear, flat way of presenting sound.</td><td data-label="In the design">Circular time and click-to-zoom replace a flat, linear timeline.</td></tr>
+<tr><td data-label="Concept">The lie factor</td><td data-label="Principle">Spatial representations match the data: angle shows time and distance from the center shows frequency.</td><td data-label="In the design">Angle maps time and radius maps frequency, on scales shared by every album.</td></tr>
+<tr><td data-label="Concept">Subjective dimensions</td><td data-label="Principle">The design is meant to be interesting and memorable, giving each album a recognizable shape.</td><td data-label="In the design">Cover-colored irises give each album a memorable face.</td></tr>
+<tr><td data-label="Concept">Color layers</td><td data-label="Principle">Bright, strong colors stand out on a quiet background; each color holds meaning and comes from the album art.</td><td data-label="In the design">Cover hues on a white page; lighter always means louder.</td></tr>
+</tbody></table></div>
+  </div>
+</section>
+
+<section class="room" id="iteration" aria-labelledby="i-h">
+  <div class="wrap">
+    <h2 id="i-h">First iteration: linear strips</h2>
+    <div class="prose">
+      <p>The first version drew each album as a flat strip: a gray waveform over a spectrogram, with the songs placed end to end on one time scale, so longer albums ran wider.</p>
+      <p>Several things worked and carried forward: all fifteen albums were visible at once, each song read clearly, the cover colors set albums apart, and the gaps between songs kept them separate. But the waveform and spectrogram sat apart rather than layered, the strips used little of the space, and comparing album shapes meant comparing lengths first.</p>
+    </div>
+    <figure>
+      <div class="plate"><img class="narrow white" src="images/albums-01-first-iteration-overview.jpg" alt="First iteration overview: fifteen album strips in five artist rows, each a gray waveform above a colored spectrogram" width="1750" height="1152" loading="lazy" decoding="async"/></div>
+      <figcaption>All fifteen albums as strips on one time and loudness scale.</figcaption>
+    </figure>
+    <div class="pair">
+      <figure><div class="plate"><img class="white" src="images/albums-02-first-iteration-album.jpg" alt="First iteration album view of The Dark Side of the Moon, one small spectrogram per song" width="1630" height="1060" loading="lazy" decoding="async"/></div><figcaption>One album, with every song on the album’s time scale.</figcaption></figure>
+      <figure><div class="plate"><img class="white" src="images/albums-03-first-iteration-song.jpg" alt="First iteration song view of Say You Will, a long red spectrogram under its waveform" width="1730" height="1030" loading="lazy" decoding="async"/></div><figcaption>One song as a flat spectrogram.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="room" id="design" aria-labelledby="d-h">
+  <div class="wrap">
+    <h2 id="d-h">Current design: four zoom levels</h2>
+    <div class="prose"><p>Wrapping time around a circle turned each album into one compact shape and made room to layer the waveform inside the spectrogram. Each level is a double-click from the next.</p></div>
+    <ol class="steps">
+      <li class="step">
+        <h3>All albums</h3>
+        <div class="prose"><p>Every album fills its whole circle, so the irises compare the shape of each album rather than its length, which is listed beside it. Thin white gaps mark where songs change.</p></div>
+        <figure><div class="plate"><img class="white" src="images/albums-04-overview.jpg" alt="Overview: fifteen irisgrams in a 5 by 3 grid, one row per artist, each beside its album cover" width="1630" height="850" loading="lazy" decoding="async"/></div></figure>
+      </li>
+      <li class="step">
+        <h3>One artist</h3>
+        <div class="prose"><p>Clicking an artist’s name, or pressing <kbd>1</kbd> to <kbd>5</kbd>, draws their three albums larger, side by side.</p></div>
+        <figure><div class="plate"><img class="white" src="images/albums-05-one-artist.jpg" alt="One artist view: Nujabes’ three albums drawn as large irisgrams" width="1630" height="655" loading="lazy" decoding="async"/></div></figure>
+      </li>
+      <li class="step">
+        <h3>One album</h3>
+        <div class="prose"><p>Songs share the album’s time scale, so a short song draws a short arc and ticks mark each minute. The playing song is outlined, and its played portion fades.</p></div>
+        <figure><div class="plate"><img class="white" src="images/albums-06-album.jpg" alt="Album view of Sgt. Pepper’s Lonely Hearts Club Band, each song a partial ring whose arc length shows its duration" width="1630" height="1010" loading="lazy" decoding="async"/></div></figure>
+      </li>
+      <li class="step">
+        <h3>One song and its close-up</h3>
+        <div class="prose"><p>A song fills the circle with labeled time and frequency. Double-clicking opens a 20-second close-up that follows the playhead, fine enough to see individual beats.</p></div>
+        <div class="pair">
+          <figure><div class="plate"><img class="white" src="images/albums-07-song.jpg" alt="Song view of oh yeah? with time labels around the ring and frequency labels at 12 o’clock" width="1635" height="925" loading="lazy" decoding="async"/></div><figcaption>Whole song</figcaption></figure>
+          <figure><div class="plate"><img class="white" src="images/albums-08-closeup.jpg" alt="Close-up irisgram showing 20 seconds of oh yeah?, labeled second by second" width="1630" height="880" loading="lazy" decoding="async"/></div><figcaption>20-second close-up, following the playhead</figcaption></figure>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="room" id="build" aria-labelledby="b-h">
+  <div class="wrap">
+    <h2 id="b-h">How it works</h2>
+    <ul class="points">
+      <li><strong>Analysis in the browser</strong>The Web Audio API decodes each song, and a 4,096-point FFT slices it into 1,200 moments by 160 frequency bands, spaced logarithmically from 30 Hz to 12 kHz.</li>
+      <li><strong>One loudness scale</strong>Every album shares the same decibel range, so color means the same loudness everywhere. Songs more than 10 dB quieter than their album’s typical level are raised so they stay readable.</li>
+      <li><strong>Color from the covers</strong>Each palette comes from its cover’s dominant hues, blended in the OKLab color space with even lightness steps, so lighter always means louder whatever the hues (Ottosson, 2020).</li>
+      <li><strong>Three-band waveform</strong>Lows (30 to 250 Hz), mids (250 Hz to 4 kHz), and highs (4 to 12 kHz) each get a fixed scale, since highs carry far less energy and would vanish on a shared one.</li>
+      <li><strong>Close-up on demand</strong>The 20-second view is analyzed at 120 slices per second only around the playhead, so it keeps up while the song plays.</li>
+      <li><strong>Saved analysis</strong>Finished songs are stored in the browser, so albums open instantly on a return visit. Nothing is uploaded.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="room" id="next" aria-labelledby="n-h">
+  <div class="wrap">
+    <h2 id="n-h">Next: class feedback</h2>
+    <div class="prose"><p>The initial design goes to class critique with three questions:</p></div>
+    <ol class="plan">
+      <li><span>Does the circular irisgram make albums easier or harder to compare than the linear strips?</span></li>
+      <li><span>Can you read loudness from the colors without looking at the legend?</span></li>
+      <li><span>Any other thoughts, comments, questions, or suggestions?</span></li>
+    </ol>
+    <p class="note">What comes after: I’ll refine the design from the critique and deliver the final version, then update this page with what changed and why.</p>
+  </div>
+</section>
+
+<section class="room" id="sources" aria-label="Sources">
+  <div class="wrap">
+    <details>
+      <summary>Sources <span><span class="closed">Show all 18</span><span class="open">Hide</span></span></summary>
+      <ul class="refs">
+        <li>Kanye West. (2004). <em>The college dropout</em> [Album]. Roc-A-Fella Records.</li>
+        <li>Kanye West. (2008). <em>808s &amp; heartbreak</em> [Album]. Roc-A-Fella Records.</li>
+        <li>Kids See Ghosts. (2018). <em>Kids see ghosts</em> [Album]. GOOD Music; Def Jam Recordings.</li>
+        <li>Nujabes. (2003). <em>Metaphorical music</em> [Album]. Hydeout Productions.</li>
+        <li>Nujabes. (2005). <em>Modal soul</em> [Album]. Hydeout Productions.</li>
+        <li>Nujabes &amp; Shing02. (2015). <em>Luv(sic) hexalogy</em> [Album]. Hydeout Productions.</li>
+        <li>Ottosson, B. (2020). <em>A perceptual color space for image processing</em> [Blog post]. <a href="https://bottosson.github.io/posts/oklab/">https://bottosson.github.io/posts/oklab/</a></li>
+        <li>Pink Floyd. (1973). <em>The dark side of the moon</em> [Album]. Harvest Records.</li>
+        <li>Pink Floyd. (1975). <em>Wish you were here</em> [Album]. Harvest Records.</li>
+        <li>Pink Floyd. (1977). <em>Animals</em> [Album]. Harvest Records.</li>
+        <li>Steve Lacy. (2019). <em>Apollo XXI</em> [Album]. 3qtr.</li>
+        <li>Steve Lacy. (2022). <em>Gemini rights</em> [Album]. L-M Records; RCA Records.</li>
+        <li>Steve Lacy. (2026). <em>Oh yeah?</em> [Album]. RCA Records.</li>
+        <li>The Beatles. (1965). <em>Rubber soul</em> [Album]. Parlophone.</li>
+        <li>The Beatles. (1966). <em>Revolver</em> [Album]. Parlophone.</li>
+        <li>The Beatles. (1967). <em>Sgt. Pepper’s lonely hearts club band</em> [Album]. Parlophone.</li>
+        <li>Tufte, E. R. (1990). <em>Envisioning information</em>. Graphics Press.</li>
+        <li>Tufte, E. R. (2001). <em>The visual display of quantitative information</em> (2nd ed.). Graphics Press.</li>
+      </ul>
+      <p class="legal">Album audio and cover art belong to their respective artists and labels and are used here for a non-commercial class project.</p>
+    </details>
+  </div>
+</section>
+</main>
+
+<section class="end" aria-label="More work">
+  <div class="wrap">
+    <a class="big" href="index.html#work">See all projects</a>
+    <p>Questions about this project? <a href="mailto:jbrazina2324@gmail.com">jbrazina2324@gmail.com</a></p>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Joseph Brazina</span>
+    <span>Initial design, class feedback next</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // ---------- Settings ----------
+  // The songs and covers live in the Albums as Sound repository and are served by its GitHub Pages site.
+  const GITHUB = { owner: 'josephbrazina', repo: 'displays_tufte_info_viz_3' };
+  const SITE = 'https://' + GITHUB.owner + '.github.io/' + GITHUB.repo + '/';
+  const MUSIC_DIR = 'music';
+  const VIZ = document.getElementById('viz'), VMAIN = document.getElementById('vmain');
+
+  const FMIN = 30, FMAX = 12000, COLS = 1200, ROWS = 160, N = 4096, WIN = 20, MCPS = 120, MROWS = 200, MN = 2048;   // close-up: 20 s window, 120 columns a second
+  const QLO = -30, QHI = 70;          // stored dB range (quantised to 0–255)
+  const DLO = 0, DHI = 56;            // shared display range: same for every album
+  const AUDIO_RE = /\.(mp3|m4a|aac|wav|flac|ogg|oga|opus|aif|aiff)$/i;
+  const IMAGE_RE = /\.(jpe?g|png|webp|gif)$/i;
+  const CACHE_VERSION = 'v1';
+
+  const $ = id => document.getElementById(id);
+  const cv = $('cv'), mcv = $('mcv'), plot = $('plot'), microEl = $('micro'), icon = $('icon');
+  const FONT = '"Hanken Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif';
+
+  const S = {
+    view:'loading', artists:[], albums:[], focus:null, maxAlbumDur:1,
+    album:null, song:null, ctx:null,
+    play:null, src:null, playing:false, startedAt:0, offset:0, playToken:0,
+    cur:null, decoding:null, micro:null, layout:null, mlayout:null, hover:null,
+    chain: Promise.resolve()
+  };
+
+  const fmt = t => { t = Math.max(0, t || 0); const h = Math.floor(t/3600), m = Math.floor(t%3600/60), s = Math.floor(t%60);
+    return (h ? h + ':' + String(m).padStart(2,'0') : m) + ':' + String(s).padStart(2,'0'); };
+  const toStage = () => { const r = VIZ.getBoundingClientRect(); if (r.top < 0 || r.top > window.innerHeight*0.4) window.scrollTo(0, r.top + window.scrollY - 72); };
+  const setStatus = (el, msg, err) => { el.textContent = msg; el.className = 'status' + (err ? ' error' : ''); };
+  const colors = () => {
+    const c = getComputedStyle(VIZ);
+    return { ink:c.getPropertyValue('--ink').trim(), muted:c.getPropertyValue('--muted').trim(),
+             wave:c.getPropertyValue('--wave').trim(), line:c.getPropertyValue('--line').trim(),
+             faint:c.getPropertyValue('--faint').trim(), bg:c.getPropertyValue('--bg').trim() };
+  };
+  const natural = (a,b) => a.localeCompare(b, undefined, { numeric:true, sensitivity:'base' });
+  const tidy = s => s.replace(/\.[^.\/]+$/, '').replace(/^\d{1,2}[\s._-]+/, '').replace(/_/g, ' ').replace(/:/g, '/').trim();   // macOS stores a typed “/” as “:”
+  const tidyFolder = s => s.replace(/^\d{1,2}[\s._-]+/, '').replace(/_/g, ' ').replace(/:/g, '/').trim();
+
+  // ---------- Signal processing ----------
+  function fft(re, im){
+    const n = re.length;
+    for (let i = 1, j = 0; i < n; i++){
+      let bit = n >> 1;
+      for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit;
+      if (i < j){ let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; }
+    }
+    for (let len = 2; len <= n; len <<= 1){
+      const ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang), half = len >> 1;
+      for (let i = 0; i < n; i += len){
+        let cr = 1, ci = 0;
+        for (let k = 0; k < half; k++){
+          const a = i + k, b = a + half;
+          const tr = re[b]*cr - im[b]*ci, ti = re[b]*ci + im[b]*cr;
+          re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
+          const ncr = cr*wr - ci*wi; ci = cr*wi + ci*wr; cr = ncr;
+        }
+      }
+    }
+  }
+  function audioCtx(){ if (!S.ctx) S.ctx = new (window.AudioContext || window.webkitAudioContext)(); return S.ctx; }
+  function decode(ab){
+    const ctx = audioCtx();
+    return new Promise((res, rej) => { const p = ctx.decodeAudioData(ab, res, rej); if (p && p.then) p.then(res, rej); });
+  }
+  function toMono(buf){
+    const len = buf.length, chs = buf.numberOfChannels, mono = new Float32Array(len);
+    for (let c = 0; c < chs; c++){ const d = buf.getChannelData(c); for (let i = 0; i < len; i++) mono[i] += d[i] / chs; }
+    return mono;
+  }
+  function envelope(mono, cols){
+    const len = mono.length, hop = len / cols, peak = new Float32Array(cols), rms = new Float32Array(cols);
+    for (let c = 0; c < cols; c++){
+      const a = Math.floor(c*hop), b = Math.min(len, Math.floor((c+1)*hop));
+      let pk = 0, sq = 0;
+      for (let i = a; i < b; i++){ const v = mono[i], x = Math.abs(v); if (x > pk) pk = x; sq += v*v; }
+      peak[c] = Math.min(1, pk); rms[c] = Math.sqrt(sq / Math.max(1, b-a));
+    }
+    return { peak, rms };
+  }
+  async function computeDb(mono, sr, start, end, cols, rows, n, yieldEvery){
+    const len = mono.length, span = end - start;
+    const win = new Float32Array(n); for (let i = 0; i < n; i++) win[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/(n-1));
+    const fmax = Math.min(FMAX, sr/2), ratio = fmax / FMIN;
+    const offset = 20*Math.log10(4096/n);   // keeps smaller windows on the same dB scale
+    const b0 = new Int32Array(rows), b1 = new Int32Array(rows);
+    for (let r = 0; r < rows; r++){
+      const f0 = FMIN * Math.pow(ratio, r/rows), f1 = FMIN * Math.pow(ratio, (r+1)/rows);
+      b0[r] = Math.floor(f0*n/sr); b1[r] = Math.max(b0[r]+1, Math.ceil(f1*n/sr));
+    }
+    const db = new Float32Array(cols*rows), re = new Float32Array(n), im = new Float32Array(n);
+    for (let c = 0; c < cols; c++){
+      const centre = Math.floor(start + (c+0.5)*span/cols) - n/2;
+      for (let i = 0; i < n; i++){ const k = centre + i; re[i] = (k >= 0 && k < len ? mono[k] : 0) * win[i]; im[i] = 0; }
+      fft(re, im);
+      for (let r = 0; r < rows; r++){
+        let m = 0;
+        for (let b = b0[r]; b < b1[r]; b++){ const v = re[b]*re[b] + im[b]*im[b]; if (v > m) m = v; }
+        db[c*rows + r] = 10*Math.log10(m + 1e-12) + offset;
+      }
+      if (yieldEvery && c % yieldEvery === 0) await new Promise(r => setTimeout(r));
+    }
+    return { db, fmax };
+  }
+  const quantise = db => { const q = new Uint8Array(db.length), k = 255/(QHI-QLO);
+    for (let i = 0; i < db.length; i++) q[i] = Math.max(0, Math.min(255, Math.round((db[i]-QLO)*k))); return q; };
+
+  // ---------- Color (OKLab) ----------
+  const DEFAULT_STOPS = [[0,[14,24,52]],[0.3,[34,72,128]],[0.55,[30,140,140]],[0.78,[140,196,120]],[1,[250,240,170]]];
+  const toLin = v => { v /= 255; return v <= 0.04045 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4); };
+  const toSrgb = v => { v = Math.min(1, Math.max(0, v)); return 255*(v <= 0.0031308 ? 12.92*v : 1.055*Math.pow(v, 1/2.4) - 0.055); };
+  function toOk(c){
+    const r = toLin(c[0]), g = toLin(c[1]), b = toLin(c[2]);
+    const l = Math.cbrt(0.4122214708*r + 0.5363325363*g + 0.0514459929*b);
+    const m = Math.cbrt(0.2119034982*r + 0.6806995451*g + 0.1073969566*b);
+    const s = Math.cbrt(0.0883024619*r + 0.2817188376*g + 0.6299787005*b);
+    return [0.2104542553*l + 0.7936177850*m - 0.0040720468*s, 1.9779984951*l - 2.4285922050*m + 0.4505937099*s, 0.0259040371*l + 0.7827717662*m - 0.8086757660*s];
+  }
+  function okToLin([L,a,b]){
+    const l = Math.pow(L + 0.3963377774*a + 0.2158037573*b, 3), m = Math.pow(L - 0.1055613458*a - 0.0638541728*b, 3), s = Math.pow(L - 0.0894841775*a - 1.2914855480*b, 3);
+    return [4.0767416621*l - 3.3077115913*m + 0.2309699292*s, -1.2684380046*l + 2.6097574011*m - 0.3413193965*s, -0.0041960771*l - 0.7034186231*m + 1.7076147010*s];
+  }
+  function fromOk(o){
+    let [L,a,b] = o;
+    for (let k = 0; k < 40; k++){
+      const lin = okToLin([L,a,b]);
+      if (Math.min(...lin) >= -1e-4 && Math.max(...lin) <= 1.0001) return lin.map(toSrgb);
+      a *= 0.92; b *= 0.92;
+    }
+    return okToLin([L,a,b]).map(toSrgb);
+  }
+  function cmapWith(stops, v){
+    v = Math.min(1, Math.max(0, v));
+    for (let i = 1; i < stops.length; i++){
+      if (v <= stops[i][0]){
+        const [p0,c0] = stops[i-1], [p1,c1] = stops[i], t = (v-p0)/(p1-p0), o0 = toOk(c0), o1 = toOk(c1);
+        return fromOk([o0[0]+(o1[0]-o0[0])*t, o0[1]+(o1[1]-o0[1])*t, o0[2]+(o1[2]-o0[2])*t]);
+      }
+    }
+    return stops[stops.length-1][1];
+  }
+  // Maps a stored 0–255 value straight to a color, through the shared display range
+  function buildLut(stops){
+    const lut = new Uint8ClampedArray(256*3);
+    for (let q = 0; q < 256; q++){
+      const db = QLO + q/255*(QHI-QLO), c = cmapWith(stops, (db - DLO)/(DHI - DLO));
+      lut[q*3] = c[0]; lut[q*3+1] = c[1]; lut[q*3+2] = c[2];
+    }
+    return lut;
+  }
+  function rampCss(stops){
+    const s = []; for (let i = 0; i <= 12; i++){ const c = cmapWith(stops, i/12).map(Math.round); s.push('rgb(' + c.join(',') + ') ' + Math.round(i/12*100) + '%'); }
+    return 'linear-gradient(to right, ' + s.join(', ') + ')';
+  }
+  const lum = c => (0.299*c[0] + 0.587*c[1] + 0.114*c[2]) / 255;
+  function rgbToHsv([r,g,b]){
+    r /= 255; g /= 255; b /= 255;
+    const mx = Math.max(r,g,b), mn = Math.min(r,g,b), d = mx - mn;
+    let h = 0;
+    if (d){ h = mx === r ? ((g-b)/d) % 6 : mx === g ? (b-r)/d + 2 : (r-g)/d + 4; h /= 6; if (h < 0) h += 1; }
+    return [h, mx ? d/mx : 0, mx];
+  }
+  function hsvToRgb([h,s,v]){
+    const i = Math.floor(h*6), f = h*6 - i, p = v*(1-s), q = v*(1-f*s), t = v*(1-(1-f)*s);
+    const [r,g,b] = [[v,t,p],[q,v,p],[p,v,t],[p,q,v],[t,p,v],[v,p,q]][((i % 6) + 6) % 6];
+    return [r*255, g*255, b*255];
+  }
+  // Even lightness steps from dark to light, whatever the cover's hues
+  const relight = cols => cols.map((c, i) => { const o = toOk(c); return fromOk([0.18 + 0.78*i/(cols.length-1), o[1], o[2]]); });
+  // A cover set inside a plain frame (such as Wish You Were Here's white border) is cropped to its picture first
+  function pictureBox(g, size){
+    const d = g.getImageData(0, 0, size, size).data, at = (x, y) => { const i = (y*size + x)*4; return [d[i], d[i+1], d[i+2]]; };
+    const ring = []; for (let k = 0; k < size; k++) ring.push(at(k,0), at(k,size-1), at(0,k), at(size-1,k));
+    const bg = [0,1,2].map(c => ring.map(p => p[c]).sort((a,b) => a-b)[ring.length >> 1]);
+    const far = p => Math.abs(p[0]-bg[0]) + Math.abs(p[1]-bg[1]) + Math.abs(p[2]-bg[2]);
+    if (ring.filter(p => far(p) < 30).length < ring.length*0.85) return null;   // no plain frame
+    let x0 = size, y0 = size, x1 = -1, y1 = -1;
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (far(at(x,y)) > 45){ x0 = Math.min(x0,x); x1 = Math.max(x1,x); y0 = Math.min(y0,y); y1 = Math.max(y1,y); }
+    const w = x1 - x0 + 1, h = y1 - y0 + 1;
+    if (x1 < 0 || w*h > size*size*0.85 || w*h < size*size*0.12) return null;
+    if (x0 < 3 || y0 < 3 || x1 > size-4 || y1 > size-4) return null;   // the picture must sit inside the frame on every side
+    const m = 1;   // step inside the picture's edge
+    return [x0 + m, y0 + m, w - 2*m, h - 2*m].map(v => v / size);
+  }
+  function extractPalette(img){
+    const size = 64, cnv = document.createElement('canvas'); cnv.width = size; cnv.height = size;
+    const g = cnv.getContext('2d'); g.drawImage(img, 0, 0, size, size);
+    const box = pictureBox(g, size);
+    if (box){
+      const W = img.naturalWidth || img.width, H = img.naturalHeight || img.height;
+      g.clearRect(0, 0, size, size);
+      g.drawImage(img, box[0]*W, box[1]*H, box[2]*W, box[3]*H, 0, 0, size, size);
+    }
+    const d = g.getImageData(0, 0, size, size).data, px = [];
+    for (let i = 0; i < d.length; i += 4) px.push([d[i], d[i+1], d[i+2]]);
+    const byLum = px.slice().sort((a,b) => lum(a) - lum(b));
+    const darkSet = byLum.slice(0, Math.max(1, Math.floor(px.length*0.08)));
+    let dark = [0,1,2].map(k => darkSet.reduce((s,p) => s + p[k], 0) / darkSet.length);
+    if (lum(dark) > 0.12){ const s = 0.1 / lum(dark); dark = dark.map(v => v*s); }
+
+    // Vivid hues first; a softly colored photo (sky, sand, flame) falls back to its gentler hues, strengthened
+    let vivid = px.map(p => [p, rgbToHsv(p)]).filter(([, h]) => h[1] > 0.4 && h[2] > 0.3), boost = 1.2;
+    if (vivid.length < px.length*0.02){
+      const soft = px.map(p => [p, rgbToHsv(p)]).filter(([, h]) => h[1] > 0.16 && h[2] > 0.3);
+      if (soft.length >= px.length*0.15){ vivid = soft; boost = 1.9; }
+    }
+    let cols = [];
+    if (vivid.length >= px.length*0.02){
+      const B = 24, bins = Array.from({ length:B }, () => []);
+      vivid.forEach(([p, h]) => bins[Math.floor(h[0]*B) % B].push([p, h]));
+      const score = bins.map(b => b.length ? b.length * b.reduce((s, [, h]) => s + h[1], 0) / b.length : 0);
+      const total = score.reduce((a,b) => a+b, 0), picks = [];
+      [...score.keys()].sort((a,b) => score[b] - score[a]).forEach(b => {
+        if (picks.length >= 4 || score[b] < total*0.03) return;
+        if (picks.every(p => Math.min((b-p+B) % B, (p-b+B) % B)*(360/B) >= 45)) picks.push(b);
+      });
+      cols = picks.map(b => {
+        const mean = [0,1,2].map(k => bins[b].reduce((s, [p]) => s + p[k], 0) / bins[b].length);
+        const [h,s,v] = rgbToHsv(mean);
+        return hsvToRgb([h, Math.min(1, s*boost), Math.min(1, v*1.05)]);
+      });
+    }
+    if (!cols.length){
+      // A mostly colorless cover: use its middle and light tones
+      cols = [byLum[Math.floor(px.length*0.5)], byLum[Math.floor(px.length*0.85)]];
+    }
+    cols.sort((a,b) => lum(a) - lum(b));
+    const top = cols[cols.length-1];
+    return relight([dark, ...cols, top.map(v => v + (255-v)*0.55)]).map((c, i, arr) => [i/(arr.length-1), c.map(Math.round)]);
+  }
+
+  // ---------- Tags (ID3v2.3/2.4) ----------
+  function decodeText(body){
+    const enc = body[0]; let data = body.subarray(1), label = 'iso-8859-1';
+    if (enc === 1){
+      if (data[0] === 0xFE && data[1] === 0xFF){ label = 'utf-16be'; data = data.subarray(2); }
+      else { label = 'utf-16le'; if (data[0] === 0xFF && data[1] === 0xFE) data = data.subarray(2); }
+    } else if (enc === 2) label = 'utf-16be';
+    else if (enc === 3) label = 'utf-8';
+    return new TextDecoder(label).decode(data).replace(/\0[\s\S]*$/, '').trim();
+  }
+  function readTags(u8){
+    try {
+      if (u8[0] !== 0x49 || u8[1] !== 0x44 || u8[2] !== 0x33 || u8[3] < 3) return {};
+      const ver = u8[3], ss = (b,o) => (b[o]&0x7f)<<21 | (b[o+1]&0x7f)<<14 | (b[o+2]&0x7f)<<7 | (b[o+3]&0x7f);
+      const be = (b,o) => ((b[o]<<24) | (b[o+1]<<16) | (b[o+2]<<8) | b[o+3]) >>> 0;
+      const buf = u8.subarray(10, 10 + ss(u8, 6));
+      let p = (u8[5] & 0x40) ? (ver === 4 ? ss(buf, 0) : be(buf, 0) + 4) : 0;
+      const out = {};
+      while (p + 10 <= buf.length){
+        const id = String.fromCharCode(buf[p], buf[p+1], buf[p+2], buf[p+3]);
+        if (!/^[A-Z0-9]{4}$/.test(id)) break;
+        const fs = ver === 4 ? ss(buf, p+4) : be(buf, p+4);
+        if (fs <= 0) break;
+        if (id === 'TIT2') out.title = decodeText(buf.subarray(p+10, p+10+fs));
+        p += 10 + fs;
+      }
+      return out;
+    } catch (e){ return {}; }
+  }
+
+  // ---------- Saved analysis (IndexedDB) ----------
+  let dbp = null;
+  function idb(){
+    if (!dbp) dbp = new Promise((res, rej) => {
+      try {
+        const r = indexedDB.open('albums-as-sound', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('tracks');
+        r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+      } catch (e){ rej(e); }
+    });
+    return dbp;
+  }
+  async function cacheGet(key){
+    try { const db = await idb(); return await new Promise((res) => {
+      const r = db.transaction('tracks').objectStore('tracks').get(CACHE_VERSION + '|' + key);
+      r.onsuccess = () => res(r.result || null); r.onerror = () => res(null); }); } catch (e){ return null; }
+  }
+  async function cachePut(key, val){
+    try { const db = await idb(); await new Promise((res) => {
+      const tx = db.transaction('tracks', 'readwrite'); tx.objectStore('tracks').put(val, CACHE_VERSION + '|' + key);
+      tx.oncomplete = res; tx.onerror = res; tx.onabort = res; }); } catch (e){}
+  }
+  async function cacheClear(){
+    try { const db = await idb(); await new Promise((res) => {
+      const tx = db.transaction('tracks', 'readwrite'); tx.objectStore('tracks').clear(); tx.oncomplete = res; tx.onerror = res; }); } catch (e){}
+  }
+
+  // ---------- Finding the music ----------
+  const encodePath = p => p.split('/').map(encodeURIComponent).join('/');
+  async function fetchJson(url){ const r = await fetch(url); if (!r.ok) throw new Error(r.status); return r.json(); }
+
+  async function discover(){
+    // 1. A list of files in music/manifest.json (works on any web host)
+    try {
+      const r = await fetch(SITE + MUSIC_DIR + '/manifest.json', { cache:'no-cache' });
+      if (r.ok){
+        const j = await r.json(), list = Array.isArray(j) ? j : (j.files || []);
+        const files = list.map(p => String(p).replace(/^\.?\//, '')).map(p => p.startsWith(MUSIC_DIR + '/') ? p : MUSIC_DIR + '/' + p)
+          .map(p => ({ rel: p.slice(MUSIC_DIR.length + 1), src: SITE + encodePath(p), key: p }));
+        if (files.length) return files;
+      }
+    } catch (e){}
+    // 2. Ask GitHub which files are in the repository
+    try {
+      const owner = GITHUB.owner, repo = GITHUB.repo;
+      const info = await fetchJson('https://api.github.com/repos/' + owner + '/' + repo);
+      const tree = await fetchJson('https://api.github.com/repos/' + owner + '/' + repo + '/git/trees/' + encodeURIComponent(info.default_branch) + '?recursive=1');
+      const files = tree.tree.filter(n => n.type === 'blob' && n.path.startsWith(MUSIC_DIR + '/'))
+        .map(n => ({ rel: n.path.slice(MUSIC_DIR.length + 1), src: SITE + encodePath(n.path), key: n.path + '@' + n.sha }));
+      if (files.length) return files;
+    } catch (e){}
+    return null;
+  }
+
+  function buildLibrary(files){
+    const artists = new Map();
+    files.forEach(f => {
+      const segs = f.rel.split('/').filter(Boolean);
+      if (segs.length < 3) return;
+      const name = segs[segs.length-1];
+      if (name.startsWith('.')) return;
+      const isAudio = AUDIO_RE.test(name), isImage = IMAGE_RE.test(name);
+      if (!isAudio && !isImage) return;
+      const [artistKey, albumKey] = segs;
+      if (!artists.has(artistKey)) artists.set(artistKey, { key:artistKey, name:tidyFolder(artistKey), albums:new Map() });
+      const ar = artists.get(artistKey);
+      if (!ar.albums.has(albumKey)) ar.albums.set(albumKey, { key:albumKey, name:tidyFolder(albumKey), artist:ar, files:[], images:[] });
+      const al = ar.albums.get(albumKey);
+      (isAudio ? al.files : al.images).push(f);
+    });
+    const out = [...artists.values()].sort((a,b) => natural(a.key, b.key)).map(ar => {
+      ar.albums = [...ar.albums.values()].filter(al => al.files.length).sort((a,b) => natural(a.key, b.key)).map(al => {
+        al.files.sort((a,b) => natural(a.rel, b.rel));
+        const pref = al.images.find(i => /cover|folder|front|album/i.test(i.rel.split('/').pop())) || al.images[0];
+        al.cover = pref ? pref.src : null;
+        al.tracks = al.files.map((f, i) => ({ album:al, no:i+1, idx:i, src:f.src, key:f.key, title:tidy(f.rel.split('/').pop()), status:'idle' }));
+        al.status = 'idle'; al.stops = DEFAULT_STOPS; al.lut = buildLut(DEFAULT_STOPS); al.dur = 0;
+        delete al.files; delete al.images;
+        return al;
+      });
+      return ar;
+    }).filter(ar => ar.albums.length);
+    return out;
+  }
+
+  async function getBytes(src){
+    if (src instanceof File) return src.arrayBuffer();
+    const r = await fetch(src); if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.arrayBuffer();
+  }
+  function srcUrl(src){ return src instanceof File ? URL.createObjectURL(src) : src; }
+
+  async function start(files){
+    S.artists = buildLibrary(files);
+    S.albums = S.artists.flatMap(a => a.albums);
+    if (!S.albums.length){
+      showView('pick');
+      setStatus($('pickStatus'), 'No albums were found. The music folder should hold artist folders, each with album folders containing songs.', true);
+      return;
+    }
+    S.focus = artistFromHash();   // e.g. …/#pink-floyd opens on that artist
+    buildMatrix();
+    showView('overview');
+    S.albums.forEach(al => loadCover(al));
+    // Albums analysed before open straight away from saved data
+    for (const al of S.albums) await restoreAlbum(al);
+    if (S.focus) S.focus.albums.forEach(queueAlbum);
+  }
+
+  // ---------- Covers ----------
+  function loadCover(al){
+    if (!al.cover) return;
+    const url = srcUrl(al.cover);
+    al.coverUrl = url;
+    al.thumb.crossOrigin = 'anonymous'; al.thumb.src = url; al.thumb.hidden = false;
+    const img = new Image(); img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try { al.stops = extractPalette(img); al.lut = buildLut(al.stops); } catch (e){}
+      al.tracks.forEach(t => { t.base = null; t.sbase = null; });
+      al.base = null;
+      drawAll();
+    };
+    img.src = url;
+  }
+
+  // ---------- Analysing albums ----------
+  function trackData(t, d){
+    Object.assign(t, { dur:d.dur, sr:d.sr, fmax:d.fmax, peak:d.peak, rms:d.rms, q:d.q, q0:d.q, peak0:d.peak, rms0:d.rms, gain:0, status:'ready' });
+    // Song names always come from the file name, never from tags inside the file
+  }
+  async function restoreAlbum(al){
+    if (al.status !== 'idle') return;
+    const got = [];
+    for (const t of al.tracks){ const d = await cacheGet(t.key); if (!d) return; got.push(d); }
+    al.tracks.forEach((t, i) => trackData(t, got[i]));
+    finishAlbum(al);
+  }
+  function queueAlbum(al){
+    if (al.status === 'ready' || al.status === 'loading' || al.status === 'queued') return S.chain;
+    al.status = 'queued'; drawCell(al);
+    S.chain = S.chain.then(() => analyseAlbum(al));
+    return S.chain;
+  }
+  async function analyseAlbum(al){
+    al.status = 'loading'; al.progress = 0; drawCell(al);
+    let failed = 0;
+    for (const t of al.tracks){
+      if (t.status === 'ready') continue;
+      al.progress = t.no; drawCell(al);
+      if (S.view === 'album' && S.album === al) setStatus($('albumStatus'), 'Analysing song ' + t.no + ' of ' + al.tracks.length + '…');
+      t.status = 'working'; drawTile(t);
+      try {
+        const cached = await cacheGet(t.key);
+        if (cached) trackData(t, cached);
+        else {
+          const ab = await getBytes(t.src);
+          const tags = readTags(new Uint8Array(ab, 0, Math.min(ab.byteLength, 4e6)));
+          const buf = await decode(ab);
+          const mono = toMono(buf), env = envelope(mono, COLS);
+          const r = await computeDb(mono, buf.sampleRate, 0, mono.length, COLS, ROWS, N, 100);
+          const d = { dur:buf.duration, sr:buf.sampleRate, fmax:r.fmax, peak:env.peak, rms:env.rms, q:quantise(r.db), title:tags.title || '' };
+          trackData(t, d);
+          cachePut(t.key, d);
+        }
+      } catch (e){ t.status = 'error'; failed++; }
+      if (S.view === 'album' && S.album === al){ updateAlbumHeader(); sizeTiles(); }
+    }
+    al.failed = failed;
+    finishAlbum(al);
+  }
+  // Level-match outliers: a song more than LM_GAP dB quieter than its album's typical (median) level
+  // is raised to LM_GAP dB below that level. Every other song stays on the shared loudness scale.
+  const LM_GAP = 10, LM_MAX = 30;
+  function songLevel(t){
+    let sum = 0; for (let i = 0; i < t.rms0.length; i++) sum += t.rms0[i]*t.rms0[i];
+    return 10*Math.log10(sum / t.rms0.length + 1e-12);
+  }
+  function setGain(t, g){
+    if (Math.abs((t.gain || 0) - g) < 0.05) return;
+    t.gain = g;
+    if (g <= 0){ t.q = t.q0; t.peak = t.peak0; t.rms = t.rms0; }
+    else {
+      const k = g*255/(QHI-QLO), lin = Math.pow(10, g/20);
+      t.q = new Uint8Array(t.q0.length); for (let i = 0; i < t.q0.length; i++) t.q[i] = Math.min(255, Math.round(t.q0[i] + k));
+      t.peak = t.peak0.map(v => Math.min(1, v*lin)); t.rms = t.rms0.map(v => v*lin);
+    }
+    t.bands = null; t.img = null; t.base = null; t.sbase = null;
+  }
+  function levelMatch(al){
+    const ready = al.tracks.filter(t => t.status === 'ready'); if (!ready.length) return;
+    const lv = ready.map(songLevel), sorted = lv.slice().sort((a,b) => a-b), med = sorted[Math.floor(sorted.length/2)];
+    ready.forEach((t, i) => setGain(t, Math.min(LM_MAX, Math.max(0, (med - LM_GAP) - lv[i]))));
+  }
+  const gainLabel = t => '';   // the boost is applied but not labeled
+  function finishAlbum(al){
+    al.status = 'ready';
+    levelMatch(al);
+    const ready = al.tracks.filter(t => t.status === 'ready');
+    al.dur = ready.reduce((s,t) => s + t.dur, 0);
+    al.maxSong = Math.max(1, ...ready.map(t => t.dur));
+    S.maxAlbumDur = Math.max(1, ...S.albums.filter(a => a.status === 'ready').map(a => a.dur));
+    buildStrip(al);
+    updateCellText(al);
+    if (S.view === 'album' && S.album === al){
+      updateAlbumHeader(); sizeTiles();
+      setStatus($('albumStatus'), al.failed ? al.failed + (al.failed === 1 ? ' file couldn’t be read and is left blank.' : ' files couldn’t be read and are left blank.') : '', !!al.failed);
+    }
+    drawAll();
+  }
+
+  // ---------- Irisgram ----------
+  // Time runs clockwise from 12 o'clock. Frequency runs outward: low notes on the inner edge
+  // of the ring, high notes on the outer edge. The waveform circles inside the ring.
+  const TAU = Math.PI * 2;
+  const ARC = 0.96;   // a whole song (or the longest album) spans 96% of the circle; the gap marks start and end
+  const angOf = f => -Math.PI/2 + f*TAU;
+  function irisGeom(size, pad){
+    const R = Math.max(10, size/2 - pad);
+    return { size, cx:size/2, cy:size/2, R1:R, R0:R*0.46, rb:R*0.27, A:R*0.15 };
+  }
+  function polarAt(e, canvas, G){
+    const b = canvas.getBoundingClientRect(), dx = e.clientX - b.left - G.cx, dy = e.clientY - b.top - G.cy;
+    let a = Math.atan2(dx, -dy); if (a < 0) a += TAU;
+    return { r: Math.hypot(dx, dy), f: a / TAU };
+  }
+  // Paint the spectrogram ring once per size; playheads and hovers are drawn on top each frame
+  function irisBase(G, dpr, arc, n, rows, qAt, lut){
+    const px = Math.round(G.size*dpr), cnv = document.createElement('canvas'); cnv.width = cnv.height = px;
+    const ctx = cnv.getContext('2d'), img = ctx.createImageData(px, px), d = img.data;
+    const cx = G.cx*dpr, cy = G.cy*dpr, R0 = G.R0*dpr, R1 = G.R1*dpr, span = R1 - R0;
+    for (let y = 0; y < px; y++){
+      const dy = y + 0.5 - cy;
+      for (let x = 0; x < px; x++){
+        const dx = x + 0.5 - cx, r = Math.sqrt(dx*dx + dy*dy);
+        if (r < R0 - 1 || r > R1 + 1) continue;
+        let a = Math.atan2(dx, -dy); if (a < 0) a += TAU;
+        const f = a / TAU; if (f >= arc) continue;
+        const col = Math.min(n-1, (f/arc*n) | 0), row = Math.max(0, Math.min(rows-1, ((r-R0)/span*rows) | 0));
+        const k = qAt(col, row)*3, p = (y*px + x)*4;
+        d[p] = lut[k]; d[p+1] = lut[k+1]; d[p+2] = lut[k+2];
+        d[p+3] = 255 * Math.max(0, Math.min(1, r - R0 + 0.5, R1 - r + 0.5, (arc - f)*TAU*r + 0.5, f*TAU*r + 0.5));
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    return cnv;
+  }
+  // Envelope waveform wrapped around a circle inside the ring
+  function drawWave(g, G, arc, n, peak, rms, played, C){
+    const N = Math.max(48, Math.min(n, Math.round(TAU*G.rb*arc)));
+    const P = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
+    for (let i = 0; i < N; i++){
+      const i0 = Math.floor(i/N*n), i1 = Math.max(i0+1, Math.floor((i+1)/N*n));
+      let pk = 0, rs = 0;
+      for (let k = i0; k < i1; k++){ if (peak[k] > pk) pk = peak[k]; if (rms[k] > rs) rs = rms[k]; }
+      const f = (i + 0.5)/N, a = angOf(f*arc), ca = Math.cos(a), sa = Math.sin(a), on = played(f) ? 1 : 0;
+      const p = Math.min(1, pk)*G.A, r = Math.min(1, rs*1.5)*G.A;
+      P[on].moveTo(G.cx + ca*(G.rb-p), G.cy + sa*(G.rb-p)); P[on].lineTo(G.cx + ca*(G.rb+p), G.cy + sa*(G.rb+p));
+      P[2+on].moveTo(G.cx + ca*(G.rb-r), G.cy + sa*(G.rb-r)); P[2+on].lineTo(G.cx + ca*(G.rb+r), G.cy + sa*(G.rb+r));
+    }
+    g.lineWidth = Math.max(0.8, TAU*G.rb*arc/N*0.8);
+    g.globalAlpha = 0.35; g.strokeStyle = C.faint; g.stroke(P[0]); g.strokeStyle = C.ink; g.stroke(P[1]);
+    g.globalAlpha = 1; g.strokeStyle = C.wave; g.stroke(P[2]); g.strokeStyle = C.ink; g.stroke(P[3]);
+  }
+  // Raw (signed) waveform for the close-up
+  function drawSigned(g, G, arc, mins, maxs, played, C){
+    const N = mins.length, P = [new Path2D(), new Path2D()];
+    for (let i = 0; i < N; i++){
+      const f = (i + 0.5)/N, a = angOf(f*arc), ca = Math.cos(a), sa = Math.sin(a), on = played(f) ? 1 : 0;
+      const lo = G.rb + Math.max(-1, mins[i])*G.A, hi = G.rb + Math.min(1, maxs[i])*G.A + 0.3;
+      P[on].moveTo(G.cx + ca*lo, G.cy + sa*lo); P[on].lineTo(G.cx + ca*hi, G.cy + sa*hi);
+    }
+    g.lineWidth = Math.max(0.8, TAU*G.rb*arc/N*0.9);
+    g.strokeStyle = C.wave; g.stroke(P[0]); g.strokeStyle = C.ink; g.stroke(P[1]);
+  }
+  function radial(g, G, f, r0, r1, color, w){
+    const a = angOf(f), ca = Math.cos(a), sa = Math.sin(a);
+    g.strokeStyle = color; g.lineWidth = w; g.beginPath();
+    g.moveTo(G.cx + ca*r0, G.cy + sa*r0); g.lineTo(G.cx + ca*r1, G.cy + sa*r1); g.stroke();
+  }
+  // Playhead and hover: dark across the waveform, white across the spectrogram
+  function irisLine(g, G, f, C, w){
+    radial(g, G, f, G.rb - G.A - 2, G.rb + G.A + 2, C.ink, w);
+    radial(g, G, f, G.R0, G.R1, '#ffffff', w);
+  }
+  function wedge(g, G, f0, f1, r0, r1, color){
+    g.strokeStyle = color; g.lineWidth = 1.5; g.beginPath();
+    g.arc(G.cx, G.cy, r1, angOf(f0), angOf(f1)); g.arc(G.cx, G.cy, r0, angOf(f1), angOf(f0), true);
+    g.closePath(); g.stroke();
+  }
+  // A thin scale ring just outside, spanning the longest item, with ticks
+  function scaleRing(g, G, arcFull, ticks, C){
+    g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath();
+    g.arc(G.cx, G.cy, G.R1 + 4, angOf(0), angOf(arcFull)); g.stroke();
+    ticks.forEach(f => radial(g, G, f, G.R1 + 1.5, G.R1 + 7, C.faint, 1));
+  }
+  function emptyIris(g, G, msg, C){
+    g.strokeStyle = C.line; g.lineWidth = 1;
+    g.beginPath(); g.arc(G.cx, G.cy, G.R1, 0, TAU); g.stroke();
+    g.beginPath(); g.arc(G.cx, G.cy, G.R0, 0, TAU); g.stroke();
+    if (msg){ g.fillStyle = C.faint; g.font = '11px ' + FONT; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(msg, G.cx, G.cy); }
+  }
+  const tip = $('tip');
+  function showTip(e, text){
+    tip.textContent = text; tip.hidden = false;
+    const w = tip.offsetWidth, x = e.clientX + 14 + w > window.innerWidth ? e.clientX - 14 - w : e.clientX + 14;
+    tip.style.left = x + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+  }
+  function hideTip(){ tip.hidden = true; }
+
+  // Three-band waveform: lows (kicks, bass), mids (vocals, instruments), highs (hi-hats, cymbals).
+  // Each band has its own fixed scale, the same for every song and album, because highs naturally
+  // carry far less energy than lows and would vanish on a single shared scale.
+  const BANDS = [
+    { name:'Low',  hint:'kicks, bass',          f0:30,   f1:250,   lo:10,  hi:50, pos:0.27 },
+    { name:'Mid',  hint:'vocals, instruments',  f0:250,  f1:4000,  lo:4,   hi:40, pos:0.50 },
+    { name:'High', hint:'hi-hats, cymbals',     f0:4000, f1:12000, lo:-10, hi:24, pos:0.73 }
+  ];
+  const QPOW = new Float64Array(256);
+  for (let q = 0; q < 256; q++) QPOW[q] = Math.pow(10, (QLO + q/255*(QHI-QLO))/10);
+  function bandLevels(q, cols, rows, fmax){
+    const lr = Math.log(fmax/FMIN), rowOf = f => Math.max(0, Math.min(rows, Math.round(rows*Math.log(f/FMIN)/lr)));
+    return BANDS.map(b => {
+      const r0 = rowOf(b.f0), r1 = Math.max(r0 + 1, rowOf(Math.min(b.f1, fmax))), out = new Float32Array(cols);
+      for (let c = 0; c < cols; c++){
+        let sum = 0; for (let r = r0; r < r1; r++) sum += QPOW[q[c*rows + r]];
+        const db = 10*Math.log10(sum/(r1 - r0));
+        out[c] = Math.max(0, Math.min(1, (db - b.lo)/(b.hi - b.lo)));
+      }
+      return out;
+    });
+  }
+  const trackBands = t => t.bands || (t.bands = bandLevels(t.q, COLS, ROWS, t.fmax));
+  // Band colors come from the album's own palette, so they match its irisgram
+  function bandColors(al){
+    if (!al.bc || al.bcStops !== al.stops){ al.bc = BANDS.map(b => 'rgb(' + cmapWith(al.stops, b.pos).map(Math.round).join(',') + ')'); al.bcStops = al.stops; }
+    return al.bc;
+  }
+  function bandLegendHtml(al){
+    const c = bandColors(al);
+    return 'Waveform rings, inside out: ' + BANDS.map((b, i) => '<span class="sw" style="background:' + c[i] + '"></span>' + b.name + ' <span class="lg-hint">(' + b.hint + ')</span>').join(' ');
+  }
+  // Three concentric lanes inside the ring: lows innermost, highs outermost, each mirrored around its own center line
+  function drawBands(g, G, arc, n, bands, played, cols){
+    const N = Math.max(48, Math.min(n, Math.round(TAU*G.rb*arc)));
+    const lane = 2*G.A/3, inner = G.rb - G.A;
+    const P = bands.map(() => [new Path2D(), new Path2D()]);
+    for (let i = 0; i < N; i++){
+      const i0 = Math.floor(i/N*n), i1 = Math.max(i0 + 1, Math.floor((i+1)/N*n));
+      const f = (i + 0.5)/N, a = angOf(f*arc), ca = Math.cos(a), sa = Math.sin(a), on = played(f) ? 1 : 0;
+      for (let k = 0; k < bands.length; k++){
+        let v = 0; for (let j = i0; j < i1; j++) if (bands[k][j] > v) v = bands[k][j];
+        const c = inner + (k + 0.5)*lane, h = Math.max(0.35, v*lane*0.47);
+        P[k][on].moveTo(G.cx + ca*(c - h), G.cy + sa*(c - h)); P[k][on].lineTo(G.cx + ca*(c + h), G.cy + sa*(c + h));
+      }
+    }
+    g.lineWidth = Math.max(0.8, TAU*G.rb*arc/N*0.85);
+    for (let k = 0; k < P.length; k++){
+      g.strokeStyle = cols[k];
+      g.globalAlpha = 1; g.stroke(P[k][0]);
+      g.globalAlpha = 0.3; g.stroke(P[k][1]);   // already played: faded
+    }
+    g.globalAlpha = 1;
+  }
+
+  // Album timeline (songs end to end), pooled to a size that suits the small overview circles
+  function buildStrip(al){
+    const W = 480, R = 64, ready = al.tracks.filter(t => t.status === 'ready');
+    al.base = null;
+    if (!ready.length || !al.dur){ al.oq = null; return; }
+    al.bounds = []; let acc = 0; ready.forEach(t => { al.bounds.push({ t, start:acc, end:acc + t.dur }); acc += t.dur; });
+    al.oq = new Uint8Array(W*R); al.opeak = new Float32Array(W); al.orms = new Float32Array(W);
+    al.obands = BANDS.map(() => new Float32Array(W));
+    const step = ROWS / R; let bi = 0;
+    for (let x = 0; x < W; x++){
+      const time = (x + 0.5) / W * al.dur;
+      while (bi < al.bounds.length - 1 && time > al.bounds[bi].end) bi++;
+      const b = al.bounds[bi], t = b.t;
+      const c0 = Math.max(0, Math.floor((x/W*al.dur - b.start)/t.dur*COLS));
+      const c1 = Math.min(COLS, Math.max(c0 + 1, Math.ceil(((x+1)/W*al.dur - b.start)/t.dur*COLS)));
+      let pk = 0, rs = 0;
+      for (let c = c0; c < c1; c++){ if (t.peak[c] > pk) pk = t.peak[c]; if (t.rms[c] > rs) rs = t.rms[c]; }
+      al.opeak[x] = pk; al.orms[x] = rs;
+      const tb = trackBands(t);
+      for (let k = 0; k < BANDS.length; k++){ let v = 0; for (let c = c0; c < c1; c++) if (tb[k][c] > v) v = tb[k][c]; al.obands[k][x] = v; }
+      for (let r = 0; r < R; r++){
+        let m = 0; const r0 = Math.floor(r*step), r1 = Math.floor((r+1)*step);
+        for (let c = c0; c < c1; c++) for (let k = r0; k < r1; k++){ const v = t.q[c*ROWS + k]; if (v > m) m = v; }
+        al.oq[x*R + r] = m;
+      }
+    }
+    al.oW = W; al.oR = R;
+  }
+
+  // ---------- Views ----------
+  function showView(v){
+    S.view = v;
+    $('vLoading').hidden = v !== 'loading'; $('vPick').hidden = v !== 'pick';
+    $('vOverview').hidden = v !== 'overview'; $('vAlbum').hidden = v !== 'album'; $('vSong').hidden = v !== 'song';
+    VMAIN.classList.toggle('fill', v === 'overview');
+    $('footer').hidden = v === 'overview' || v === 'loading' || v === 'pick';
+    updateBar();
+  }
+  function tapper(onSingle, onDouble){
+    let last = { t:0, x:0, y:0 };
+    return e => {
+      const now = performance.now();
+      if (now - last.t < 380 && Math.abs(e.clientX - last.x) < 24 && Math.abs(e.clientY - last.y) < 24){ last.t = 0; onDouble(e); return; }
+      last = { t:now, x:e.clientX, y:e.clientY };
+      onSingle(e);
+    };
+  }
+
+  // ---------- Overview ----------
+  function buildMatrix(){
+    const m = $('matrix'); m.innerHTML = '';
+    m.style.setProperty('--rows', S.artists.length);
+    S.artists.forEach(ar => {
+      const row = document.createElement('section'); row.className = 'artist-row'; ar.row = row;
+      const h = document.createElement('h4');
+      const nb = document.createElement('button'); nb.className = 'artist-name'; nb.textContent = ar.name;
+      nb.addEventListener('click', () => focusArtist(S.focus === ar ? null : ar));
+      ar.nameBtn = nb; h.appendChild(nb);
+      const cnt = document.createElement('span'); cnt.className = 'count'; cnt.textContent = ar.albums.length + (ar.albums.length === 1 ? ' album' : ' albums');
+      h.appendChild(cnt); row.appendChild(h);
+      ar.albums.forEach(al => {
+        const cell = document.createElement('div'); cell.className = 'cell';
+        cell.innerHTML = '<div class="strip" tabindex="0" role="button"><canvas></canvas></div><div class="cell-head"><img alt="" hidden><div class="t"><button class="open"></button><span class="sub"></span></div><button class="vbtn small load">Load</button></div>';
+        al.cell = cell; al.thumb = cell.querySelector('img'); al.sub = cell.querySelector('.sub');
+        al.loadBtn = cell.querySelector('.load'); al.stripBox = cell.querySelector('.strip'); al.cv = cell.querySelector('canvas');
+        const open = cell.querySelector('.open'); open.textContent = al.name; open.title = al.name;
+        open.addEventListener('click', () => openAlbum(al));
+        al.loadBtn.addEventListener('click', () => queueAlbum(al));
+        al.stripBox.setAttribute('aria-label', al.name + ' by ' + ar.name + '. Press Enter to open, Space to play.');
+        al.cv.addEventListener('pointerdown', tapper(e => { const hit = stripHit(al, e); if (hit) playTrack(hit.t, hit.at); }, () => { hideTip(); openAlbum(al); }));
+        al.cv.addEventListener('pointermove', e => {
+          if (e.pointerType === 'touch') return;
+          al.hover = stripHit(al, e);
+          if (al.hover) showTip(e, al.hover.t.no + '. ' + al.hover.t.title + ', ' + fmt(al.hover.at)); else hideTip();
+          drawCell(al);
+        });
+        al.cv.addEventListener('pointerleave', () => { al.hover = null; hideTip(); drawCell(al); });
+        al.stripBox.addEventListener('keydown', e => {
+          if (e.key === 'Enter'){ e.preventDefault(); e.stopPropagation(); openAlbum(al); }
+          else if (e.key === ' '){ e.preventDefault(); e.stopPropagation();
+            if (S.play && S.play.album === al) toggle(); else { const t = al.tracks.find(t => t.status === 'ready'); if (t) playTrack(t, 0); else queueAlbum(al); } }
+        });
+        updateCellText(al);
+        row.appendChild(cell);
+      });
+      m.appendChild(row);
+    });
+    buildArtistsNav();
+    applyFocus();
+  }
+
+  // ---------- One artist ----------
+  // The overview narrowed to one artist's row, so their albums are drawn larger side by side.
+  const slug = s => s.toLowerCase().normalize('NFKD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
+  function buildArtistsNav(){
+    const nav = $('artistsNav'); nav.innerHTML = '';
+    const mk = (label, ar) => {
+      const b = document.createElement('button'); b.textContent = label; b.dataset.k = ar ? ar.key : '';
+      b.addEventListener('click', () => focusArtist(ar));
+      nav.appendChild(b);
+    };
+    mk('All artists', null);
+    const sep = document.createElement('span'); sep.className = 'sep'; sep.textContent = '|'; sep.setAttribute('aria-hidden', 'true'); nav.appendChild(sep);
+    S.artists.forEach(ar => mk(ar.name, ar));
+  }
+  function applyFocus(){
+    const f = S.focus;
+    $('matrix').classList.toggle('focus', !!f);
+    $('matrix').style.setProperty('--rows', f ? 1 : S.artists.length);
+    S.artists.forEach(ar => {
+      if (ar.row) ar.row.classList.toggle('on', ar === f);
+      if (ar.nameBtn) ar.nameBtn.title = ar === f ? 'Show every artist' : 'Show only ' + ar.name;
+    });
+    $('artistsNav').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === (f ? f.key : ''))));
+    $('loadAll').textContent = f ? 'Load these albums' : 'Load every album';
+    sizeCells();
+  }
+  function focusArtist(ar, fromHash){
+    S.focus = ar || null;
+    if (!fromHash){
+      const h = ar ? '#' + slug(ar.name) : ' ';
+      try { history.replaceState(null, '', h === ' ' ? location.pathname + location.search : h); } catch(e){}
+    }
+    if (S.view !== 'overview'){ S.micro = null; microEl.hidden = true; showView('overview'); }
+    applyFocus();
+    toStage();
+    if (ar) ar.albums.forEach(queueAlbum);   // their albums start loading right away
+  }
+  function artistFromHash(){
+    const h = decodeURIComponent(location.hash.slice(1)); if (!h) return null;
+    return S.artists.find(a => slug(a.name) === slug(h)) || null;
+  }
+  function updateCellText(al){
+    if (!al.sub) return;
+    al.sub.textContent = al.tracks.length + (al.tracks.length === 1 ? ' song' : ' songs') + (al.status === 'ready' ? ', ' + fmt(al.dur) : '');
+    al.loadBtn.hidden = al.status === 'ready';
+    al.loadBtn.disabled = al.status === 'loading' || al.status === 'queued';
+    al.loadBtn.textContent = al.status === 'loading' ? 'Loading…' : al.status === 'queued' ? 'Waiting…' : 'Load';
+  }
+  function sizeCells(){
+    const dpr = window.devicePixelRatio || 1;
+    S.albums.forEach(al => {
+      if (!al.stripBox) return;
+      const size = Math.min(al.stripBox.clientWidth, al.stripBox.clientHeight); if (!size) return;
+      al.cv.width = al.cv.height = Math.round(size*dpr); al.cv.style.width = al.cv.style.height = size + 'px';
+      al.L = { size, dpr, G: irisGeom(size, 8) };
+      drawCell(al);
+    });
+  }
+  const albumArc = al => 1;   // every album fills the whole circle
+  function stripHit(al, e){
+    if (al.status !== 'ready' || !al.bounds || !al.L) return null;
+    const G = al.L.G, p = polarAt(e, al.cv, G), arc = albumArc(al);
+    if (p.f > arc || p.r < G.rb - G.A - 4 || p.r > G.R1 + 6) return null;
+    const time = p.f / arc * al.dur, b = al.bounds.find(b => time <= b.end) || al.bounds[al.bounds.length-1];
+    return { t:b.t, at: time - b.start, f: p.f };
+  }
+  function drawCell(al){
+    if (!al || !al.L || S.view !== 'overview') return;
+    updateCellText(al);
+    const g = al.cv.getContext('2d'), C = colors(), G = al.L.G;
+    g.setTransform(al.L.dpr,0,0,al.L.dpr,0,0);
+    g.clearRect(0,0,G.size,G.size);
+    const ticks = []; if (al.dur) for (let s = 600; s < al.dur; s += 600) ticks.push(s / al.dur);   // every 10 minutes of this album
+    if (al.status !== 'ready' || !al.oq){
+      const msg = al.status === 'loading' ? al.progress + ' / ' + al.tracks.length : al.status === 'queued' ? 'Waiting' : '';
+      emptyIris(g, G, msg, C);
+      return;
+    }
+    const arc = albumArc(al), key = G.size + '|' + al.L.dpr + '|' + arc;
+    if (!al.base || al.baseKey !== key){
+      al.base = irisBase(G, al.L.dpr, arc, al.oW, al.oR, (c, r) => al.oq[c*al.oR + r], al.lut); al.baseKey = key;
+    }
+    scaleRing(g, G, 1, ticks, C);
+    radial(g, G, 0, G.R1 + 1.5, G.R1 + 8, C.ink, 1.5);   // start, at 12 o'clock
+    g.drawImage(al.base, 0, 0, G.size, G.size);
+    const playing = S.play && S.play.album === al ? al.bounds.find(b => b.t === S.play) : null;
+    const a0 = playing ? playing.start/al.dur : 2, a1 = playing ? (playing.start + curTime())/al.dur : -1;
+    drawBands(g, G, arc, al.oW, al.obands, f => f >= a0 && f <= a1, bandColors(al));
+    al.bounds.slice(0, -1).forEach(b => radial(g, G, b.end/al.dur*arc, G.rb - G.A - 2, G.R1 + 1, C.bg, 1.5));   // gaps between songs
+    if (al.hover) irisLine(g, G, al.hover.f, C, 1);
+    if (playing) irisLine(g, G, a1*arc, C, 2);
+  }
+
+  // ---------- Album view ----------
+  function openAlbum(al){
+    S.album = al;
+    $('albumTitle').textContent = al.name;
+    $('albumArtist').textContent = al.artist.name;
+    $('albumBack').textContent = S.focus ? 'Back to ' + S.focus.name : 'Back to all albums';
+    $('albumArtistBtn').textContent = S.focus ? 'All artists' : 'All ' + al.artist.name + ' albums';
+    const ci = $('albumCover');
+    if (al.coverUrl){ ci.src = al.coverUrl; ci.hidden = false; } else ci.hidden = true;
+    setStatus($('albumStatus'), '');
+    buildGrid(al);
+    showView('album');
+    updateAlbumHeader();
+    toStage();
+    sizeTiles();
+    queueAlbum(al);
+  }
+  function updateAlbumHeader(){
+    const al = S.album; if (!al) return;
+    const ready = al.tracks.filter(t => t.status === 'ready');
+    $('albumMeta').textContent = al.tracks.length + (al.tracks.length === 1 ? ' song' : ' songs') + (al.status === 'ready' ? ', ' + fmt(al.dur) : '');
+    $('albumRamp').style.background = rampCss(al.stops);
+    $('albumBands').innerHTML = bandLegendHtml(al);
+    if (al.status !== 'ready') al.maxSong = Math.max(1, ...ready.map(t => t.dur));
+    al.tracks.forEach(t => {
+      if (t.durEl){ t.durEl.textContent = t.status === 'ready' ? fmt(t.dur) + gainLabel(t) : ''; t.durEl.title = ''; }
+      if (t.nameEl) { t.nameEl.textContent = t.title; t.nameEl.title = t.title; }
+    });
+  }
+  function backToOverview(){
+    S.micro = null; microEl.hidden = true; hideTip();
+    if (S.album) S.album.tracks.forEach(t => { t.base = null; t.sbase = null; });  // free memory
+    showView('overview'); sizeCells();
+    if (S.album) S.album.stripBox.scrollIntoView({ block:'center' });
+    if (S.album) S.album.stripBox.focus({ preventScroll:true });
+  }
+  const songArc = t => ARC * (t.dur || 0) / (t.album.maxSong || 1);
+  function buildGrid(al){
+    const grid = $('grid'); grid.innerHTML = '';
+    al.tracks.forEach(t => {
+      const li = document.createElement('li'); li.className = 'tile';
+      li.innerHTML = '<h4><span class="no"></span><span class="name"></span><span class="dur"></span></h4><div class="tplot" tabindex="0" role="button"><canvas></canvas></div>';
+      li.querySelector('.no').textContent = t.no;
+      t.li = li; t.nameEl = li.querySelector('.name'); t.cv = li.querySelector('canvas'); t.box = li.querySelector('.tplot'); t.durEl = li.querySelector('.dur');
+      t.box.setAttribute('aria-label', t.no + '. ' + t.title + '. Press Enter to enlarge, Space to play.');
+      const hit = e => {
+        if (t.status !== 'ready' || !t.L) return null;
+        const G = t.L.G, p = polarAt(e, t.cv, G), arc = songArc(t);
+        if (p.f > arc || p.r < G.rb - G.A - 4 || p.r > G.R1 + 6) return null;
+        return { f: p.f, at: p.f / arc * t.dur };
+      };
+      t.cv.addEventListener('pointerdown', tapper(e => { const h = hit(e); if (h) playTrack(t, h.at); }, () => { if (t.status === 'ready'){ hideTip(); openSong(t); } }));
+      t.cv.addEventListener('pointermove', e => {
+        if (e.pointerType === 'touch') return;
+        t.hover = hit(e);
+        if (t.hover) showTip(e, fmt(t.hover.at)); else hideTip();
+        drawTile(t);
+      });
+      t.cv.addEventListener('pointerleave', () => { t.hover = null; hideTip(); drawTile(t); });
+      t.box.addEventListener('keydown', e => {
+        if (t.status !== 'ready') return;
+        if (e.key === 'Enter'){ e.preventDefault(); e.stopPropagation(); openSong(t); }
+        else if (e.key === ' '){ e.preventDefault(); e.stopPropagation(); if (S.play === t) toggle(); else playTrack(t, 0); }
+      });
+      grid.appendChild(li);
+    });
+    refreshPlaying();
+  }
+  function sizeTiles(){
+    if (S.view !== 'album' || !S.album) return;
+    const dpr = window.devicePixelRatio || 1;
+    S.album.tracks.forEach(t => {
+      if (!t.box) return;
+      const size = t.box.clientWidth; if (!size) return;
+      t.cv.width = t.cv.height = Math.round(size*dpr); t.cv.style.width = t.cv.style.height = size + 'px';
+      t.L = { size, dpr, G: irisGeom(size, 10) };
+      drawTile(t);
+    });
+  }
+  function drawTile(t){
+    if (!t || !t.L || S.view !== 'album' || S.album !== t.album) return;
+    const g = t.cv.getContext('2d'), C = colors(), G = t.L.G;
+    g.setTransform(t.L.dpr,0,0,t.L.dpr,0,0);
+    g.clearRect(0,0,G.size,G.size);
+    if (t.status !== 'ready'){ emptyIris(g, G, t.status === 'error' ? 'Couldn’t read this file' : t.status === 'working' ? 'Analysing…' : 'Waiting…', C); return; }
+    const arc = songArc(t), key = G.size + '|' + t.L.dpr + '|' + arc;
+    if (!t.base || t.baseKey !== key){
+      t.base = irisBase(G, t.L.dpr, arc, COLS, ROWS, (c, r) => t.q[c*ROWS + r], t.album.lut); t.baseKey = key;
+    }
+    const ticks = []; for (let s = 60; s < t.album.maxSong; s += 60) ticks.push(ARC * s / t.album.maxSong);   // every minute
+    scaleRing(g, G, ARC, ticks, C);
+    g.drawImage(t.base, 0, 0, G.size, G.size);
+    const isPlay = S.play === t, pf = isPlay ? curTime()/t.dur : -1;
+    drawBands(g, G, arc, COLS, trackBands(t), f => f <= pf, bandColors(t.album));
+    if (t.hover) irisLine(g, G, t.hover.f, C, 1);
+    if (isPlay) irisLine(g, G, pf*arc, C, 2);
+  }
+
+  // ---------- Song view ----------
+  function openSong(t){
+    if (S.song && S.song !== t) S.song.sbase = null;
+    S.song = t; S.micro = null; microEl.hidden = true; S.hover = null;
+    $('songTitle').textContent = t.title;
+    $('songMeta').textContent = t.album.artist.name + ', ' + t.album.name + ', song ' + t.no + ' of ' + t.album.tracks.length + ', ' + fmt(t.dur);
+    plot.setAttribute('aria-valuemax', Math.round(t.dur));
+    $('songBands').innerHTML = bandLegendHtml(t.album);
+    showView('song');
+    toStage();
+    sizeSong();
+    plot.focus({ preventScroll:true });
+  }
+  function backToAlbum(){
+    if (S.song) S.song.sbase = null;
+    S.micro = null; microEl.hidden = true; S.hover = null; hideTip();
+    showView('album'); sizeTiles();
+    if (S.song && S.song.li){ S.song.li.scrollIntoView({ block:'center' }); S.song.box.focus({ preventScroll:true }); }
+  }
+  function sizeSong(){
+    if (S.view !== 'song') return;
+    const w = plot.clientWidth;
+    const top = plot.getBoundingClientRect().top - VIZ.getBoundingClientRect().top + 72;
+    const reserve = 104 + (document.body.classList.contains('has-bar') ? 64 : 0);   // hint text and player bar
+    const size = Math.round(Math.max(340, Math.min(w, window.innerHeight - top - reserve)));
+    const dpr = window.devicePixelRatio || 1;
+    cv.width = cv.height = Math.round(size*dpr); cv.style.width = cv.style.height = size + 'px';
+    S.layout = { size, dpr, G: irisGeom(size, 34) };
+    sizeMicro();
+    drawSong();
+  }
+  // Frequency labels sit in the gap at 12 o'clock; time labels run around the outside
+  function irisLabels(g, G, fmax, ticks, C){
+    g.fillStyle = C.muted; g.font = '10px ' + FONT; g.textAlign = 'right'; g.textBaseline = 'middle';
+    const lr = Math.log(fmax/FMIN);
+    [[60,'60 Hz'],[250,'250'],[1000,'1k'],[4000,'4k'],[10000,'10k']].forEach(([f,lab]) => {
+      if (f > fmax) return;
+      g.fillText(lab, G.cx - 5, G.cy - (G.R0 + (G.R1 - G.R0)*Math.log(f/FMIN)/lr));
+    });
+    g.textAlign = 'center';
+    ticks.forEach(([f, lab]) => {
+      radial(g, G, f, G.R1 + 2, G.R1 + 8, C.faint, 1);
+      if (lab === null) return;
+      const a = angOf(f), r = G.R1 + 20;
+      g.fillStyle = C.muted; g.fillText(lab, G.cx + Math.cos(a)*r, G.cy + Math.sin(a)*r);
+    });
+  }
+  function songHit(e){
+    const G = S.layout.G, p = polarAt(e, cv, G);
+    if (p.f > ARC || p.r < G.rb - G.A - 6 || p.r > G.R1 + 10) return null;
+    return { f: p.f, at: p.f / ARC * S.song.dur };
+  }
+  function drawSong(){
+    if (S.view !== 'song' || !S.layout || !S.song) return;
+    const t = S.song, g = cv.getContext('2d'), Ly = S.layout, G = Ly.G, C = colors();
+    g.setTransform(Ly.dpr,0,0,Ly.dpr,0,0);
+    g.clearRect(0,0,G.size,G.size);
+    const key = G.size + '|' + Ly.dpr;
+    if (!t.sbase || t.sbaseKey !== key){ t.sbase = irisBase(G, Ly.dpr, ARC, COLS, ROWS, (c, r) => t.q[c*ROWS + r], t.album.lut); t.sbaseKey = key; }
+    g.drawImage(t.sbase, 0, 0, G.size, G.size);
+    const mine = S.play === t, time = mine ? curTime() : 0, pf = mine ? time/t.dur : -1;
+    drawBands(g, G, ARC, COLS, trackBands(t), f => f <= pf, bandColors(t.album));
+    const step = t.dur > 240 ? 60 : t.dur > 90 ? 30 : 10, ticks = [];
+    for (let s = step; s <= t.dur; s += step) ticks.push([ARC*s/t.dur, G.size < 480 && (s/step) % 2 ? null : fmt(s)]);   // 0:00 is the gap at 12 o'clock
+    irisLabels(g, G, t.fmax, ticks, C);
+    if (S.micro && S.micro.t === t){
+      const mc = mine ? time : S.micro.center;
+      const f0 = ARC*Math.max(0, mc - WIN/2)/t.dur, f1 = ARC*Math.min(t.dur, mc + WIN/2)/t.dur;
+      wedge(g, G, f0, f1, G.R0, G.R1, '#ffffff');
+      wedge(g, G, f0, f1, G.rb - G.A - 2, G.rb + G.A + 2, C.ink);
+    }
+    if (S.hover !== null) irisLine(g, G, S.hover, C, 1);
+    if (mine) irisLine(g, G, pf*ARC, C, 2);
+    plot.setAttribute('aria-valuenow', Math.round(time));
+    plot.setAttribute('aria-valuetext', fmt(time) + ' of ' + fmt(t.dur));
+    drawMicro(mine ? time : -1, C);
+  }
+
+  // ---------- Close-up ----------
+  // A 20-second window that travels with the playhead. Columns are analysed on demand and kept,
+  // so each frame only computes the few new columns that have scrolled into view.
+  async function openMicro(e){
+    const t = S.song, h = songHit(e); if (!h) return;
+    $('microTitle').textContent = 'Loading close-up…';
+    microEl.hidden = false;
+    let cur;
+    try { cur = await ensureDecoded(t); } catch (err){ $('microTitle').textContent = 'This song couldn’t be decoded for a close-up.'; return; }
+    if (S.song !== t || S.view !== 'song') return;
+    if (!S.micro || S.micro.t !== t){
+      const sr = cur.buf.sampleRate, fmax = Math.min(FMAX, sr/2), ratio = fmax / FMIN, total = Math.ceil(t.dur * MCPS);
+      const P = microPool(total);
+      const b0 = new Int32Array(MROWS), b1 = new Int32Array(MROWS);
+      for (let r = 0; r < MROWS; r++){
+        const f0 = FMIN * Math.pow(ratio, r/MROWS), f1 = FMIN * Math.pow(ratio, (r+1)/MROWS);
+        b0[r] = Math.floor(f0*MN/sr); b1[r] = Math.max(b0[r]+1, Math.ceil(f1*MN/sr));
+      }
+      const win = new Float32Array(MN); for (let i = 0; i < MN; i++) win[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/(MN-1));
+      const lr = Math.log(fmax/FMIN), rowOf = f => Math.max(0, Math.min(MROWS, Math.round(MROWS*Math.log(f/FMIN)/lr)));
+      S.micro = { t, mono: cur.mono, sr, fmax, total, b0, b1, win, re: P.re, im: P.im,
+        q: P.q, done: P.done, bands: P.bands,
+        bandRows: BANDS.map(b => { const r0 = rowOf(b.f0); return [r0, Math.max(r0 + 1, rowOf(Math.min(b.f1, fmax)))]; }),
+        wb: P.wb };
+    }
+    S.micro.center = h.at;
+    $('microTitle').textContent = 'Close-up: the 20 seconds around the playhead';
+    sizeMicro(); drawSong();
+    microEl.scrollIntoView({ block:'nearest' });
+  }
+  // One set of buffers, grown when a longer song needs it, so switching songs allocates nothing new
+  let POOL = null;
+  function microPool(total){
+    if (!POOL || POOL.cap < total){
+      const cap = Math.ceil(total * 1.25);
+      POOL = { cap, q: new Uint8Array(cap*MROWS), done: new Uint8Array(cap), bands: BANDS.map(() => new Float32Array(cap)),
+               re: new Float32Array(MN), im: new Float32Array(MN), wb: BANDS.map(() => new Float32Array(WIN*MCPS)) };
+    } else POOL.done.fill(0, 0, total);
+    return POOL;
+  }
+  function microColumn(M, c){
+    if (M.done[c]) return;
+    const centre = Math.floor((c + 0.5)/MCPS*M.sr) - MN/2, len = M.mono.length, re = M.re, im = M.im, offset = 20*Math.log10(4096/MN), k255 = 255/(QHI-QLO);
+    for (let i = 0; i < MN; i++){ const k = centre + i; re[i] = (k >= 0 && k < len ? M.mono[k] : 0) * M.win[i]; im[i] = 0; }
+    fft(re, im);
+    const base = c*MROWS;
+    for (let r = 0; r < MROWS; r++){
+      let m = 0;
+      for (let b = M.b0[r]; b < M.b1[r]; b++){ const v = re[b]*re[b] + im[b]*im[b]; if (v > m) m = v; }
+      const db = 10*Math.log10(m + 1e-12) + offset + (M.t.gain || 0);
+      M.q[base + r] = Math.max(0, Math.min(255, Math.round((db - QLO)*k255)));
+    }
+    for (let k = 0; k < BANDS.length; k++){
+      const [r0, r1] = M.bandRows[k]; let sum = 0;
+      for (let r = r0; r < r1; r++) sum += QPOW[M.q[base + r]];
+      M.bands[k][c] = Math.max(0, Math.min(1, (10*Math.log10(sum/(r1 - r0)) - BANDS[k].lo)/(BANDS[k].hi - BANDS[k].lo)));
+    }
+    M.done[c] = 1;
+  }
+  function closeMicro(){ S.micro = null; microEl.hidden = true; drawSong(); }
+  // Precompute, for every pixel of the ring, where it falls in the window (0–1) and which frequency row it shows
+  function sizeMicro(){
+    if (!S.micro || microEl.hidden || !S.layout) return;
+    const w = mcv.parentElement.clientWidth;
+    const size = Math.round(Math.max(300, Math.min(w, window.innerHeight*0.72)));
+    const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    mcv.width = mcv.height = Math.round(size*dpr); mcv.style.width = mcv.style.height = size + 'px';
+    const G = irisGeom(size, 34), px = Math.round(size*dpr), key = size + '|' + dpr;
+    if (S.mlayout && S.mlayout.key === key) return;
+    const cx = G.cx*dpr, cy = G.cy*dpr, R0 = G.R0*dpr, R1 = G.R1*dpr, span = R1 - R0;
+    const max = px*px, pix = new Int32Array(max), u = new Float32Array(max), row = new Uint8Array(max), alpha = new Uint8Array(max);
+    let n = 0;
+    for (let y = 0; y < px; y++){
+      const dy = y + 0.5 - cy;
+      for (let x = 0; x < px; x++){
+        const dx = x + 0.5 - cx, r = Math.sqrt(dx*dx + dy*dy);
+        if (r < R0 - 1 || r > R1 + 1) continue;
+        let a = Math.atan2(dx, -dy); if (a < 0) a += TAU;
+        const f = a / TAU; if (f >= ARC) continue;
+        const al = Math.max(0, Math.min(1, r - R0 + 0.5, R1 - r + 0.5, (ARC - f)*TAU*r + 0.5, f*TAU*r + 0.5));
+        if (al <= 0) continue;
+        pix[n] = (y*px + x)*4; u[n] = f/ARC; row[n] = Math.max(0, Math.min(MROWS-1, ((r - R0)/span*MROWS) | 0)); alpha[n] = Math.round(al*255); n++;
+      }
+    }
+    const off = document.createElement('canvas'); off.width = off.height = px;
+    const octx = off.getContext('2d');
+    S.mlayout = { key, size, dpr, G, off, octx, img: octx.createImageData(px, px), n,
+      pix: pix.slice(0, n), u: u.slice(0, n), row: row.slice(0, n), alpha: alpha.slice(0, n) };
+  }
+  function microCenter(time){
+    const M = S.micro;
+    if (S.play === M.t && time >= 0) M.center = time;   // follow the playhead
+    return M.center;
+  }
+  function drawMicro(time, C){
+    if (!S.micro || !S.mlayout || microEl.hidden) return;
+    const M = S.micro, Ly = S.mlayout, G = Ly.G, g = mcv.getContext('2d');
+    // Analyse the window around the playhead. The first time, it unfolds from the playhead outward;
+    // after a jump, the previous view stays on screen until the new window is ready, then switches at once.
+    const target = microCenter(time), colsW = WIN*MCPS;
+    const cMid = Math.floor(target*MCPS), half = Math.ceil(colsW/2) + 1, deadline = performance.now() + 8;
+    let pending = false;
+    for (let k = 0; k <= half; k++){
+      for (const c of [cMid + k, cMid - k - 1]){
+        if (c < 0 || c >= M.total || M.done[c]) continue;
+        if (performance.now() > deadline){ pending = true; break; }
+        microColumn(M, c);
+      }
+      if (pending) break;
+    }
+    if (!pending || M.shown === undefined) M.shown = target;
+    const center = M.shown, t0 = center - WIN/2, cStart = Math.floor(t0*MCPS);
+    if (pending && !S.playing) requestAnimationFrame(() => drawSong());
+    // Ring
+    const lut = M.t.album.lut, d = Ly.img.data, n = Ly.n;
+    for (let i = 0; i < n; i++){
+      const c = Math.floor((t0 + Ly.u[i]*WIN)*MCPS), p = Ly.pix[i];
+      if (c < 0 || c >= M.total || !M.done[c]){ d[p+3] = 0; continue; }
+      const k = M.q[c*MROWS + Ly.row[i]]*3;
+      d[p] = lut[k]; d[p+1] = lut[k+1]; d[p+2] = lut[k+2]; d[p+3] = Ly.alpha[i];
+    }
+    Ly.octx.putImageData(Ly.img, 0, 0);
+    g.setTransform(Ly.dpr,0,0,Ly.dpr,0,0);
+    g.clearRect(0,0,G.size,G.size);
+    g.imageSmoothingEnabled = true;
+    g.drawImage(Ly.off, 0, 0, G.size, G.size);
+    // Waveform rings for the same window
+    for (let j = 0; j < colsW; j++){
+      const c = cStart + j, ok = c >= 0 && c < M.total && M.done[c];
+      for (let k = 0; k < BANDS.length; k++) M.wb[k][j] = ok ? M.bands[k][c] : 0;
+    }
+    const pf = time >= 0 && S.play === M.t ? (time - t0)/WIN : -1;
+    drawBands(g, G, ARC, colsW, M.wb, f => f <= pf, bandColors(M.t.album));
+    // Seconds around the outside move with the window
+    const ticks = [];
+    for (let s = Math.max(0, Math.ceil(t0)); s <= Math.min(M.t.dur, t0 + WIN); s++) ticks.push([ARC*(s - t0)/WIN, fmt(s)]);
+    irisLabels(g, G, M.fmax, ticks, C);
+    if (pf >= 0 && pf <= 1) irisLine(g, G, pf*ARC, C, 2);
+  }
+
+  // ---------- Playback ----------
+  function ensureDecoded(t){
+    if (S.cur && S.cur.t === t) return Promise.resolve(S.cur);
+    if (S.decoding && S.decoding.t === t) return S.decoding.p;
+    const p = (async () => {
+      const buf = await decode(await getBytes(t.src));
+      const cur = { t, buf, mono: toMono(buf) };
+      S.cur = cur;
+      if (S.decoding && S.decoding.t === t) S.decoding = null;
+      return cur;
+    })();
+    S.decoding = { t, p };
+    p.catch(() => { if (S.decoding && S.decoding.t === t) S.decoding = null; });
+    return p;
+  }
+  const curTime = () => {
+    const t = S.play; if (!t) return 0;
+    return S.playing ? Math.min(t.dur || 0, S.ctx.currentTime - S.startedAt) : S.offset;
+  };
+  function stopSource(){ if (S.src){ S.src.onended = null; try { S.src.stop(); } catch(e){} S.src.disconnect(); S.src = null; } }
+  async function playTrack(t, at){
+    if (!t || t.status !== 'ready') return;
+    const ctx = audioCtx(); if (ctx.state === 'suspended') ctx.resume();
+    const token = ++S.playToken, prev = S.play;
+    $('barTitle').textContent = 'Loading ' + t.title + '…'; $('bar').hidden = S.view === 'loading' || S.view === 'pick';
+    let cur;
+    try { cur = await ensureDecoded(t); } catch (e){ updateBar(); return; }
+    if (token !== S.playToken) return;
+    stopSource();
+    at = Math.min(Math.max(0, at), cur.buf.duration - 0.05);
+    const src = ctx.createBufferSource(); src.buffer = cur.buf; src.connect(ctx.destination);
+    src.onended = () => {
+      if (S.src !== src) return;
+      S.src = null; S.playing = false; S.offset = 0;
+      const next = t.album.tracks[t.idx + 1];
+      if (S.view !== 'song' && next && next.status === 'ready') playTrack(next, 0);
+      else { refreshPlaying(); drawAll(); }
+    };
+    src.start(0, at);
+    S.src = src; S.startedAt = ctx.currentTime - at; S.playing = true; S.play = t;
+    if (prev && prev !== t){ drawTile(prev); if (prev.album !== t.album) drawCell(prev.album); }
+    refreshPlaying(); loop();
+  }
+  function pause(){ S.offset = curTime(); stopSource(); S.playing = false; refreshPlaying(); drawAll(); }
+  function toggle(){
+    if (S.view === 'song' && S.play !== S.song) return playTrack(S.song, 0);
+    if (!S.play){
+      const al = S.view === 'album' ? S.album : S.albums.find(a => a.status === 'ready');
+      const t = al && al.tracks.find(t => t.status === 'ready'); if (t) playTrack(t, 0); return;
+    }
+    if (S.playing) pause(); else playTrack(S.play, S.offset);
+  }
+  function seek(d){
+    const t = S.play; if (!t) return;
+    const to = Math.min(Math.max(0, curTime() + d), t.dur);
+    if (S.playing) playTrack(t, to); else { S.offset = to; drawAll(); }
+  }
+  function refreshPlaying(){
+    if (S.album) S.album.tracks.forEach(t => t.li && t.li.classList.toggle('playing', t === S.play));
+    updateBar();
+  }
+  function updateBar(){
+    const t = S.play;
+    const show = !!t && S.view !== 'loading' && S.view !== 'pick';
+    if (document.body.classList.contains('has-bar') !== show) document.body.classList.toggle('has-bar', show);
+    if (!show){ $('bar').hidden = true; return; }
+    $('bar').hidden = false;
+    $('barTitle').textContent = t.no + '. ' + t.title;
+    $('now').textContent = fmt(curTime());
+    $('total').textContent = fmt(t.dur);
+    $('barWhere').textContent = ', ' + t.album.artist.name + ', ' + t.album.name;
+    icon.setAttribute('d', S.playing ? 'M6 4.5h4v15H6zM14 4.5h4v15h-4z' : 'M7 4.5v15l13-7.5z');
+    $('play').setAttribute('aria-label', S.playing ? 'Pause' : 'Play');
+  }
+  function drawAll(){
+    if (S.view === 'overview') S.albums.forEach(drawCell);
+    else if (S.view === 'album' && S.album){ $('albumRamp').style.background = rampCss(S.album.stops); $('albumBands').innerHTML = bandLegendHtml(S.album); S.album.tracks.forEach(drawTile); }
+    else if (S.view === 'song') drawSong();
+    updateBar();
+  }
+  // Only one animation loop may run; starting playback again just keeps the existing loop going
+  let loopRunning = false;
+  function loop(){
+    if (loopRunning) return;
+    loopRunning = true;
+    requestAnimationFrame(tick);
+  }
+  function tick(){
+    if (S.view === 'overview' && S.play) drawCell(S.play.album);
+    else if (S.view === 'album' && S.play) drawTile(S.play);
+    else if (S.view === 'song') drawSong();
+    updateBar();
+    if (S.playing) requestAnimationFrame(tick); else loopRunning = false;
+  }
+
+  // ---------- Events ----------
+  $('loadAll').addEventListener('click', () => S.albums.forEach(queueAlbum));
+  $('albumBack').addEventListener('click', backToOverview);
+  $('albumArtist').addEventListener('click', () => { const al = S.album; backToOverview(); focusArtist(al.artist); });
+  $('albumArtistBtn').addEventListener('click', () => { const al = S.album; backToOverview(); focusArtist(S.focus ? null : al.artist); });
+  window.addEventListener('hashchange', () => { const a = S.artists.length && artistFromHash(); if (a) focusArtist(a, true); });
+  $('songBack').addEventListener('click', backToAlbum);
+  $('songHome').addEventListener('click', () => { S.micro = null; microEl.hidden = true; backToOverview(); });
+  $('closeMicro').addEventListener('click', closeMicro);
+  const refs = $('refs');
+  document.querySelectorAll('.refs-open').forEach(b => b.addEventListener('click', () => refs.showModal()));
+  $('refsClose').addEventListener('click', () => refs.close());
+  refs.addEventListener('click', e => { if (e.target === refs) refs.close(); });   // click outside the box closes it
+  $('play').addEventListener('click', toggle);
+  $('forgetOv').addEventListener('click', async () => { await cacheClear(); $('forgetOv').textContent = 'Saved analysis cleared'; });
+  $('forget').addEventListener('click', async () => { await cacheClear(); $('forget').textContent = 'Saved analysis cleared'; });
+
+  cv.addEventListener('pointerdown', tapper(
+    e => { const h = songHit(e); if (h) playTrack(S.song, h.at); },
+    e => openMicro(e)
+  ));
+  cv.addEventListener('pointermove', e => {
+    if (!S.layout || e.pointerType === 'touch') return;
+    const h = songHit(e); S.hover = h ? h.f : null;
+    if (h) showTip(e, fmt(h.at)); else hideTip();
+    if (!S.playing) drawSong();
+  });
+  cv.addEventListener('pointerleave', () => { S.hover = null; hideTip(); if (!S.playing) drawSong(); });
+  const microTime = e => {
+    if (!S.micro || !S.mlayout) return null;
+    const G = S.mlayout.G, p = polarAt(e, mcv, G);
+    if (p.f > ARC || p.r < G.rb - G.A - 6 || p.r > G.R1 + 10) return null;
+    const tt = S.micro.center - WIN/2 + p.f/ARC*WIN;
+    return tt >= 0 && tt <= S.micro.t.dur ? tt : null;
+  };
+  mcv.addEventListener('pointerdown', e => { const tt = microTime(e); if (tt !== null) playTrack(S.micro.t, tt); });
+  mcv.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    const tt = microTime(e); if (tt !== null) showTip(e, fmt(tt) + '.' + (Math.floor(tt*10) % 10)); else hideTip();
+  });
+  mcv.addEventListener('pointerleave', hideTip);
+  plot.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); toggle(); } });
+
+  let vizActive = false;
+  document.addEventListener('pointerdown', e => { vizActive = VIZ.contains(e.target); }, true);
+  document.addEventListener('focusin', e => { vizActive = VIZ.contains(e.target); });
+  document.addEventListener('keydown', e => {
+    if (!vizActive && !VIZ.contains(document.activeElement)) return;
+    const inControl = e.target.closest && e.target.closest('input, button, textarea, select');
+    if (refs.open) return;   // the references box handles its own keys
+    if (e.key === 'Escape'){
+      if (S.view === 'song'){ e.preventDefault(); if (!microEl.hidden) closeMicro(); else backToAlbum(); return; }
+      if (S.view === 'album'){ e.preventDefault(); backToOverview(); return; }
+      if (S.view === 'overview' && S.focus){ e.preventDefault(); focusArtist(null); return; }
+    }
+    if (S.view === 'overview' && !(e.target.closest && e.target.closest('input, textarea, select')) && !e.metaKey && !e.ctrlKey && !e.altKey){
+      if (e.key === '0'){ e.preventDefault(); focusArtist(null); return; }
+      const n = parseInt(e.key, 10);
+      if (n >= 1 && n <= S.artists.length){ e.preventDefault(); focusArtist(S.artists[n-1]); return; }
+    }
+    if (inControl || !['overview','album','song'].includes(S.view)) return;
+    if (e.key === ' '){ e.preventDefault(); toggle(); }
+    else if (e.key === 'ArrowRight'){ e.preventDefault(); seek(5); }
+    else if (e.key === 'ArrowLeft'){ e.preventDefault(); seek(-5); }
+  });
+
+  // Choosing the folder by hand
+  $('dirIn').addEventListener('change', e => {
+    const files = [...e.target.files].map(f => {
+      const parts = (f.webkitRelativePath || f.name).split('/');
+      return { rel: parts.slice(1).join('/'), src: f, key: 'file|' + (f.webkitRelativePath || f.name) + '|' + f.size + '|' + f.lastModified };
+    });
+    start(files);
+  });
+  const drop = $('drop');
+  ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', async e => {
+    const entries = [...e.dataTransfer.items].map(i => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean);
+    const out = [];
+    // Walk with full relative paths, then drop the top folder (the music folder itself)
+    async function walkFull(entry, prefix){
+      if (entry.isFile){
+        const f = await new Promise((res, rej) => entry.file(res, rej));
+        out.push({ full: prefix + f.name, f });
+      } else if (entry.isDirectory){
+        const reader = entry.createReader(); let batch;
+        do { batch = await new Promise((res, rej) => reader.readEntries(res, rej)); for (const x of batch) await walkFull(x, prefix + entry.name + '/'); } while (batch.length);
+      }
+    }
+    for (const en of entries) await walkFull(en, '');
+    start(out.map(o => { const parts = o.full.split('/'); return { rel: parts.slice(1).join('/'), src: o.f, key: 'file|' + o.full + '|' + o.f.size + '|' + o.f.lastModified }; }));
+  });
+
+  let rt;
+  new ResizeObserver(() => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      if (S.view === 'overview') sizeCells(); else if (S.view === 'album') sizeTiles(); else if (S.view === 'song') sizeSong();
+    }, 60);
+  }).observe(VMAIN);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawAll);
+
+  // ---------- Start ----------
+  (async () => {
+    const files = await discover();
+    if (files) start(files);
+    else showView('pick');
+  })();
+})();
+</script>
+</body>
+</html>
