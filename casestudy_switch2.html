@@ -73,9 +73,6 @@
   .credit { font-size: 0.8125rem; color: var(--ink-3); margin-top: 6px; max-width: var(--measure); }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
   .pair figcaption { margin-top: 8px; font-size: 0.8125rem; color: var(--ink-3); }
-  /* darker frame so the light-gray Light theme stands apart from its plate */
-  .plate.deep { background: #bdbdbd; }
-  .plate.deep .pair figcaption { color: var(--ink-2); }
 
   /* SECTIONS */
   .room { border-top: 1px solid var(--rule); padding: clamp(56px, 8vw, 96px) 0; margin-top: clamp(56px, 8vw, 96px); }
@@ -198,11 +195,11 @@
     <dl class="facts">
       <div><dt>Course</dt><dd>ISE 5654: Human Factors System Design</dd></div>
       <div><dt>Instructor</dt><dd>Dr. Deborah Dickerson</dd></div>
-      <div><dt>My role</dt><dd>Wireframe &amp; prototype designer</dd></div>
+      <div><dt>My role</dt><dd>Usability test lead; wireframe &amp; prototype designer</dd></div>
       <div><dt>Team</dt><dd>Joseph Brazina, Arsalan Ashraf &amp; Jyotshna Bali</dd></div>
       <div><dt>Date</dt><dd>Oct 2026</dd></div>
     </dl>
-    <p class="role">I designed the wireframe and both interactive prototypes, and wrote the report’s prototyping, HFE principles, findings, and redesign sections. My teammates led the design description and the usability testing.</p>
+    <p class="role">I led the usability testing, designed the wireframe and both interactive prototypes, and wrote the report’s prototyping, HFE principles, findings, and redesign sections. My teammates led the design description.</p>
   </div>
 </header>
 
@@ -214,7 +211,7 @@
       <p>The HOME Menu is the hub players return to between games, so it has to stay legible whether the console is handheld, on a table, or docked to a TV. It’s already minimal and user-first.</p>
     </div>
     <figure>
-      <div class="plate deep"><img class="portrait" src="images/switch2-28-original-home-menu-light-dark.jpg" alt="Original Nintendo Switch 2 HOME Menu in light and dark themes, with small square game icons and a row of unlabeled system icons" width="1080" height="1214" loading="lazy" decoding="async"/></div>
+      <div class="plate"><img class="portrait" src="images/switch2-28-original-home-menu-light-dark.jpg" alt="Original Nintendo Switch 2 HOME Menu in light and dark themes, with small square game icons and a row of unlabeled system icons" width="1080" height="1214" loading="lazy" decoding="async"/></div>
       <figcaption>The original HOME Menu in its light and dark themes, with small square game icons and unlabeled system icons.</figcaption>
       <p class="credit"><em>Note.</em> From Iggy (2025), as reported by Nintendo Soup; may not reflect the official interface. Nintendo Switch 2 © Nintendo.</p>
     </figure>
@@ -233,7 +230,7 @@
   <div class="wrap">
     <h2 id="findings-h">What testing found, and what I changed</h2>
     <div class="prose">
-      <p>The team tested two participants, a novice and an expert. Each did five tasks in handheld mode while thinking aloud, then filled out the System Usability Scale (SUS). Both scored 75, but the novice struggled with unlabeled icons, while the expert wanted faster controls and more personalization.</p>
+      <p>I led a usability test with two participants, a novice and an expert. Each did five tasks in handheld mode while thinking aloud, then filled out the System Usability Scale (SUS). Both scored 75, but the novice struggled with unlabeled icons, while the expert wanted faster controls and more personalization.</p>
     </div>
     <div class="table-wrap">
       <table class="stack">
@@ -296,7 +293,7 @@
             <button class="tab" role="tab" id="tab-dk" aria-controls="panel-dk" aria-selected="false" tabindex="-1">Donkey Kong</button>
           </div>
           <div class="panel" role="tabpanel" id="panel-light" aria-labelledby="tab-light">
-            <div class="plate deep">
+            <div class="plate">
               <div class="pair">
                 <figure><img src="images/switch2-15-light-theme-home-screen.jpg" alt="Light theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
                 <figure><img src="images/switch2-16-light-theme-picker-with-light-selected.jpg" alt="Light theme picker with Light selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
@@ -305,7 +302,7 @@
             <p class="panel-note">The system default: a light gray background, black text and status icons, and white nav buttons with colored icons.</p>
           </div>
           <div class="panel" role="tabpanel" id="panel-dark" aria-labelledby="tab-dark" hidden>
-            <div class="plate deep">
+            <div class="plate">
               <div class="pair">
                 <figure><img src="images/switch2-17-dark-theme-home-screen.jpg" alt="Dark theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
                 <figure><img src="images/switch2-18-dark-theme-picker-with-dark-selected.jpg" alt="Dark theme picker with Dark selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
@@ -314,7 +311,7 @@
             <p class="panel-note">A dark gray background with light gray text. The nav buttons turn dark gray, and their icons keep their colors.</p>
           </div>
           <div class="panel" role="tabpanel" id="panel-mario" aria-labelledby="tab-mario" hidden>
-            <div class="plate deep">
+            <div class="plate">
               <div class="pair">
                 <figure><img src="images/switch2-19-mario-theme-home-screen.jpg" alt="Mario theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
                 <figure><img src="images/switch2-20-mario-theme-picker-with-mario-selected.jpg" alt="Mario theme picker with Mario selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
@@ -323,7 +320,7 @@
             <p class="panel-note">Super Mario Galaxy art with light gray text and dark blue nav buttons at reduced opacity, so the background shows through.</p>
           </div>
           <div class="panel" role="tabpanel" id="panel-kirby" aria-labelledby="tab-kirby" hidden>
-            <div class="plate deep">
+            <div class="plate">
               <div class="pair">
                 <figure><img src="images/switch2-21-kirby-theme-home-screen.jpg" alt="Kirby theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
                 <figure><img src="images/switch2-22-kirby-theme-picker-with-kirby-selected.jpg" alt="Kirby theme picker with Kirby selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
@@ -332,7 +329,7 @@
             <p class="panel-note">Kirby art with light gray text and pink nav buttons at reduced opacity.</p>
           </div>
           <div class="panel" role="tabpanel" id="panel-zelda" aria-labelledby="tab-zelda" hidden>
-            <div class="plate deep">
+            <div class="plate">
               <div class="pair">
                 <figure><img src="images/switch2-23-zelda-theme-home-screen.jpg" alt="Zelda theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
                 <figure><img src="images/switch2-24-zelda-theme-picker-with-zelda-selected.jpg" alt="Zelda theme picker with Zelda selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
@@ -341,7 +338,7 @@
             <p class="panel-note">Tears of the Kingdom art with dark gray text, buttons, and icons.</p>
           </div>
           <div class="panel" role="tabpanel" id="panel-dk" aria-labelledby="tab-dk" hidden>
-            <div class="plate deep">
+            <div class="plate">
               <div class="pair">
                 <figure><img src="images/switch2-25-donkey-kong-theme-home-screen.jpg" alt="Donkey Kong theme home screen" width="2000" height="1125" loading="lazy" decoding="async"/><figcaption>Home screen</figcaption></figure>
                 <figure><img src="images/switch2-26-donkey-kong-theme-picker-with-donkey.jpg" alt="Donkey Kong theme picker with Donkey Kong selected" width="1300" height="737" loading="lazy" decoding="async"/><figcaption>Theme picker, current theme marked with a cyan frame and ✓</figcaption></figure>
