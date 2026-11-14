@@ -109,8 +109,8 @@ footer a{color:#fff}
 <fieldset class="modes">
 <legend>Choose a condition</legend>
 <label><input type="radio" name="mode" value="tetris"><span class="mode-card"><em>Baseline</em><strong>Tetris alone</strong><span>Just the game. Use it as your reference point.</span></span></label>
-<label><input type="radio" name="mode" value="rotation" checked><span class="mode-card"><em>High visual-spatial overlap</em><strong>Tetris + mental rotation</strong><span>Every 5 seconds, judge whether two 3D figures are the same shape or mirror images.</span></span></label>
-<label><input type="radio" name="mode" value="phonemes"><span class="mode-card"><em>Cross-modal pairing</em><strong>Tetris + phonemes</strong><span>Every 3 seconds, hear two syllables and judge whether they are the same or different.</span></span></label>
+<label><input type="radio" name="mode" value="rotation" checked><span class="mode-card"><em>High visual-spatial overlap</em><strong>Tetris + mental rotation</strong><span>Judge whether two 3D figures are the same shape or mirror images. A new pair appears half a second after each answer.</span></span></label>
+<label><input type="radio" name="mode" value="phonemes"><span class="mode-card"><em>Cross-modal pairing</em><strong>Tetris + phonemes</strong><span>Hear two syllables and judge whether they are the same or different. A new pair plays half a second after each answer.</span></span></label>
 </fieldset>
 
 <div class="brief">
@@ -147,8 +147,8 @@ footer a{color:#fff}
 <p class="answer-keys"><kbd>A</kbd> same &nbsp; <kbd>F</kbd> different (mirrored)</p>
 </section>
 <section class="pane hidden" id="phonemePane" aria-label="Phoneme discrimination task">
-<h3>Phoneme discrimination</h3><p class="hint">Headphones recommended. Two syllables play 0.5 seconds apart.</p>
-<div class="listen" id="listen"><div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="response" id="phonemeResponse" aria-live="polite">Listen, then press A or F</div></div>
+<h3>Phoneme discrimination</h3><p class="hint">Headphones recommended. Two syllables play 0.5 seconds apart; answer once both have played.</p>
+<div class="listen" id="listen"><div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="response" id="phonemeResponse" aria-live="polite">Listen…</div></div>
 <p class="answer-keys"><kbd>A</kbd> same &nbsp; <kbd>F</kbd> different</p>
 </section>
 <section class="pane" id="tetrisPane" aria-label="Tetris">
@@ -171,10 +171,10 @@ Next<canvas id="next" width="104" height="104" aria-label="Next piece"></canvas>
 <div class="results-grid" id="resultCards"></div>
 <div id="compareBlock" class="hidden">
 <h3>This session so far</h3>
-<div class="table-wrap"><table><thead><tr><th>Condition</th><th>Lines cleared</th><th>Pieces placed</th><th>Judgment accuracy</th><th>Mean response time</th></tr></thead><tbody id="compareRows"></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Condition</th><th>Lines cleared</th><th>Pieces placed</th><th>Pairs completed</th><th>Judgment accuracy</th><th>Mean response time</th></tr></thead><tbody id="compareRows"></tbody></table></div>
 <p class="small" id="compareNote"></p>
 </div>
-<p class="small">One 60-second block is a feel for the task, not a measurement. The real study uses 30 seconds of practice per task, three-minute blocks (Tetris alone first, then the two dual-task blocks in counterbalanced order), and workload ratings after each block.</p>
+<p class="small">One 60-second block is a feel for the task, not a measurement. The real study starts with 30 seconds of practice on each task alone (Tetris, then phonemes, then mental rotation, with correct/incorrect feedback), then three-minute test blocks: Tetris alone first, then the two dual-task blocks in counterbalanced order, with NASA-TLX workload ratings after each.</p>
 <div class="start-row"><button class="button" id="again" type="button">Try another condition</button><button class="button button-outline" id="repeat" type="button">Repeat this one</button><a href="casestudy_mrt.html">Back to the case study</a></div>
 </section>
 
@@ -202,14 +202,14 @@ async function resolveStimuli() {
 }
 
 const $ = id => document.getElementById(id);
-const DEMO_MS = 60000, GRAVITY = 650, ROT_MS = 5000, PHONE_MS = 3000, GAP_MS = 500, COUNTDOWN = 3;
+const DEMO_MS = 60000, GRAVITY = 650, GAP_MS = 500, NEXT_MS = 500, POOL = 50, COUNTDOWN = 3;
 const MODES = {
   tetris:   {name: 'Tetris alone', secondary: null,
              brief: 'Clear as many lines as you can in 60 seconds. Pieces fall at the same speed as in the study (650 ms per cell).'},
   rotation: {name: 'Tetris + mental rotation', secondary: 'rotation',
-             brief: 'A new pair of figures appears every 5 seconds (12 pairs, half same and half different). Press A if the right figure is the same shape rotated, F if it is a mirror image. Both tasks compete for visual-spatial processing.'},
+             brief: 'Press A if the right figure is the same shape rotated, F if it is a mirror image. The next pair appears half a second after you answer, so the pace is yours, but the game keeps falling. Both tasks compete for visual-spatial processing.'},
   phonemes: {name: 'Tetris + phonemes', secondary: 'phoneme',
-             brief: 'A new pair of syllables plays every 3 seconds (20 pairs) from my /ba/–/ga/ continuum. Press A if they sound the same, F if different. Turn your volume to a comfortable level first.'}
+             brief: 'Two syllables from my /ba/–/ga/ continuum play half a second apart. Once both have played, press A if they sound the same, F if different; the next pair plays half a second after you answer. Turn your volume to a comfortable level first.'}
 };
 let mode = 'rotation', run = null, audioCtx = null, waves = null, pairCache = new Map(), source = null;
 const session = {};
@@ -234,9 +234,10 @@ function setStatus(text, error = false) { $('status').textContent = text; $('sta
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 /* ---------- stimuli ---------- */
+// Like the study, each block draws pairs at random from a set of 50, half same and half different
 function rotationTrials() {
   const figures = [...'ABCDEFGHIJ'], picks = [];
-  for (let i = 0; i < DEMO_MS / ROT_MS; i++) {
+  for (let i = 0; i < POOL; i++) {
     const figure = figures[Math.floor(Math.random() * figures.length)], rotation = Math.floor(Math.random() * 15), same = i % 2 === 0;
     picks.push({figure, rotation, same, answer: same ? 'A' : 'F',
       left: `${STIMULI_BASE}rotations/${figure}/${figure}0.jpg`,
@@ -245,7 +246,7 @@ function rotationTrials() {
   return shuffle(picks);
 }
 function phonemeTrials() {
-  const n = DEMO_MS / PHONE_MS, same = [], diff = [], pairs = [[1,4],[4,1],[2,5],[5,2],[3,6],[6,3],[4,7],[7,4]];
+  const n = POOL, same = [], diff = [], pairs = [[1,4],[4,1],[2,5],[5,2],[3,6],[6,3],[4,7],[7,4]];
   for (let i = 0; i < n / 2; i++) { const l = 1 + Math.floor(Math.random() * 7); same.push({a: l, b: l, answer: 'A'}); }
   for (let i = 0; i < n / 2; i++) { const [a, b] = pairs[Math.floor(Math.random() * pairs.length)]; diff.push({a, b, answer: 'F'}); }
   return shuffle(same.concat(diff));
@@ -278,30 +279,32 @@ function playPair(t) {
   stopAudio();
   const src = audioCtx.createBufferSource(); src.buffer = pairBuffer(t.a, t.b); src.connect(audioCtx.destination);
   source = src; $('listen').classList.add('playing');
-  src.onended = () => { if (source === src) { source = null; $('listen').classList.remove('playing'); } };
+  src.onended = () => { if (source === src) { source = null; $('listen').classList.remove('playing'); onHeard(); } };
   src.start(audioCtx.currentTime + 0.03);
 }
 
-/* ---------- secondary task (shared logic for both judgment tasks) ---------- */
-function presentTrial(i) {
-  const s = run.sec, t = s.trials[i]; s.response = null;
-  if (s.kind === 'rotation') { $('imgLeft').src = encodeURI(t.left); $('imgRight').src = encodeURI(t.right); $('rotationResponse').textContent = 'Press A or F'; }
-  else { $('phonemeResponse').textContent = 'Listen, then press A or F'; playPair(t); }
+/* ---------- secondary task (self-paced, as in the study) ----------
+   A pair is shown; once it can be answered (figures on screen, or both syllables heard) A or F records
+   the answer and reaction time; the next pair, drawn at random from the set, follows 0.5 s later.
+   Pairs keep coming until the block ends, so there's no set number of trials. */
+function presentTrial() {
+  const s = run.sec; if (!run.active) return;
+  const t = s.trials[Math.floor(Math.random() * s.trials.length)];
+  s.trial = t; s.ready = false; s.next = null;
+  if (s.kind === 'rotation') { $('imgLeft').src = encodeURI(t.left); $('imgRight').src = encodeURI(t.right); s.ready = true; s.shownAt = performance.now(); $('rotationResponse').textContent = 'Press A or F'; }
+  else { $('phonemeResponse').textContent = 'Listen…'; playPair(t); }
 }
-function finalizeTrial() {
-  const s = run.sec, t = s.trials[s.done];
-  if (s.response) { s.answered++; s.rtSum += s.response.rt; if (s.response.key === t.answer) s.correct++; }
-  s.response = null;
-}
-function updateSecondary(now) {
-  const s = run?.sec; if (!s) return;
-  const due = Math.min(s.trials.length, Math.floor((now - run.start) / s.ms));
-  while (s.done < due) { finalizeTrial(); s.done++; if (s.done < s.trials.length && s.done === due) presentTrial(s.done); }
+function onHeard() {
+  const s = run?.sec; if (!s || !run.active || s.kind !== 'phoneme' || !s.trial) return;
+  s.ready = true; s.shownAt = performance.now(); $('phonemeResponse').textContent = 'Press A or F';
 }
 function respond(key, now) {
-  const s = run.sec; if (!s || s.done >= s.trials.length || s.response) return;
-  s.response = {key, rt: now - (run.start + s.done * s.ms)};
+  const s = run.sec; if (!s || !s.trial || !s.ready) return;
+  s.answered++; s.rtSum += now - s.shownAt; if (key === s.trial.answer) s.correct++;
+  s.trial = null; s.ready = false;
+  if (s.kind === 'rotation') { $('imgLeft').removeAttribute('src'); $('imgRight').removeAttribute('src'); }
   $(s.kind === 'rotation' ? 'rotationResponse' : 'phonemeResponse').textContent = key === 'A' ? 'Answered: same' : 'Answered: different';
+  s.next = setTimeout(presentTrial, NEXT_MS);
 }
 
 /* ---------- Tetris (same rules as the study: 7-bag, SRS kicks, counterclockwise rotation) ---------- */
@@ -395,7 +398,7 @@ async function startBlock() {
   $('phonemePane').classList.toggle('hidden', m.secondary !== 'phoneme');
   $('stage').classList.toggle('solo', !m.secondary);
   $('clock').textContent = '1:00'; $('imgLeft').removeAttribute('src'); $('imgRight').removeAttribute('src');
-  run = {mode, active: false, counting: true, tetris: tetrisState(), sec: m.secondary ? {kind: m.secondary, trials, ms: m.secondary === 'rotation' ? ROT_MS : PHONE_MS, done: 0, response: null, correct: 0, answered: 0, rtSum: 0} : null};
+  run = {mode, active: false, counting: true, tetris: tetrisState(), sec: m.secondary ? {kind: m.secondary, trials, trial: null, ready: false, next: null, correct: 0, answered: 0, rtSum: 0} : null};
   paint(run.tetris);
   show('run');
   const cd = $('countdown'); cd.classList.remove('hidden');
@@ -403,7 +406,7 @@ async function startBlock() {
   cd.classList.add('hidden');
   run.counting = false; run.active = true; run.start = performance.now(); run.end = run.start + DEMO_MS;
   spawn(run.tetris); run.tetris.last = run.start; paint(run.tetris);
-  if (run.sec) presentTrial(0);
+  if (run.sec) presentTrial();
   run.timer = setInterval(tick, 15); requestAnimationFrame(frame);
 }
 function frame(now) {
@@ -415,14 +418,14 @@ function frame(now) {
   const left = Math.max(0, Math.ceil((run.end - now) / 1000)); $('clock').textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
   requestAnimationFrame(frame);
 }
-function tick() { if (!run?.active) return; const now = performance.now(); updateSecondary(Math.min(now, run.end)); if (now >= run.end) endBlock(); }
-function stopRun() { if (!run) return; clearInterval(run.timer); run.active = false; stopAudio(); }
+function tick() { if (!run?.active) return; if (performance.now() >= run.end) endBlock(); }
+function stopRun() { if (!run) return; clearInterval(run.timer); if (run.sec) clearTimeout(run.sec.next); run.active = false; stopAudio(); }
 function quitBlock() { stopRun(); run = null; $('countdown').classList.add('hidden'); show('intro'); }
 function endBlock() {
-  updateSecondary(run.end); stopRun();
+  stopRun();
   const r = run, g = r.tetris, s = r.sec;
   const result = {mode: r.mode, lines: g.lines, pieces: g.pieces, score: g.score, topOuts: g.topOuts,
-    accuracy: s ? s.correct / s.trials.length : null, answered: s ? s.answered : null, total: s ? s.trials.length : null, meanRt: s && s.answered ? s.rtSum / s.answered : null};
+    accuracy: s && s.answered ? s.correct / s.answered : null, answered: s ? s.answered : null, meanRt: s && s.answered ? s.rtSum / s.answered : null};
   session[r.mode] = result; run = null;
   renderResults(result); show('results');
 }
@@ -432,12 +435,12 @@ function renderResults(res) {
   const m = MODES[res.mode];
   $('resultsTitle').textContent = m.name;
   let html = `<div class="result"><h3>Tetris</h3><dl><dt>Lines cleared</dt><dd>${res.lines}</dd><dt>Pieces placed</dt><dd>${res.pieces}</dd><dt>Score</dt><dd>${res.score}</dd><dt>Top-outs</dt><dd>${res.topOuts}</dd></dl></div>`;
-  if (m.secondary) html += `<div class="result"><h3>${m.secondary === 'rotation' ? 'Mental rotation' : 'Phoneme discrimination'}</h3><dl><dt>Correct</dt><dd>${pct(res.accuracy)}</dd><dt>Pairs answered</dt><dd>${res.answered} of ${res.total}</dd><dt>Mean response time</dt><dd>${secs(res.meanRt)}</dd></dl></div>`;
+  if (m.secondary) html += `<div class="result"><h3>${m.secondary === 'rotation' ? 'Mental rotation' : 'Phoneme discrimination'}</h3><dl><dt>Correct</dt><dd>${pct(res.accuracy)}</dd><dt>Pairs completed</dt><dd>${res.answered}</dd><dt>Mean response time</dt><dd>${secs(res.meanRt)}</dd></dl></div>`;
   else html += `<div class="result"><h3>Next step</h3><p style="margin:0">You have a baseline. Now try one of the paired conditions and see how many lines you keep.</p></div>`;
   $('resultCards').innerHTML = html;
   const done = Object.keys(MODES).filter(k => session[k]);
   $('compareBlock').classList.toggle('hidden', done.length < 2);
-  $('compareRows').innerHTML = done.map(k => { const r = session[k]; return `<tr><td>${MODES[k].name}</td><td>${r.lines}</td><td>${r.pieces}</td><td>${pct(r.accuracy)}</td><td>${secs(r.meanRt)}</td></tr>`; }).join('');
+  $('compareRows').innerHTML = done.map(k => { const r = session[k]; return `<tr><td>${MODES[k].name}</td><td>${r.lines}</td><td>${r.pieces}</td><td>${r.answered == null ? '—' : r.answered}</td><td>${pct(r.accuracy)}</td><td>${secs(r.meanRt)}</td></tr>`; }).join('');
   const base = session.tetris, notes = [];
   for (const k of ['rotation', 'phonemes']) if (base && session[k]) {
     const diff = base.pieces ? Math.round((session[k].pieces - base.pieces) / base.pieces * 100) : 0;

@@ -249,7 +249,7 @@
       <figcaption>Two mental rotation figures, each beside its mirrored version. Participants judge whether a pair is the same shape. Stimuli from Kim, Lester, and Yang (2025).</figcaption>
     </figure>
     <div class="actions" style="margin-top:28px"><a class="btn solid" href="demo_mrt.html#rotation">Try the dual-task demo</a><span class="fineprint">60-second versions of each condition. Needs a keyboard.</span></div>
-    <dl class="facts" style="--cols:5"><div><dt>Course</dt><dd>Human Information Processing</dd></div><div><dt>My role</dt><dd>Experiment design &amp; implementation</dd></div><div><dt>Partner</dt><dd>Andrew Jones</dd></div><div><dt>Method</dt><dd>Within-participant, three conditions</dd></div><div><dt>Status</dt><dd>Built, data collection next</dd></div></dl>
+    <dl class="facts" style="--cols:5"><div><dt>Course</dt><dd>Human Information Processing</dd></div><div><dt>My role</dt><dd>Experiment design &amp; implementation</dd></div><div><dt>Partner</dt><dd>Andrew Jones</dd></div><div><dt>Method</dt><dd>Within-participant, three conditions</dd></div><div><dt>Status</dt><dd>Data collected, analysis next</dd></div></dl>
     <p class="role">I designed the experiment, recorded and processed the auditory stimuli, selected the mental rotation stimuli, and built the interface. My partner, Andrew Jones, helped refine the hypotheses and design, such as running Tetris alone first and counterbalancing only the two dual-task conditions.</p>
   </div>
 </header>
@@ -261,7 +261,7 @@
       <p>When we do two things at once, how much they interfere depends partly on <em>which</em> mental resources each task uses. This experiment turns that prediction into three comparable, timed blocks.</p>
     </div>
     <p class="note"><strong>Research question:</strong> Does Tetris performance drop more, and does perceived workload rise more, when Tetris is paired with visual mental rotation than when it’s paired with auditory phoneme discrimination?</p>
-    <p class="fineprint">This page documents the design and planned comparisons. No participant results are reported yet.</p>
+    <p class="fineprint">Data collection is complete. Analysis in SPSS is under way, and results will be added here after the final APA write-up.</p>
   </div>
 </section>
 
@@ -282,7 +282,14 @@
 <section class="room" id="design" aria-labelledby="d-h">
   <div class="wrap">
     <h2 id="d-h">Study design</h2>
-    <div class="prose"><p>Each participant first practices each task for 30 seconds. Then come three three-minute blocks: Tetris alone always first as the baseline, followed by the two dual-task blocks in counterbalanced order.</p></div>
+    <ol class="plan">
+      <li><span><strong>Consent and eligibility.</strong> Participants confirm they agree to take part and are at least 18, then self-report normal or corrected-to-normal vision and normal hearing. A short demographic survey is optional.</span></li>
+      <li><span><strong>Instructions and setup.</strong> The procedure and response keys are explained, participants set a comfortable screen brightness and sit about two feet from the screen, then put on headphones for a sound check.</span></li>
+      <li><span><strong>Practice.</strong> Each task is practiced alone for 30 seconds, in order: Tetris, phoneme discrimination, then mental rotation. The judgment tasks use six simpler pairs and show whether each answer was correct.</span></li>
+      <li><span><strong>Test blocks.</strong> Three three-minute blocks: Tetris alone always first as the baseline, then the two dual-task blocks in counterbalanced order. Judgments no longer show feedback.</span></li>
+      <li><span><strong>Workload and data.</strong> A NASA-TLX follows every test block, and a CSV of all responses downloads at the end.</span></li>
+    </ol>
+    <div class="prose"><p>Instructions and controls appear before every practice and test block. Participants move between sections at their own pace, but once a block starts it runs to the end.</p></div>
     <div class="table-wrap"><table class="stack"><thead><tr><th style="width:14%">Order</th><th style="width:24%">Condition</th><th style="width:34%">Participant does</th><th>Tests</th></tr></thead><tbody>
 <tr><td data-label="Order">1st, always</td><td data-label="Condition">Tetris alone</td><td data-label="Participant does">Plays the falling-block game.</td><td data-label="Tests">The baseline for performance and workload.</td></tr>
 <tr><td data-label="Order">2nd or 3rd</td><td data-label="Condition">Tetris + mental rotation</td><td data-label="Participant does">Plays while judging whether two 3D figures are the same shape.</td><td data-label="Tests">High overlap: visual, spatial, and manual.</td></tr>
@@ -290,9 +297,16 @@
 </tbody></table></div>
     <ul class="points" style="--cols:3">
       <li><strong>Same exposure</strong>Every test block lasts three minutes.</li>
-      <li><strong>Fixed pacing</strong>36 rotation pairs at 5 seconds each, or 60 sound pairs at 3 seconds each. A missed response counts as incorrect.</li>
+      <li><strong>Self-paced judgments</strong>A new pair appears 0.5 seconds after each answer and pairs keep coming until time runs out, so there’s no set number of trials. Test pairs are drawn at random from a set of 50.</li>
       <li><strong>Shared keys</strong>A means same and F means different in both judgment tasks; the arrow keys and Space control Tetris.</li>
     </ul>
+    <h3>Variables</h3>
+    <div class="table-wrap"><table class="stack"><thead><tr><th style="width:24%">Variable</th><th style="width:26%">Role</th><th>Levels or measures</th></tr></thead><tbody>
+<tr><td data-label="Variable">Task condition</td><td data-label="Role">Independent variable</td><td data-label="Levels or measures">Tetris alone; Tetris + mental rotation; Tetris + phoneme discrimination</td></tr>
+<tr><td data-label="Variable">Tetris performance</td><td data-label="Role">Dependent variable</td><td data-label="Levels or measures">Placement time, pieces placed, and holes</td></tr>
+<tr><td data-label="Variable">Secondary-task performance</td><td data-label="Role">Dependent variables</td><td data-label="Levels or measures">Response accuracy, reaction time, and number of trials completed</td></tr>
+<tr><td data-label="Variable">Perceived workload</td><td data-label="Role">Dependent variables</td><td data-label="Levels or measures">Six NASA-TLX ratings and an overall unweighted score after each test block</td></tr>
+</tbody></table></div>
   </div>
 </section>
 
@@ -300,8 +314,8 @@
   <div class="wrap">
     <h2 id="s-h">The two secondary tasks</h2>
     <ul class="points">
-      <li><strong>Mental rotation</strong>Based on Shepard and Metzler (1971). Each pair shows the same figure rotated in the picture plane or in depth (0° to 180° in 20° steps), or a figure beside its mirror image. Each block draws 36 pairs, half same and half different, from 300 stimuli by Kim, Lester, and Yang (2025).</li>
-      <li><strong>Phoneme discrimination</strong>Based on Liberman et al. (1957). Each trial plays two steps from a seven-step /ga/ to /ba/ continuum. Each block has 60 trials: 28 same pairs and 32 different pairs three steps apart.</li>
+      <li><strong>Mental rotation</strong>Modeled after Shepard and Metzler (1971). Each pair shows two cube-based 3D figures from Kim, Lester, and Yang (2025): the same shape rotated in the picture plane or in depth, or a figure beside its mirror image.</li>
+      <li><strong>Phoneme discrimination</strong>Modeled after Altmann et al. (2014), building on Liberman et al. (1957). Each trial plays two steps from a seven-step /ga/ to /ba/ continuum, 0.5 seconds apart, and an answer counts only once both have played.</li>
     </ul>
     <div class="prose"><p>I recorded the syllables myself, one /ba/ and one /ga/, then built the seven-step continuum between them in Praat with Claude’s help. Steps 2 to 6 are ambiguous blends designed to be hard to tell apart. Listen with headphones:</p></div>
     <ul class="audio">
@@ -311,9 +325,9 @@
     </ul>
 
     <h3>Try the conditions</h3>
-    <div class="prose"><p>Play a 60-second block of Tetris alone, then pair it with either task and compare. The demo uses the experiment’s stimuli, timing, and keys, but records nothing and isn’t part of the study.</p></div>
+    <div class="prose"><p>Play a 60-second block of Tetris alone, then pair it with either task and compare. The demo uses the experiment’s stimuli, self-paced timing, and keys, but records nothing and isn’t part of the study.</p></div>
     <div class="actions">
-      <a class="btn" href="demo_mrt.html#rotation">Tetris + mental rotation</a>
+      <a class="btn solid" href="demo_mrt.html#rotation">Tetris + mental rotation</a>
       <a class="btn" href="demo_mrt.html#phonemes">Tetris + phonemes</a>
       <a class="btn" href="demo_mrt.html#tetris">Tetris alone</a>
     </div>
@@ -326,12 +340,12 @@
     <h2 id="b-h">The build</h2>
     <div class="prose"><p>The study runs as a single HTML page that walks each participant through consent, eligibility, optional demographics, instructions, practice, the test blocks, workload ratings, and completion. Tetris is drawn on a canvas, and the image and sound files load from a companion <code>stimuli/</code> folder.</p></div>
     <ul class="points">
-      <li><strong>Controls</strong>Arrow keys move, rotate, and soft-drop pieces; Space hard-drops. A and F answer same and different.</li>
+      <li><strong>Tetris</strong>The seven standard pieces arrive in shuffled sets (Pajitnov, 1984) and fall one cell every 650 ms. Arrow keys move, rotate counterclockwise, and soft-drop; Space hard-drops. A top-out clears the board and play continues.</li>
       <li><strong>Workload</strong>After every test block, participants rate six NASA-TLX dimensions from 0 to 100. The page reports an unweighted raw TLX mean, not the weighted score (NASA Ames Research Center, 1986).</li>
-      <li><strong>Data</strong>For each judgment it records the correct answer, the response, accuracy, timeouts, and response time; for Tetris, lines cleared, pieces placed, top-outs, and drop behavior.</li>
+      <li><strong>Data</strong>For each judgment it records the correct answer, the response, accuracy, and reaction time; for Tetris, placement time, pieces placed, and holes in the stack.</li>
       <li><strong>Privacy</strong>A combined CSV downloads to the participant’s own device at the end. The page uploads nothing.</li>
     </ul>
-    <p class="note"><strong>Current state:</strong> the software and measurement flow are ready for piloting. Recruitment comes next, once any required approval or exemption is confirmed.</p>
+    <p class="note"><strong>Current state:</strong> data collection is complete, and the participant CSV files are ready for analysis.</p>
   </div>
 </section>
 
@@ -339,8 +353,8 @@
   <div class="wrap">
     <h2 id="a-h">The analysis plan</h2>
     <div class="prose">
-      <p>The main comparisons are on <strong>Tetris</strong>, the task every condition shares. Tetris alone against each dual-task block gives each pairing’s cost, and the two costs are then compared, alongside NASA-TLX workload for each block.</p>
-      <p>Secondary-task accuracy and response time describe how participants handled each judgment, but rotation and phoneme scores aren’t compared directly, since the tasks differ in stimuli and pacing. Response time will be read alongside accuracy to catch speed–accuracy trade-offs.</p>
+      <p>The analysis runs in SPSS. The main comparisons are on <strong>Tetris</strong>, the task every condition shares: placement time, pieces placed, and holes in Tetris alone against each dual-task block give each pairing’s cost, and the two costs are then compared, alongside NASA-TLX workload for each block.</p>
+      <p>Secondary-task accuracy, reaction time, and trials completed describe how participants handled each judgment. Because the judgments are self-paced, trials completed shows how much attention each task drew. Rotation and phoneme scores aren’t compared directly, since the tasks differ in stimuli, and reaction time is read alongside accuracy to catch speed–accuracy trade-offs.</p>
     </div>
   </div>
 </section>
@@ -349,11 +363,10 @@
   <div class="wrap">
     <h2 id="n-h">Next steps</h2>
     <ol class="plan">
-      <li><span><strong>Deploy.</strong> Publish the experiment with all seven sound files and the image folders, and check it in the intended browsers with headphones.</span></li>
-      <li><span><strong>Pilot.</strong> Verify audio, images, timing, keys, workload prompts, CSV fields, and the full session flow.</span></li>
-      <li><span><strong>Confirm governance.</strong> Settle any required review, finalize consent and privacy wording, and decide how CSV files will be transferred and secured.</span></li>
-      <li><span><strong>Balance the orders.</strong> Track centrally who gets rotation second and who gets phonemes second.</span></li>
-      <li><span><strong>Collect and compare.</strong> Predefine exclusions and primary outcomes, collect data, then compare paired conditions with uncertainty reported alongside any effects.</span></li>
+      <li><span><strong>Prepare the data.</strong> Combine the participant CSVs, apply the exclusion rules, and compute each block’s Tetris, secondary-task, and workload measures.</span></li>
+      <li><span><strong>Analyze in SPSS.</strong> Compare the three conditions on Tetris performance and workload, and report effect sizes and uncertainty alongside any differences.</span></li>
+      <li><span><strong>Write it up.</strong> Report the study as a final APA-style paper.</span></li>
+      <li><span><strong>Update this page.</strong> Add the results and what they mean for multiple resource theory.</span></li>
     </ol>
     <p class="note">What I want to learn: whether visual-spatial overlap causes a bigger measurable cost to Tetris than a cross-modal pairing, and whether reported workload rises with it.</p>
   </div>
@@ -362,7 +375,7 @@
 <section class="room" id="sources" aria-label="Sources">
   <div class="wrap">
     <details>
-      <summary>Sources <span><span class="closed">Show all 10</span><span class="open">Hide</span></span></summary>
+      <summary>Sources <span><span class="closed">Show all 11</span><span class="open">Hide</span></span></summary>
       <ul class="refs">
         <li>Altmann, C. F., Uesaki, M., Ono, K., Matsuhashi, M., Mima, T., &amp; Fukuyama, H. (2014). Categorical speech perception during active discrimination of consonants and vowels. <em>Neuropsychologia, 64</em>, 13–23. <a href="https://doi.org/10.1016/j.neuropsychologia.2014.09.006">https://doi.org/10.1016/j.neuropsychologia.2014.09.006</a></li>
         <li>Boersma, P., &amp; Weenink, D. (2026). <em>Praat: Doing phonetics by computer</em> [Computer software]. <a href="https://www.praat.org">https://www.praat.org</a></li>
@@ -371,6 +384,7 @@
         <li>Liberman, A. M., Harris, K. S., Hoffman, H. S., &amp; Griffith, B. C. (1957). The discrimination of speech sounds within and across phoneme boundaries. <em>Journal of Experimental Psychology, 54</em>(5), 358–368. <a href="https://doi.org/10.1037/h0044417">https://doi.org/10.1037/h0044417</a></li>
         <li>Massaro, D. W., &amp; Hary, J. M. (1983). Speech perception and psychophysics: Theory and experiment. <em>Perception &amp; Psychophysics, 34</em>(5), 499–502.</li>
         <li>NASA Ames Research Center. (1986). <em>NASA Task Load Index (NASA-TLX), version 1.0: Paper and pencil package</em>. Human Performance Research Group, NASA Ames Research Center.</li>
+        <li>Pajitnov, A. (1984). <em>Tetris</em> [Video game]. Dorodnitsyn Computing Centre, USSR Academy of Sciences.</li>
         <li>Shepard, R. N., &amp; Metzler, J. (1971). Mental rotation of three-dimensional objects. <em>Science, 171</em>(3972), 701–703. <a href="https://doi.org/10.1126/science.171.3972.701">https://doi.org/10.1126/science.171.3972.701</a></li>
         <li>Tartter, V. C. (1982). Vowel and consonant manipulations and the dual-coding model of auditory storage: A re-evaluation. <em>Journal of Phonetics, 10</em>(2), 217–223.</li>
         <li>Wickens, C. D., Helton, W. S., Hollands, J. G., &amp; Banbury, S. (2022). <em>Engineering psychology and human performance</em> (5th ed.). Routledge.</li>
@@ -389,7 +403,7 @@
 <footer>
   <div class="wrap">
     <span>© 2026 Joseph Brazina</span>
-    <span>Built, data collection next</span>
+    <span>Data collected, analysis next</span>
   </div>
 </footer>
 </body>
