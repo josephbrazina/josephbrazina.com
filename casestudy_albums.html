@@ -220,6 +220,13 @@
   .hang .iris { background: #fff; }
   .stage { background: var(--mat); padding: var(--plate-pad); }
   .stage + .fineprint { margin-top: 12px !important; }
+  .nav-steps { list-style: none; counter-reset: nav; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 32px; font-size: 0.9375rem; }
+  .nav-steps li { counter-increment: nav; border-top: 1px solid var(--ink); padding-top: 12px; }
+  .nav-steps strong { display: block; margin-bottom: 4px; }
+  .nav-steps strong::before { content: counter(nav) "  "; color: var(--ink-3); font-weight: 500; white-space: pre; }
+  .nav-steps em { font-style: normal; color: var(--ink); font-weight: 500; }
+  @media (max-width: 860px) { .nav-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .nav-steps { grid-template-columns: minmax(0, 1fr); } }
 
   /* The live visualization, scoped so its styles and the portfolio's stay apart */
 
@@ -457,7 +464,15 @@
 <section class="room" id="explore" aria-labelledby="e-h">
   <div class="wrap">
     <h2 id="e-h">Explore the albums</h2>
-    <div class="prose"><p>This is the working visualization, not a recording. Load an album and each song is downloaded and analyzed in your browser, so the first load takes a moment; after that it opens instantly. Click a circle to play from that spot, double-click to zoom in, and press <kbd>Esc</kbd> to zoom back out.</p></div>
+    <div class="prose"><p>This is the working visualization, not a recording. Here’s how to get around it:</p></div>
+    <ol class="nav-steps" aria-label="How to navigate the visualization">
+      <li><strong>Load albums</strong>Press <em>Load every album</em>, or <em>Load</em> beside one album. Each song is downloaded and analyzed in your browser, so the first load takes a moment; after that it opens instantly.</li>
+      <li><strong>Play</strong>Click anywhere on a circle to play from that spot. <kbd>Space</kbd> plays or pauses, <kbd>←</kbd> <kbd>→</kbd> skip five seconds, and the bar at the bottom of the screen shows what’s playing.</li>
+      <li><strong>Focus on one artist</strong>Click an artist’s name, or press <kbd>1</kbd>–<kbd>5</kbd>, to see their three albums larger. <kbd>0</kbd> shows everyone again.</li>
+      <li><strong>Zoom in</strong>Double-click an album’s circle, or click its title, to open the album. Double-click a song to open it, then double-click the song’s circle for a 20-second close-up.</li>
+      <li><strong>Zoom out</strong>Press <kbd>Esc</kbd> to go back one level, or use the <em>Back</em> links at the top of each view.</li>
+      <li><strong>Keyboard</strong>Shortcuts work once you’ve clicked inside the visualization; click outside it and the page scrolls normally again.</li>
+    </ol>
     <div class="stage">
       <div class="viz" id="viz">
 <div class="vmain" id="vmain">
@@ -573,7 +588,7 @@
 </div>
       </div>
     </div>
-    <p class="fineprint">Needs a desktop browser for the full layout. Keyboard shortcuts work once you’ve clicked inside the visualization.</p>
+    <p class="fineprint">Best on a desktop browser with headphones. Analyzed songs are saved in your browser; nothing is uploaded.</p>
   </div>
 </section>
 
